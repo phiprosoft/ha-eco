@@ -664,6 +664,24 @@ opens a menu:
 | Meters and extra cost | Other meters or another former heating compute everything again; another former heating asks for its prices. The extra cost applies at once. |
 | Recompute | Computes the category again with the current data, for example after you fixed a wrong reading in the statistics. All values stay. |
 | Purchase cost (solar) | The plant's and the battery's. Applies at once. |
+| Historical energy data | Calculates a historical lifetime saving from aggregate energy totals and average prices. The start date must precede the first recorded data; overlapping periods are rejected. Disabling it preserves the entered values. |
+
+Historical calculations use total kWh and average unit prices for the whole
+period before Home Assistant recording began. PV asks for production, export,
+battery charge/discharge, grid price, and feed-in compensation. The heat pump
+uses electricity and measured heat, or estimates heat from an entered seasonal
+COP, plus the former heating's fuel price. The electric car uses charging kWh,
+its wallbox consumption, and the comparable combustion car's consumption and
+fuel price.
+
+These are aggregate estimates, not reconstructed hourly or monthly results.
+Average prices cannot reproduce dynamic tariffs or the exact timing of battery
+flows. HA Eco therefore adds the calculated amount only to lifetime savings
+and payback; it does not invent historical time-series or recorder statistics.
+For heat estimated from COP and for battery results whose aggregate totals
+cannot reveal the exact timing or energy source, the saving sensor marks the
+historical values as estimated. Existing installations with the former manually
+entered total saving remain supported.
 
 Changes in the energy dashboard are followed automatically: changes to its
 grid, solar, battery, or devices compute the household again, and a category

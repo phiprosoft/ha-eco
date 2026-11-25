@@ -13,6 +13,7 @@ meters, so it can only be shown in the second step.
 from __future__ import annotations
 
 from collections.abc import Iterable, Mapping
+from datetime import datetime
 from typing import Any, Literal, override
 
 import probatio
@@ -27,6 +28,9 @@ from homeassistant.config_entries import (
 )
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.selector import (
+    BooleanSelector,  # pyright: ignore[reportUnknownVariableType]
+    DateSelector,  # pyright: ignore[reportUnknownVariableType]
+    DateSelectorConfig,
     EntitySelector,  # pyright: ignore[reportUnknownVariableType]
     EntitySelectorConfig,
     NumberSelector,  # pyright: ignore[reportUnknownVariableType]
@@ -54,6 +58,8 @@ from .const import (
     CONF_CURRENT,
     CONF_HEAT_METERS,
     CONF_HEATING,
+    CONF_HISTORICAL_DATA,
+    CONF_HISTORICAL_ENABLED,
     CONF_INVESTMENT,
     CONF_METERS,
     CONF_RECOMPUTE,
@@ -63,6 +69,20 @@ from .const import (
     FUELS,
     HEATING_GAS,
     HEATING_NONE,
+    HISTORICAL_BATTERY_CHARGE,
+    HISTORICAL_BATTERY_DISCHARGE,
+    HISTORICAL_COMBUSTION_CONSUMPTION,
+    HISTORICAL_ELECTRICITY,
+    HISTORICAL_ELECTRICITY_PRICE,
+    HISTORICAL_EV_CONSUMPTION,
+    HISTORICAL_EXPORT,
+    HISTORICAL_FEED_IN_PRICE,
+    HISTORICAL_FUEL_PRICE,
+    HISTORICAL_HEAT,
+    HISTORICAL_SAVING,
+    HISTORICAL_SCOP,
+    HISTORICAL_SINCE,
+    HISTORICAL_SOLAR,
     VALUE_COMBUSTION_CONSUMPTION,
     VALUE_EV_CONSUMPTION,
     VALUE_PRICE,
@@ -190,6 +210,134 @@ def household_data(user_input: Mapping[str, Any]) -> dict[str, Any]:
         key: user_input[key]
         for key in HOUSEHOLD_FIELDS
         if user_input.get(key) is not None
+    }
+
+
+def historical_schema(
+    hass: HomeAssistant,
+    category: str,
+    heating: str,
+    *,
+    has_battery: bool = False,
+) -> probatio.Schema:
+    """Ask for category-specific energy totals and average prices before HA tracking."""
+    fields: dict[Any, Any] = {
+        probatio.Required(CONF_HISTORICAL_ENABLED, default=False): BooleanSelector(),
+        probatio.Optional(HISTORICAL_SINCE): DateSelector(DateSelectorConfig()),
+    }
+    currency = hass.config.currency
+    if category == CATEGORY_PV:
+        fields[probatio.Optional(HISTORICAL_SOLAR)] = _number("kWh", step=1)
+        fields[probatio.Optional(HISTORICAL_EXPORT)] = _number("kWh", step=1)
+        fields[probatio.Optional(HISTORICAL_ELECTRICITY_PRICE)] = _number(
+            f"{currency}/kWh"
+        )
+        fields[probatio.Optional(HISTORICAL_FEED_IN_PRICE)] = _number(f"{currency}/kWh")
+        if has_battery:
+            fields[probatio.Optional(HISTORICAL_BATTERY_CHARGE)] = _number(
+                "kWh", step=1
+            )
+            fields[probatio.Optional(HISTORICAL_BATTERY_DISCHARGE)] = _number(
+                "kWh", step=1
+            )
+    elif category == CATEGORY_HEAT_PUMP:
+        fields[probatio.Optional(HISTORICAL_ELECTRICITY)] = _number("kWh", step=1)
+        fields[probatio.Optional(HISTORICAL_HEAT)] = _number("kWh", step=1)
+        fields[probatio.Optional(HISTORICAL_SCOP)] = _number(maximum=10, step=0.1)
+        fields[probatio.Optional(HISTORICAL_ELECTRICITY_PRICE)] = _number(
+            f"{currency}/kWh"
+        )
+        fields[probatio.Optional(HISTORICAL_FUEL_PRICE)] = _number(
+            f"{currency}/{FUELS.get(heating, FUELS[HEATING_GAS]).unit}"
+        )
+    else:
+        fields[probatio.Optional(HISTORICAL_ELECTRICITY)] = _number("kWh", step=1)
+        fields[probatio.Optional(HISTORICAL_EV_CONSUMPTION)] = _number(
+            "kWh/100 km", step=0.1
+        )
+        fields[probatio.Optional(HISTORICAL_COMBUSTION_CONSUMPTION)] = _number(
+            "l/100 km", step=0.1
+        )
+        fields[probatio.Optional(HISTORICAL_ELECTRICITY_PRICE)] = _number(
+            f"{currency}/kWh"
+        )
+        fields[probatio.Optional(HISTORICAL_FUEL_PRICE)] = _number(f"{currency}/l")
+    return probatio.Schema(fields)
+
+
+def historical_data_from_input(
+    category: str,
+    heating: str,
+    user_input: Mapping[str, Any],
+    *,
+    has_battery: bool = False,
+    has_export: bool = False,
+) -> dict[str, Any] | None:
+    """Validate and normalize the entered historical energy totals."""
+    since = user_input.get(HISTORICAL_SINCE)
+    if not since:
+        return None
+    keys = {
+        CATEGORY_PV: (
+            HISTORICAL_SOLAR,
+            HISTORICAL_EXPORT,
+            HISTORICAL_BATTERY_CHARGE,
+            HISTORICAL_BATTERY_DISCHARGE,
+            HISTORICAL_ELECTRICITY_PRICE,
+            HISTORICAL_FEED_IN_PRICE,
+        ),
+        CATEGORY_HEAT_PUMP: (
+            HISTORICAL_ELECTRICITY,
+            HISTORICAL_HEAT,
+            HISTORICAL_SCOP,
+            HISTORICAL_ELECTRICITY_PRICE,
+            HISTORICAL_FUEL_PRICE,
+        ),
+        CATEGORY_WALLBOX: (
+            HISTORICAL_ELECTRICITY,
+            HISTORICAL_EV_CONSUMPTION,
+            HISTORICAL_COMBUSTION_CONSUMPTION,
+            HISTORICAL_ELECTRICITY_PRICE,
+            HISTORICAL_FUEL_PRICE,
+        ),
+    }[category]
+    values = {key: user_input[key] for key in keys if user_input.get(key) is not None}
+    if category == CATEGORY_PV:
+        valid = (
+            values.get(HISTORICAL_SOLAR, 0) > 0
+            and values.get(HISTORICAL_ELECTRICITY_PRICE) is not None
+        )
+        if has_export:
+            valid = valid and values.get(HISTORICAL_EXPORT) is not None
+            valid = valid and values.get(HISTORICAL_FEED_IN_PRICE) is not None
+        elif values.get(HISTORICAL_EXPORT, 0) > 0:
+            valid = valid and values.get(HISTORICAL_FEED_IN_PRICE) is not None
+        if has_battery:
+            valid = valid and values.get(HISTORICAL_BATTERY_CHARGE) is not None
+            valid = valid and values.get(HISTORICAL_BATTERY_DISCHARGE) is not None
+    elif category == CATEGORY_HEAT_PUMP:
+        valid = (
+            values.get(HISTORICAL_ELECTRICITY, 0) > 0
+            and values.get(HISTORICAL_ELECTRICITY_PRICE) is not None
+            and values.get(HISTORICAL_FUEL_PRICE) is not None
+            and (
+                values.get(HISTORICAL_HEAT, 0) > 0
+                or 0 < values.get(HISTORICAL_SCOP, 0) <= 10
+            )
+        )
+    else:
+        valid = (
+            values.get(HISTORICAL_ELECTRICITY, 0) > 0
+            and values.get(HISTORICAL_EV_CONSUMPTION, 0) > 0
+            and values.get(HISTORICAL_COMBUSTION_CONSUMPTION, 0) > 0
+            and values.get(HISTORICAL_ELECTRICITY_PRICE) is not None
+            and values.get(HISTORICAL_FUEL_PRICE) is not None
+        )
+    if not valid:
+        return None
+    return {
+        HISTORICAL_SINCE: since,
+        **{key: float(value) for key, value in values.items()},
     }
 
 
@@ -825,9 +973,9 @@ class CategorySubentryFlow(ConfigSubentryFlow):
         if (abort := await self._async_load_setup()) is not None:
             return abort
         options = (
-            ["investment", "recompute"]
+            ["investment", "historical", "recompute"]
             if self._category == CATEGORY_PV
-            else ["now", "before", "meters", "recompute"]
+            else ["now", "before", "meters", "historical", "recompute"]
         )
         return self.async_show_menu(step_id="reconfigure", menu_options=options)
 
@@ -861,6 +1009,131 @@ class CategorySubentryFlow(ConfigSubentryFlow):
             data_schema=self.add_suggested_values_to_schema(
                 investment_schema(self.hass, self._setup), subentry.data
             ),
+        )
+
+    async def async_step_historical(
+        self, user_input: dict[str, Any] | None = None
+    ) -> SubentryFlowResult:
+        """Enable, edit, or disable category-specific historical energy totals."""
+        subentry = self._get_reconfigure_subentry()
+        category = self._category
+        heating = alternative(category, subentry.data)
+        schema = historical_schema(
+            self.hass,
+            category,
+            heating,
+            has_battery=bool(self._setup.batteries),
+        )
+        if user_input is not None:
+            enabled = user_input.get(CONF_HISTORICAL_ENABLED) is True
+            historical = dict(subentry.data.get(CONF_HISTORICAL_DATA, {}))
+            if enabled:
+                values = historical_data_from_input(
+                    category,
+                    heating,
+                    user_input,
+                    has_battery=bool(self._setup.batteries),
+                    has_export=any(source.export_stat for source in self._setup.grids),
+                )
+                # Keep old aggregate baselines readable and editable without
+                # silently replacing them with an incomplete new data set.
+                historical_fields = (
+                    HISTORICAL_SOLAR,
+                    HISTORICAL_EXPORT,
+                    HISTORICAL_BATTERY_CHARGE,
+                    HISTORICAL_BATTERY_DISCHARGE,
+                    HISTORICAL_ELECTRICITY,
+                    HISTORICAL_HEAT,
+                    HISTORICAL_SCOP,
+                    HISTORICAL_EV_CONSUMPTION,
+                    HISTORICAL_COMBUSTION_CONSUMPTION,
+                    HISTORICAL_ELECTRICITY_PRICE,
+                    HISTORICAL_FEED_IN_PRICE,
+                    HISTORICAL_FUEL_PRICE,
+                )
+                entered_new_values = any(
+                    user_input.get(key) is not None for key in historical_fields
+                )
+                if values is None and (
+                    HISTORICAL_SAVING not in historical or entered_new_values
+                ):
+                    return self.async_show_form(
+                        step_id="historical",
+                        data_schema=schema,
+                        errors={"base": "historical_values_required"},
+                        description_placeholders={},
+                    )
+                if values is not None:
+                    since = values[HISTORICAL_SINCE]
+                    local_start = datetime.strptime(since, "%Y-%m-%d").replace(
+                        tzinfo=dt_util.get_time_zone(self.hass.config.time_zone)
+                    )
+                    timestamp = dt_util.as_utc(local_start).timestamp()
+                    if category == CATEGORY_PV:
+                        meters = [
+                            *self._setup.solar,
+                            *(
+                                stat
+                                for battery in self._setup.batteries
+                                for stat in (
+                                    battery.charge_stat,
+                                    battery.discharge_stat,
+                                )
+                            ),
+                            *(
+                                source.export_stat
+                                for source in self._setup.grids
+                                if source.export_stat is not None
+                            ),
+                        ]
+                    else:
+                        meters = [
+                            *subentry.data.get(CONF_METERS, []),
+                            *subentry.data.get(CONF_HEAT_METERS, []),
+                        ]
+                    recorder_start = await async_data_since(self.hass, meters)
+                    if timestamp >= recorder_start:
+                        return self.async_show_form(
+                            step_id="historical",
+                            data_schema=schema,
+                            errors={"base": "historical_overlaps_recorder"},
+                            description_placeholders={},
+                        )
+                    historical = {
+                        HISTORICAL_SINCE: timestamp,
+                        **{
+                            key: value
+                            for key, value in values.items()
+                            if key != HISTORICAL_SINCE
+                        },
+                    }
+            return self._async_save(
+                {
+                    **subentry.data,
+                    CONF_HISTORICAL_ENABLED: enabled,
+                    CONF_HISTORICAL_DATA: historical,
+                },
+                "recomputing",
+                {},
+            )
+        historical = subentry.data.get(CONF_HISTORICAL_DATA, {})
+        suggested = {
+            CONF_HISTORICAL_ENABLED: subentry.data.get(CONF_HISTORICAL_ENABLED, False),
+            **historical,
+            HISTORICAL_SINCE: (
+                dt_util.as_local(
+                    dt_util.utc_from_timestamp(historical[HISTORICAL_SINCE])
+                )
+                .date()
+                .isoformat()
+                if isinstance(historical.get(HISTORICAL_SINCE), int | float)
+                else historical.get(HISTORICAL_SINCE)
+            ),
+        }
+        return self.async_show_form(
+            step_id="historical",
+            data_schema=self.add_suggested_values_to_schema(schema, suggested),
+            description_placeholders={},
         )
 
     async def async_step_recompute(

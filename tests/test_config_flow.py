@@ -22,6 +22,8 @@ from pytest_homeassistant_custom_component.components.recorder.common import (
 from custom_components.electricity_lens.config_flow import (
     async_scop_needed,
     format_date,
+    historical_data_from_input,
+    historical_schema,
     values_form_input,
 )
 from custom_components.electricity_lens.const import DOMAIN
@@ -637,6 +639,166 @@ def _data(entry: MockConfigEntry, category: str) -> dict[str, Any]:
     return dict(
         next(s for s in entry.subentries.values() if s.subentry_type == category).data
     )
+
+
+def test_historical_pv_battery_without_export_meter(
+    hass: HomeAssistant,
+) -> None:
+    """PV baselines cover a configured battery and a manually entered export."""
+    schema = historical_schema(hass, "pv", "gas", has_battery=True)
+    assert {str(key) for key in schema.schema} >= {
+        "battery_charge_kwh",
+        "battery_discharge_kwh",
+    }
+    data = historical_data_from_input(
+        "pv",
+        "gas",
+        {
+            "since": "2020-01-01",
+            "solar_kwh": 10000,
+            "export_kwh": 4000,
+            "battery_charge_kwh": 1000,
+            "battery_discharge_kwh": 800,
+            "electricity_price": 0.30,
+            "feed_in_price": 0.08,
+        },
+        has_battery=True,
+        has_export=False,
+    )
+    assert data is not None
+    assert data["battery_charge_kwh"] == 1000
+    assert data["battery_discharge_kwh"] == 800
+
+
+async def test_historical_baseline_rejects_recorder_overlap(
+    hass: HomeAssistant, data_start: datetime
+) -> None:
+    """A baseline beginning after recorder history has started is rejected."""
+    import_hourly(hass, "sensor.solar", data_start, [0.0, 2.0])
+    await async_wait_recording_done(hass)
+    entry = make_entry(("pv", {}))
+    await setup_entry(hass, entry)
+    result = await _reconfigure(hass, entry, "pv", "historical")
+    result = await hass.config_entries.subentries.async_configure(
+        result["flow_id"],
+        {
+            "historical_enabled": True,
+            "since": (data_start + timedelta(days=1)).date().isoformat(),
+            "solar_kwh": 10000,
+            "export_kwh": 4000,
+            "electricity_price": 0.30,
+            "feed_in_price": 0.08,
+        },
+    )
+    assert result["type"] is FlowResultType.FORM
+    assert result["errors"] == {"base": "historical_overlaps_recorder"}
+
+
+async def test_historical_energy_totals_can_be_enabled_and_disabled(
+    hass: HomeAssistant,
+) -> None:
+    """Category-specific energy totals are stored and preserved when disabled."""
+    entry = make_entry(("pv", {}))
+    await setup_entry(hass, entry)
+
+    result = await _reconfigure(hass, entry, "pv", "historical")
+    assert result["step_id"] == "historical"
+    assert set(_fields(result)) == {
+        "historical_enabled",
+        "since",
+        "solar_kwh",
+        "export_kwh",
+        "electricity_price",
+        "feed_in_price",
+    }
+    invalid = await hass.config_entries.subentries.async_configure(
+        result["flow_id"], {"historical_enabled": True}
+    )
+    assert invalid["type"] is FlowResultType.FORM
+    assert invalid["errors"] == {"base": "historical_values_required"}
+    result = await hass.config_entries.subentries.async_configure(
+        invalid["flow_id"],
+        {
+            "historical_enabled": True,
+            "since": "2020-01-01",
+            "solar_kwh": 10000,
+            "export_kwh": 4000,
+            "electricity_price": 0.30,
+            "feed_in_price": 0.08,
+        },
+    )
+    assert result["reason"] == "recomputing"
+    data = _data(entry, "pv")
+    assert data["historical_enabled"] is True
+    assert data["historical_data"]["solar_kwh"] == 10000
+    assert data["historical_data"]["export_kwh"] == 4000
+    assert data["historical_data"]["since"] > 0
+
+    result = await _reconfigure(hass, entry, "pv", "historical")
+    result = await hass.config_entries.subentries.async_configure(
+        result["flow_id"], {"historical_enabled": False}
+    )
+    assert result["reason"] == "recomputing"
+    data = _data(entry, "pv")
+    assert data["historical_enabled"] is False
+    assert data["historical_data"]["solar_kwh"] == 10000
+
+
+async def test_historical_heat_pump_requires_heat_or_scop(
+    hass: HomeAssistant,
+) -> None:
+    """Historical heat can be measured or transparently estimated from COP."""
+    entry = make_entry(("heat_pump", HEAT_PUMP_DATA))
+    await setup_entry(hass, entry)
+    result = await _reconfigure(hass, entry, "heat_pump", "historical")
+    invalid = await hass.config_entries.subentries.async_configure(
+        result["flow_id"],
+        {
+            "historical_enabled": True,
+            "since": "2020-01-01",
+            "electricity_kwh": 3000,
+            "electricity_price": 0.30,
+            "fuel_price": 0.10,
+        },
+    )
+    assert invalid["type"] is FlowResultType.FORM
+    assert invalid["errors"] == {"base": "historical_values_required"}
+    result = await hass.config_entries.subentries.async_configure(
+        invalid["flow_id"],
+        {
+            "historical_enabled": True,
+            "since": "2020-01-01",
+            "electricity_kwh": 3000,
+            "scop": 4.0,
+            "electricity_price": 0.30,
+            "fuel_price": 0.10,
+        },
+    )
+    assert result["reason"] == "recomputing"
+    assert _data(entry, "heat_pump")["historical_data"]["scop"] == 4.0
+
+
+async def test_historical_wallbox_requires_comparison_inputs(
+    hass: HomeAssistant,
+) -> None:
+    """Historical EV charging needs energy, consumption and fuel comparison."""
+    entry = make_entry(("wallbox", WALLBOX_DATA))
+    await setup_entry(hass, entry)
+    result = await _reconfigure(hass, entry, "wallbox", "historical")
+    result = await hass.config_entries.subentries.async_configure(
+        result["flow_id"],
+        {
+            "historical_enabled": True,
+            "since": "2020-01-01",
+            "electricity_kwh": 5000,
+            "ev_consumption": 20,
+            "combustion_consumption": 7,
+            "electricity_price": 0.30,
+            "fuel_price": 1.80,
+        },
+    )
+    assert result["reason"] == "recomputing"
+    assert _data(entry, "wallbox")["historical_data"]["electricity_kwh"] == 5000
 
 
 async def test_reconfigure_values_from_now_on(hass: HomeAssistant) -> None:

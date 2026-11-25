@@ -29,6 +29,26 @@ CONF_CURRENT: Final = "current"
 """The values in effect now (phase 3)."""
 CONF_RECOMPUTE: Final = "recompute"
 """When the user last asked to compute the category again."""
+CONF_HISTORICAL_ENABLED: Final = "historical_enabled"
+"""Whether optional pre-Home-Assistant baseline data is included."""
+CONF_HISTORICAL_DATA: Final = "historical_data"
+"""Manually entered energy totals and average prices from before HA tracking."""
+
+# Keys inside CONF_HISTORICAL_DATA. Energy is kWh; prices are per kWh or fuel unit.
+HISTORICAL_SINCE: Final = "since"
+HISTORICAL_SAVING: Final = "saving"  # Legacy aggregate, retained for old entries.
+HISTORICAL_SOLAR: Final = "solar_kwh"
+HISTORICAL_EXPORT: Final = "export_kwh"
+HISTORICAL_BATTERY_CHARGE: Final = "battery_charge_kwh"
+HISTORICAL_BATTERY_DISCHARGE: Final = "battery_discharge_kwh"
+HISTORICAL_ELECTRICITY: Final = "electricity_kwh"
+HISTORICAL_HEAT: Final = "heat_kwh"
+HISTORICAL_SCOP: Final = "scop"
+HISTORICAL_EV_CONSUMPTION: Final = "ev_consumption"
+HISTORICAL_COMBUSTION_CONSUMPTION: Final = "combustion_consumption"
+HISTORICAL_ELECTRICITY_PRICE: Final = "electricity_price"
+HISTORICAL_FEED_IN_PRICE: Final = "feed_in_price"
+HISTORICAL_FUEL_PRICE: Final = "fuel_price"
 
 # Config entry options: the household
 CONF_STANDING_CHARGE: Final = "standing_charge"

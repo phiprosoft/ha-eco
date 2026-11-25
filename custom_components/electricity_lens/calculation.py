@@ -12,7 +12,25 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, tzinfo
 from math import log1p
 
-from .const import FUELS
+from .const import (
+    CATEGORY_HEAT_PUMP,
+    CATEGORY_PV,
+    CATEGORY_WALLBOX,
+    FUELS,
+    HISTORICAL_BATTERY_CHARGE,
+    HISTORICAL_BATTERY_DISCHARGE,
+    HISTORICAL_COMBUSTION_CONSUMPTION,
+    HISTORICAL_ELECTRICITY,
+    HISTORICAL_ELECTRICITY_PRICE,
+    HISTORICAL_EV_CONSUMPTION,
+    HISTORICAL_EXPORT,
+    HISTORICAL_FEED_IN_PRICE,
+    HISTORICAL_FUEL_PRICE,
+    HISTORICAL_HEAT,
+    HISTORICAL_SAVING,
+    HISTORICAL_SCOP,
+    HISTORICAL_SOLAR,
+)
 
 HOUR = 3600.0
 DAY = 24 * HOUR
@@ -260,6 +278,101 @@ def battery_saving(
         - solar_to_battery * feed_in_price
         - grid_to_battery * price
     )
+
+
+def historical_category_saving(
+    category: str, heating: str, data: Mapping[str, object]
+) -> tuple[float, float, bool]:
+    """Calculate a pre-recorder saving from user-entered aggregate energy totals.
+
+    Returns category saving, the battery's share of PV saving, and whether
+    heat was estimated. No hourly or monthly values are synthesized. Legacy
+    aggregate saving values remain readable for backward compatibility.
+    """
+    legacy = data.get(HISTORICAL_SAVING)
+    if isinstance(legacy, int | float) and not isinstance(legacy, bool):
+        return float(legacy), 0.0, False
+
+    def number(key: str, default: float | None = None) -> float | None:
+        value = data.get(key, default)
+        if isinstance(value, int | float) and not isinstance(value, bool):
+            return float(value)
+        return None
+
+    result = (0.0, 0.0, False)
+    electricity_price = number(HISTORICAL_ELECTRICITY_PRICE)
+    if category == CATEGORY_PV:
+        solar = number(HISTORICAL_SOLAR)
+        if solar is not None and electricity_price is not None:
+            export = number(HISTORICAL_EXPORT, 0.0) or 0.0
+            battery_in = number(HISTORICAL_BATTERY_CHARGE, 0.0) or 0.0
+            battery_out = number(HISTORICAL_BATTERY_DISCHARGE, 0.0) or 0.0
+            feed_in = number(HISTORICAL_FEED_IN_PRICE, 0.0) or 0.0
+            result = (
+                pv_saving(
+                    solar=solar,
+                    export=export,
+                    battery_out=battery_out,
+                    battery_in=battery_in,
+                    price=electricity_price,
+                    export_revenue=export * feed_in,
+                ),
+                battery_saving(
+                    solar=solar,
+                    export=export,
+                    battery_out=battery_out,
+                    battery_in=battery_in,
+                    price=electricity_price,
+                    feed_in_price=feed_in,
+                ),
+                bool(battery_in or battery_out),
+            )
+    elif category in (CATEGORY_HEAT_PUMP, CATEGORY_WALLBOX):
+        electricity = number(HISTORICAL_ELECTRICITY)
+        fuel = number(HISTORICAL_FUEL_PRICE)
+        if (
+            electricity is not None
+            and fuel is not None
+            and electricity_price is not None
+        ):
+            if category == CATEGORY_HEAT_PUMP:
+                heat = number(HISTORICAL_HEAT)
+                estimated = heat is None or heat <= 0
+                if estimated and (scop := number(HISTORICAL_SCOP)) is not None:
+                    heat = electricity * scop
+                if heat is not None:
+                    result = (
+                        heat_pump_saving(
+                            electricity=electricity,
+                            heat=heat,
+                            heating=heating,
+                            fuel_price=fuel,
+                            electricity_price=electricity_price,
+                        ),
+                        0.0,
+                        estimated,
+                    )
+            else:
+                ev = number(HISTORICAL_EV_CONSUMPTION)
+                combustion = number(HISTORICAL_COMBUSTION_CONSUMPTION)
+                if (
+                    ev is not None
+                    and combustion is not None
+                    and ev > 0
+                    and combustion > 0
+                ):
+                    result = (
+                        wallbox_saving(
+                            electricity=electricity,
+                            ev_consumption=ev,
+                            combustion_consumption=combustion,
+                            fuel_price=fuel,
+                            electricity_price=electricity_price,
+                        ),
+                        0.0,
+                        False,
+                    )
+    return result
 
 
 def heating_cost(heat: float, heating: str, price: float) -> float:

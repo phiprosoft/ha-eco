@@ -1271,25 +1271,64 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
                 "heating": config.heating if is_heat_pump else None,
                 "compared": config.is_compared,
             }
+            historical_saving = config.historical_saving
+            historical_since = config.historical_since
             if (
                 state.data_start is None
                 or state.next_hour is None
                 or state.computing_past
             ):
-                results[subentry_id] = CategoryResult(
-                    calculating=subentry_id not in self._without_data, **base
-                )
+                if (
+                    historical_since is not None
+                    and state.data_start is None
+                    and state.next_hour is None
+                ):
+                    summary = summarize(
+                        saving=historical_saving,
+                        counting_since=historical_since,
+                        until=time(),
+                        investment=config.total_investment,
+                    )
+                    results[subentry_id] = CategoryResult(
+                        calculating=False,
+                        saving=historical_saving,
+                        historical_saving=historical_saving,
+                        historical_since=dt_util.utc_from_timestamp(historical_since),
+                        historical_estimated=config.historical_estimated,
+                        battery=_battery_result(config, state),
+                        payback=summary.payback,
+                        per_year=summary.per_year,
+                        years_left=summary.years_left,
+                        annual_return=summary.annual_return,
+                        counting_since=dt_util.utc_from_timestamp(historical_since),
+                        yearly_from=dt_util.utc_from_timestamp(summary.yearly_from),
+                        **base,
+                    )
+                else:
+                    results[subentry_id] = CategoryResult(
+                        calculating=subentry_id not in self._without_data, **base
+                    )
                 continue
             counting_since = _ceil_hour(state.data_start)
+            if historical_since is not None:
+                counting_since = min(counting_since, historical_since)
+            total_saving = state.saving + historical_saving
             summary = summarize(
-                saving=state.saving,
+                saving=total_saving,
                 counting_since=counting_since,
                 until=state.next_hour,
                 investment=config.total_investment,
             )
             results[subentry_id] = CategoryResult(
                 calculating=False,
-                saving=state.saving,
+                saving=total_saving,
+                historical_saving=historical_saving,
+                historical_since=(
+                    dt_util.utc_from_timestamp(historical_since)
+                    if historical_since is not None
+                    else None
+                ),
+                historical_estimated=config.historical_estimated,
                 payback=summary.payback,
                 per_year=summary.per_year,
                 years_left=summary.years_left,
@@ -1359,18 +1398,23 @@ def _grid_sums(hass: HomeAssistant, grid: GridSource) -> set[str]:
 def _battery_result(
     config: CategoryConfig, state: CategoryState
 ) -> BatteryResult | None:
-    """Return the battery's part of the PV plant, counted from its first hour."""
-    if (
-        config.category != CATEGORY_PV
-        or state.battery_start is None
-        or state.next_hour is None
-    ):
+    """Return the battery's part of the PV saving, including its baseline."""
+    if config.category != CATEGORY_PV:
         return None
-    saving = state.totals.get("battery_saving", 0.0)
+    starts = [
+        start
+        for start in (state.battery_start, config.historical_battery_since)
+        if start is not None
+    ]
+    if not starts:
+        return None
+    counting_since = min(starts)
+    until = state.next_hour or time()
+    saving = state.totals.get("battery_saving", 0.0) + config.historical_battery_saving
     summary = summarize(
         saving=saving,
-        counting_since=state.battery_start,
-        until=state.next_hour,
+        counting_since=counting_since,
+        until=until,
         investment=config.battery_investment,
     )
     return BatteryResult(
@@ -1379,7 +1423,7 @@ def _battery_result(
         per_year=summary.per_year,
         payback=summary.payback,
         years_left=summary.years_left,
-        counting_since=dt_util.utc_from_timestamp(state.battery_start),
+        counting_since=dt_util.utc_from_timestamp(counting_since),
     )
 
 

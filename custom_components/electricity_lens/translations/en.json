@@ -433,7 +433,9 @@
       "heating_required": "Choose the former heating.",
       "value_required": "Enter a value above 0.",
       "scop_range": "Enter a COP between 1 and 10.",
-      "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty."
+      "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty.",
+      "historical_values_required": "Enter all required historical energy totals, average prices, and a start date.",
+      "historical_overlaps_recorder": "The historical period must start before Home Assistant recording begins. Periods already recorded by Home Assistant must not be counted twice."
     },
     "abort": {
       "no_energy_dashboard": "First set up the grid import with an electricity price in the [energy dashboard](/config/energy). Then you can add HA Eco.",
@@ -508,7 +510,8 @@
           "title": "What do you want to change?",
           "menu_options": {
             "investment": "Purchase cost",
-            "recompute": "Recompute"
+            "recompute": "Recompute",
+            "historical": "Historical saving"
           }
         },
         "investment": {
@@ -525,6 +528,30 @@
         "recompute": {
           "title": "Recompute",
           "description": "Computes the solar saving again with the current data, for example after you corrected a wrong reading in the statistics. Your values stay as they are."
+        },
+        "historical": {
+          "title": "Historical energy data",
+          "description": "Optional totals for the period before Home Assistant statistics. Enter the total kWh and average prices for that whole period. HA Eco calculates an estimated total saving from these values. No hourly or monthly history is invented.",
+          "data": {
+            "historical_enabled": "Include historical energy data",
+            "since": "Period start date",
+            "solar_kwh": "Solar production",
+            "export_kwh": "Energy fed into the grid",
+            "electricity_price": "Average electricity price",
+            "feed_in_price": "Average feed-in compensation",
+            "battery_charge_kwh": "Battery charged",
+            "battery_discharge_kwh": "Battery discharged"
+          },
+          "data_description": {
+            "historical_enabled": "Can be disabled at any time; entered values are preserved.",
+            "since": "Must be before the first recorded Home Assistant energy data.",
+            "solar_kwh": "Total PV production in kWh for the historical period.",
+            "export_kwh": "Total exported energy in kWh. Leave empty or enter 0 if none.",
+            "electricity_price": "Average cost per kWh over the historical period.",
+            "feed_in_price": "Average compensation per exported kWh.",
+            "battery_charge_kwh": "Total energy charged into the battery in kWh.",
+            "battery_discharge_kwh": "Total energy discharged from the battery in kWh."
+          }
         }
       },
       "error": {
@@ -532,7 +559,9 @@
         "heating_required": "Choose the former heating.",
         "value_required": "Enter a value above 0.",
         "scop_range": "Enter a COP between 1 and 10.",
-        "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty."
+        "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty.",
+        "historical_values_required": "Enter all required historical energy totals, average prices, and a start date.",
+        "historical_overlaps_recorder": "The historical period must start before Home Assistant recording begins. Periods already recorded by Home Assistant must not be counted twice."
       },
       "abort": {
         "energy_interface": "The energy dashboard cannot be read. This version of Home Assistant is not supported yet; please look for an update of HA Eco.",
@@ -571,7 +600,8 @@
             "now": "Values from now on",
             "before": "Averages before the setup",
             "meters": "Meters and extra cost",
-            "recompute": "Recompute"
+            "recompute": "Recompute",
+            "historical": "Historical saving"
           }
         },
         "meters": {
@@ -593,6 +623,28 @@
         "recompute": {
           "title": "Recompute",
           "description": "Computes the heat pump again with the current data, for example after you corrected a wrong reading in the statistics. Your values stay as they are."
+        },
+        "historical": {
+          "title": "Historical energy data",
+          "description": "Optional totals for the period before Home Assistant statistics. Enter the total kWh and average prices for that whole period. HA Eco calculates an estimated total saving from these values. No hourly or monthly history is invented.",
+          "data": {
+            "historical_enabled": "Include historical energy data",
+            "since": "Period start date",
+            "electricity_kwh": "Historical electricity total",
+            "heat_kwh": "Useful heat produced",
+            "scop": "Seasonal COP",
+            "electricity_price": "Average electricity price",
+            "fuel_price": "Average fuel price"
+          },
+          "data_description": {
+            "historical_enabled": "Can be disabled at any time; entered values are preserved.",
+            "since": "Must be before the first recorded Home Assistant energy data.",
+            "electricity_kwh": "Total electricity consumed by the heat pump or charged into the car, in kWh.",
+            "heat_kwh": "Total measured heat in kWh. If unavailable, enter a seasonal COP below.",
+            "scop": "Estimates heat from electricity consumption when no heat meter is available.",
+            "electricity_price": "Average cost per kWh over the historical period.",
+            "fuel_price": "Average price per unit of the former heating fuel or petrol."
+          }
         },
         "heat_pump_values_gas": {
           "title": "Average since {since}",
@@ -1114,7 +1166,9 @@
         "heating_required": "Choose the former heating.",
         "value_required": "Enter a value above 0.",
         "scop_range": "Enter a COP between 1 and 10.",
-        "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty."
+        "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty.",
+        "historical_values_required": "Enter all required historical energy totals, average prices, and a start date.",
+        "historical_overlaps_recorder": "The historical period must start before Home Assistant recording begins. Periods already recorded by Home Assistant must not be counted twice."
       },
       "abort": {
         "energy_interface": "The energy dashboard cannot be read. This version of Home Assistant is not supported yet; please look for an update of HA Eco.",
@@ -1151,7 +1205,8 @@
             "now": "Values from now on",
             "before": "Averages before the setup",
             "meters": "Meters and extra cost",
-            "recompute": "Recompute"
+            "recompute": "Recompute",
+            "historical": "Historical saving"
           }
         },
         "meters": {
@@ -1171,6 +1226,28 @@
         "recompute": {
           "title": "Recompute",
           "description": "Computes the electric car again with the current data, for example after you corrected a wrong reading in the statistics. Your values stay as they are."
+        },
+        "historical": {
+          "title": "Historical energy data",
+          "description": "Optional totals for the period before Home Assistant statistics. Enter the total kWh and average prices for that whole period. HA Eco calculates an estimated total saving from these values. No hourly or monthly history is invented.",
+          "data": {
+            "historical_enabled": "Include historical energy data",
+            "since": "Period start date",
+            "electricity_kwh": "Historical electricity total",
+            "ev_consumption": "Electric car consumption",
+            "combustion_consumption": "Combustion car consumption",
+            "electricity_price": "Average electricity price",
+            "fuel_price": "Average fuel price"
+          },
+          "data_description": {
+            "historical_enabled": "Can be disabled at any time; entered values are preserved.",
+            "since": "Must be before the first recorded Home Assistant energy data.",
+            "electricity_kwh": "Total electricity consumed by the heat pump or charged into the car, in kWh.",
+            "ev_consumption": "Average kWh per 100 km at the wallbox, including charging losses.",
+            "combustion_consumption": "Average fuel consumption of a comparable car in litres per 100 km.",
+            "electricity_price": "Average cost per kWh over the historical period.",
+            "fuel_price": "Average price per unit of the former heating fuel or petrol."
+          }
         },
         "wallbox_values": {
           "title": "Average since {since}",
@@ -1257,7 +1334,9 @@
         "heating_required": "Choose the former heating.",
         "value_required": "Enter a value above 0.",
         "scop_range": "Enter a COP between 1 and 10.",
-        "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty."
+        "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty.",
+        "historical_values_required": "Enter all required historical energy totals, average prices, and a start date.",
+        "historical_overlaps_recorder": "The historical period must start before Home Assistant recording begins. Periods already recorded by Home Assistant must not be counted twice."
       },
       "abort": {
         "energy_interface": "The energy dashboard cannot be read. This version of Home Assistant is not supported yet; please look for an update of HA Eco.",
@@ -1323,6 +1402,18 @@
           },
           "heat_estimated": {
             "name": "Heat partly estimated"
+          },
+          "historical_saving": {
+            "name": "Historical saving"
+          },
+          "historical_since": {
+            "name": "Historical period from"
+          },
+          "historical_method": {
+            "name": "Historical calculation method"
+          },
+          "historical_estimated": {
+            "name": "Historical heat estimated"
           }
         }
       },

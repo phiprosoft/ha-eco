@@ -484,7 +484,7 @@ class ElectricityLensConfigFlow(ConfigFlow, domain=DOMAIN):
     async def _async_next_category(self) -> ConfigFlowResult:
         if not self._pending:
             return self.async_create_entry(
-                title="Electricity Lens",
+                title="HA Eco",
                 data={},
                 options=self._options,
                 subentries=self._subentries,

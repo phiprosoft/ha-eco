@@ -11,7 +11,6 @@ from __future__ import annotations
 from collections.abc import Awaitable, Callable, Iterable, Mapping
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from math import isfinite
 from typing import Any
 
 from homeassistant.components.recorder import get_instance  # pyright: ignore[reportPrivateImportUsage]
@@ -360,10 +359,7 @@ def _rows_to_series(
         values = series.setdefault(stat_id, {})
         for row in stat_rows:
             if (value := row.get(key)) is not None:
-                number = float(value)
-                start = float(row["start"])
-                if isfinite(number) and isfinite(start):
-                    values[start] = number
+                values[float(row["start"])] = float(value)
     return series
 
 
@@ -489,9 +485,8 @@ def _hourly_steps(
     changes: list[tuple[float, float | None]] = []
     for state in states:
         try:
-            number = float(state.state)
-            value: float | None = number if isfinite(number) else None
-        except (TypeError, ValueError):
+            value: float | None = float(state.state)
+        except ValueError:
             value = None
         changes.append((state.last_changed.timestamp(), value))
     changes.sort()

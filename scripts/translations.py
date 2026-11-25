@@ -297,7 +297,7 @@ TEXTS: dict[str, dict[str, Any]] = {
         "attributes": {
             "category": "Area",
             "calculating": "Calculating",
-            "counting_since": "Counted since",
+            "counting_since": "Data available since",
             "investment": "Investment",
             "balance": "Balance",
             "yearly_from": "Yearly figures from",

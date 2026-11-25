@@ -2,7 +2,6 @@
 
 # HA Eco
 
-![Private repository](https://img.shields.io/badge/repository-private-lightgrey)
 [![Release](https://img.shields.io/github/v/release/phiprosoft/ha-eco)](https://github.com/phiprosoft/ha-eco/releases)
 
 **What your electricity really costs, where it comes from, and whether your
@@ -96,45 +95,73 @@ service and sends no data anywhere.
 
 ## Installation
 
-> [!IMPORTANT]
-> This GitHub repository is currently private. HA Eco therefore cannot be
-> installed from the Home Assistant Marketplace or HACS. You need a GitHub
-> account that has access to this repository. The installation below is a
-> manual installation for authorized users.
+HA Eco is a Home Assistant custom integration. Install it through the
+built-in Marketplace on Home Assistant 2026.11 or newer. On Home Assistant
+2026.10, use HACS. Manual installation remains available as a fallback.
 
-1. Set up the energy dashboard with grid import and electricity price, your
-   solar production, and the meters of the heat pump and wallbox under
-   *Individual devices*.
-2. Sign in to GitHub with an account that has access to
-   [`phiprosoft/ha-eco`](https://github.com/phiprosoft/ha-eco).
-3. Open the repository, select **Code › Download ZIP**, and extract the ZIP
-   archive.
-4. Copy the complete folder
-   `custom_components/electricity_lens` from the extracted repository into
-   your Home Assistant configuration directory, so the final path is
-   `config/custom_components/electricity_lens/manifest.json`. Create the
-   `custom_components` directory if it does not exist. Do not copy the whole
-   repository into that directory.
-5. Restart Home Assistant.
-6. Add the integration:
-   [![Open your Home Assistant instance and start setting up HA Eco.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=electricity_lens)
-   or **Settings › Devices & services › Add integration › HA Eco**.
-7. Follow the [setup](#setup).
-8. Add the dashboard: **Settings › Dashboards › Add dashboard**, under
-   *Community dashboards*: **HA Eco**. The cards are also available in the
+### Home Assistant 2026.11 or newer: Marketplace
+
+1. Open **Settings › Marketplace**.
+2. Select **Add from link** in the upper-right corner.
+3. Enter `phiprosoft/ha-eco` under **GitHub link**, then select **Add**.
+   Connect your GitHub account when the Marketplace asks.
+4. Open **HA Eco** in the Marketplace and select **Install**.
+5. Follow the setup flow. If it does not open automatically, go to
+   **Settings › Devices & services › Add integration › HA Eco**.
+6. Add the dashboard under **Settings › Dashboards › Add dashboard**:
+   **Community dashboards › HA Eco**. The cards are also available in the
    card picker. No separate dashboard resource or Lovelace resource needs to
    be added; the integration serves the cards itself.
 
+With a connected GitHub account, the Marketplace checks custom repositories
+for new releases every 48 hours. Updates appear under **Settings › Updates**.
+Install the HA Eco update there and follow the restart prompt.
+
+See the [Home Assistant Marketplace documentation](https://www.home-assistant.io/integrations/marketplace/)
+for details about custom repositories and updates.
+
+### Home Assistant 2026.10: HACS
+
+1. In HACS, open **Integrations › ⋮ › Custom repositories**.
+2. Add `https://github.com/phiprosoft/ha-eco` and select **Integration** as
+   the category.
+3. Find **HA Eco** in HACS and select **Download**.
+4. Restart Home Assistant, then add the integration under
+   **Settings › Devices & services › Add integration › HA Eco**.
+5. Add the dashboard under **Settings › Dashboards › Add dashboard**:
+   **Community dashboards › HA Eco**.
+
+See the [HACS custom repository instructions](https://www.hacs.dev/docs/faq/custom_repositories/).
+
+### Manual installation
+
+1. Open [the HA Eco repository](https://github.com/phiprosoft/ha-eco), select
+   **Code › Download ZIP**, and extract the archive.
+2. Copy the complete folder `custom_components/electricity_lens` into your
+   Home Assistant configuration directory, so the final path is
+   `config/custom_components/electricity_lens/manifest.json`. Create the
+   `custom_components` directory if it does not exist. Do not copy the whole
+   repository into that directory.
+3. Restart Home Assistant and add **HA Eco** under
+   **Settings › Devices & services › Add integration**.
+4. Add the HA Eco dashboard as described above.
+
 ### Updating
 
-Download the latest ZIP from the repository and replace the existing
-`config/custom_components/electricity_lens` folder with the new one. Keep your
-Home Assistant configuration and backups, then restart Home Assistant. Your
-integration settings and recorded statistics are stored by Home Assistant and
-are not part of this folder.
+- **Marketplace:** Open **Settings › Updates**, select the HA Eco update, and
+  install it. The Marketplace checks custom repositories every 48 hours when
+  your GitHub connection is active. Restart Home Assistant when prompted.
+- **HACS:** Open HACS, find HA Eco under **Integrations**, and install the
+  offered update. Restart Home Assistant afterwards.
+- **Manual installation:** Download the latest ZIP and replace the existing
+  `config/custom_components/electricity_lens` folder. Keep your Home Assistant
+  configuration and backups, then restart Home Assistant.
 
-The past is computed in the background right after setup; on weaker hardware
-this can take a while (see the note at the top).
+Your integration settings and recorded statistics are stored by Home Assistant
+and are not part of the integration folder. The past is computed in the
+background right after setup; on weaker hardware this can take a while (see
+the note at the top).
+
 ## Setup
 
 The setup asks only for what Home Assistant cannot know, such as what the heat
@@ -741,8 +768,10 @@ English and German, following Home Assistant's language.
   or choose another one with *Reconfigure*.
 - **No payback percentage**: enter the purchase or extra cost.
 - **The card says it is calculating for long**: if its percentage no longer
-  rises, download the diagnostics from the integration page and open an
-  [issue](https://github.com/phiprosoft/ha-eco/issues) with them.
+  rises, download the diagnostics from the integration page. Review and redact
+  the file before sharing it: it contains entity and statistic IDs, configured
+  tariffs and prices, settings, and computed household figures. GitHub issues
+  are public; never attach an unredacted diagnostics file.
 
 ## Known limitations
 

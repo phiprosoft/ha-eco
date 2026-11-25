@@ -45,7 +45,7 @@
         },
         "data_description": {
           "investment": "Für die Amortisation",
-          "battery_investment": "Für die eigene Amortisation der Batterie. Trage die Batteriekosten nur hier ein; die PV-Anschaffungskosten oben müssen sie ausschließen. Die PV-Amortisation berücksichtigt beide Beträge."
+          "battery_investment": "Die eigene Amortisation beginnt mit dem ersten erfassten Laden oder Entladen; frühere Ersparnisse sind nicht enthalten. Trage die Batteriekosten nur hier ein; die PV-Anschaffungskosten oben müssen sie ausschließen. Die PV-Amortisation berücksichtigt beide Beträge."
         }
       },
       "pv_no_export": {
@@ -57,7 +57,7 @@
         },
         "data_description": {
           "investment": "Für die Amortisation",
-          "battery_investment": "Für die eigene Amortisation der Batterie. Trage die Batteriekosten nur hier ein; die PV-Anschaffungskosten oben müssen sie ausschließen. Die PV-Amortisation berücksichtigt beide Beträge."
+          "battery_investment": "Die eigene Amortisation beginnt mit dem ersten erfassten Laden oder Entladen; frühere Ersparnisse sind nicht enthalten. Trage die Batteriekosten nur hier ein; die PV-Anschaffungskosten oben müssen sie ausschließen. Die PV-Amortisation berücksichtigt beide Beträge."
         }
       },
       "heat_pump": {
@@ -489,7 +489,7 @@
           },
           "data_description": {
             "investment": "Für die Amortisation",
-            "battery_investment": "Für die eigene Amortisation der Batterie. Trage die Batteriekosten nur hier ein; die PV-Anschaffungskosten oben müssen sie ausschließen. Die PV-Amortisation berücksichtigt beide Beträge."
+            "battery_investment": "Die eigene Amortisation beginnt mit dem ersten erfassten Laden oder Entladen; frühere Ersparnisse sind nicht enthalten. Trage die Batteriekosten nur hier ein; die PV-Anschaffungskosten oben müssen sie ausschließen. Die PV-Amortisation berücksichtigt beide Beträge."
           }
         },
         "pv_no_export": {
@@ -501,7 +501,7 @@
           },
           "data_description": {
             "investment": "Für die Amortisation",
-            "battery_investment": "Für die eigene Amortisation der Batterie. Trage die Batteriekosten nur hier ein; die PV-Anschaffungskosten oben müssen sie ausschließen. Die PV-Amortisation berücksichtigt beide Beträge."
+            "battery_investment": "Die eigene Amortisation beginnt mit dem ersten erfassten Laden oder Entladen; frühere Ersparnisse sind nicht enthalten. Trage die Batteriekosten nur hier ein; die PV-Anschaffungskosten oben müssen sie ausschließen. Die PV-Amortisation berücksichtigt beide Beträge."
           }
         },
         "reconfigure": {
@@ -519,7 +519,7 @@
           },
           "data_description": {
             "investment": "Für die Amortisation",
-            "battery_investment": "Für die eigene Amortisation der Batterie. Trage die Batteriekosten nur hier ein; die PV-Anschaffungskosten oben müssen sie ausschließen. Die PV-Amortisation berücksichtigt beide Beträge."
+            "battery_investment": "Die eigene Amortisation beginnt mit dem ersten erfassten Laden oder Entladen; frühere Ersparnisse sind nicht enthalten. Trage die Batteriekosten nur hier ein; die PV-Anschaffungskosten oben müssen sie ausschließen. Die PV-Amortisation berücksichtigt beide Beträge."
           }
         },
         "recompute": {

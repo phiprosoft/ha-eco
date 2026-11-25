@@ -71,7 +71,7 @@
         },
         "data_description": {
           "meters": "Gesamtzähler, oder Heizung und Warmwasser einzeln",
-          "heat_meters": "Wärmemengenzähler für dieselben Teile wie der Stromverbrauch",
+          "heat_meters": "Wähle Wärmemengenzähler in derselben Reihenfolge wie die zugehörigen Stromzähler; bis alle Daten liefern, wird der COP benötigt",
           "heating": "Keine, etwa im Neubau: keine Ersparnis, aber Wärme, COP und Wärmepreis",
           "investment": "Mehrkosten der Anschaffung gegenüber der früheren Heizung. Für die Amortisation."
         }
@@ -589,7 +589,7 @@
           },
           "data_description": {
             "meters": "Gesamtzähler, oder Heizung und Warmwasser einzeln",
-            "heat_meters": "Wärmemengenzähler für dieselben Teile wie der Stromverbrauch",
+            "heat_meters": "Wähle Wärmemengenzähler in derselben Reihenfolge wie die zugehörigen Stromzähler; bis alle Daten liefern, wird der COP benötigt",
             "heating": "Keine, etwa im Neubau: keine Ersparnis, aber Wärme, COP und Wärmepreis",
             "investment": "Mehrkosten der Anschaffung gegenüber der früheren Heizung. Für die Amortisation."
           }
@@ -615,7 +615,7 @@
           },
           "data_description": {
             "meters": "Gesamtzähler, oder Heizung und Warmwasser einzeln",
-            "heat_meters": "Wärmemengenzähler für dieselben Teile wie der Stromverbrauch",
+            "heat_meters": "Wähle Wärmemengenzähler in derselben Reihenfolge wie die zugehörigen Stromzähler; bis alle Daten liefern, wird der COP benötigt",
             "heating": "Keine, etwa im Neubau: keine Ersparnis, aber Wärme, COP und Wärmepreis",
             "investment": "Mehrkosten der Anschaffung gegenüber der früheren Heizung. Für die Amortisation."
           }

@@ -245,6 +245,23 @@ async def test_scop_only_where_heat_data_is_missing(
     assert result["description_placeholders"]["heat_until"]  # pyright: ignore[reportOptionalSubscript]
 
 
+async def test_scop_needed_until_all_heat_meters_have_data(
+    hass: HomeAssistant, data_start: datetime
+) -> None:
+    """COP is requested until the latest selected heat meter starts."""
+    import_hourly(hass, "sensor.heat_pump", data_start, [0.0, 1.0, 1.0, 1.0])
+    import_hourly(hass, "sensor.heat", data_start, [0.0, 4.0, 4.0, 4.0])
+    import_hourly(hass, "sensor.heat_late", data_start + timedelta(hours=2), [0.0, 4.0])
+    await async_wait_recording_done(hass)
+
+    scop, heat_start = await async_scop_needed(
+        hass, ["sensor.heat_pump"], ["sensor.heat", "sensor.heat_late"]
+    )
+
+    assert scop is True
+    assert heat_start == pytest.approx((data_start + timedelta(hours=2)).timestamp())
+
+
 async def test_household_only(hass: HomeAssistant) -> None:
     """Without categories only the household is set up."""
     result = await hass.config_entries.flow.async_init(

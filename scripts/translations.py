@@ -188,7 +188,7 @@ TEXTS: dict[str, dict[str, Any]] = {
             ),
             "heat_meters": (
                 "Produced heat (optional)",
-                "Heat meters for the same parts as the electricity consumption",
+                "Select heat meters in the same order as their matching electricity meters; COP is needed until all have data",
             ),
             "heating": (
                 "Former heating",
@@ -590,7 +590,7 @@ TEXTS: dict[str, dict[str, Any]] = {
             ),
             "heat_meters": (
                 "Erzeugte Wärme (optional)",
-                "Wärmemengenzähler für dieselben Teile wie der Stromverbrauch",
+                "Wähle Wärmemengenzähler in derselben Reihenfolge wie die zugehörigen Stromzähler; bis alle Daten liefern, wird der COP benötigt",
             ),
             "heating": (
                 "Frühere Heizung",

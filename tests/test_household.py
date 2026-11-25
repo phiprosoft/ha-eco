@@ -388,6 +388,40 @@ async def test_energy_dashboard_change_computes_the_categories_again(
 
 
 @pytest.mark.usefixtures("energy")
+async def test_grid_without_history_does_not_block_another_grid(
+    hass: HomeAssistant, data_start: datetime
+) -> None:
+    """A grid without statistics must not hide another grid's history."""
+    first_grid = {
+        **PREFS["energy_sources"][0],
+        "stat_energy_from": "sensor.empty_grid_import",
+        "stat_energy_to": None,
+        "number_energy_price": 0.40,
+        "number_energy_price_export": None,
+    }
+    await set_energy_prefs(
+        hass,
+        {
+            **PREFS,
+            "energy_sources": [
+                first_grid,
+                PREFS["energy_sources"][0],
+                *PREFS["energy_sources"][1:],
+            ],
+        },
+    )
+
+    await setup_entry(hass, make_entry())
+
+    assert await _total(hass, "household_energy", data_start) == pytest.approx(
+        COUNTED * CONSUMPTION
+    )
+    assert await _total(hass, "grid_cost", data_start) == pytest.approx(
+        COUNTED * (GRID_PRICE - 0.5 * FEED_IN_PRICE)
+    )
+
+
+@pytest.mark.usefixtures("energy")
 async def test_grid_price_change_recomputes_household_and_categories(
     hass: HomeAssistant, data_start: datetime
 ) -> None:

@@ -71,7 +71,7 @@
         },
         "data_description": {
           "meters": "Total meter, or heating and hot water separately",
-          "heat_meters": "Heat meters for the same parts as the electricity consumption",
+          "heat_meters": "Select heat meters in the same order as their matching electricity meters; COP is needed until all have data",
           "heating": "None, as in a new build: no saving, but heat, COP, and heat price",
           "investment": "Extra purchase cost over the former heating. For the payback."
         }
@@ -589,7 +589,7 @@
           },
           "data_description": {
             "meters": "Total meter, or heating and hot water separately",
-            "heat_meters": "Heat meters for the same parts as the electricity consumption",
+            "heat_meters": "Select heat meters in the same order as their matching electricity meters; COP is needed until all have data",
             "heating": "None, as in a new build: no saving, but heat, COP, and heat price",
             "investment": "Extra purchase cost over the former heating. For the payback."
           }
@@ -615,7 +615,7 @@
           },
           "data_description": {
             "meters": "Total meter, or heating and hot water separately",
-            "heat_meters": "Heat meters for the same parts as the electricity consumption",
+            "heat_meters": "Select heat meters in the same order as their matching electricity meters; COP is needed until all have data",
             "heating": "None, as in a new build: no saving, but heat, COP, and heat price",
             "investment": "Extra purchase cost over the former heating. For the payback."
           }

@@ -12,6 +12,8 @@ meters, so it can only be shown in the second step.
 
 from __future__ import annotations
 
+import asyncio
+
 from collections.abc import Iterable, Mapping
 from datetime import datetime
 from typing import Any, Literal, override
@@ -531,11 +533,16 @@ async def async_scop_needed(
     """Return whether heat must be estimated before heat data begins, and until when."""
     if not heat_meters:
         return True, None
-    heat_start = await async_first_hour(hass, heat_meters)
+    # A combined heat measurement is usable only once every selected heat
+    # meter has statistics. Use the latest first hour, not the earliest one.
+    heat_starts = await asyncio.gather(
+        *(async_first_hour(hass, [meter]) for meter in heat_meters)
+    )
     data_start = await async_first_hour(hass, meters)
-    if heat_start is None:
+    if any(start is None for start in heat_starts):
         return True, None
-    return data_start is not None and data_start + HOUR < heat_start, heat_start
+    heat_start = max(start for start in heat_starts if start is not None)
+    return data_start is not None and data_start + HOUR < heat_start, heat_start, heat_start
 
 
 async def async_data_since(hass: HomeAssistant, stats: list[str]) -> float:

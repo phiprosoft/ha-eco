@@ -1,6 +1,6 @@
 {
   "domain": "electricity_lens",
-  "name": "Electricity Lens",
+  "name": "HA Eco",
   "codeowners": ["@ignazhabibi"],
   "config_flow": true,
   "dependencies": ["energy", "frontend", "http", "recorder", "websocket_api"],

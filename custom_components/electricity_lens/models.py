@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import math
 from collections.abc import Mapping
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -59,11 +58,7 @@ def _numbers(data: Any) -> dict[str, float]:
     return {
         key: float(value)
         for key, value in cast(Mapping[str, Any], data).items()
-        if (
-            isinstance(value, int | float)
-            and not isinstance(value, bool)
-            and math.isfinite(value)
-        )
+        if isinstance(value, int | float) and not isinstance(value, bool)
     }
 
 

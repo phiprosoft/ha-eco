@@ -3,7 +3,7 @@
 # HA Eco
 
 [![HACS Custom](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://hacs.xyz/docs/faq/custom_repositories)
-[![Release](https://img.shields.io/github/v/release/ignazhabibi/ha-electricity-lens)](https://github.com/phiprosoft/ha-eco/releases)
+[![Release](https://img.shields.io/github/v/release/phiprosoft/ha-eco)](https://github.com/phiprosoft/ha-eco/releases)
 
 **What your electricity really costs, where it comes from, and whether your
 solar panels, heat pump, and electric car pay off.**
@@ -96,7 +96,7 @@ service and sends no data anywhere.
 
 ## Installation
 
-[![Open your Home Assistant instance and open this repository in HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=ignazhabibi&repository=ha-electricity-lens&category=integration)
+[![Open your Home Assistant instance and open this repository in HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=phiprosoft&repository=ha-eco&category=integration)
 
 1. Set up the energy dashboard with grid import and electricity price, your
    solar production, and the meters of heat pump and wallbox under

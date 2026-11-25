@@ -397,21 +397,21 @@ TEXTS: dict[str, dict[str, Any]] = {
             "saving": "Ersparnis",
         },
         "pv": {
-            "description": "Gerechnet wird ab dem {since}, seitdem hat Home Assistant PV-Daten. Erzeugung, Einspeisung, Batterie und Strompreise kommen aus dem Energie-Dashboard.",
+            "description": "Datenbasis ab {since}: HA Eco berechnet die PV-Ersparnis erst ab diesem Datum. Frühere Erträge sind nicht enthalten. Das ist nicht das Inbetriebnahmedatum der Anlage. Erzeugung, Einspeisung, Batterie und Strompreise kommen aus dem Energie-Dashboard.",
             "no_export": "**Im Energie-Dashboard ist keine Einspeisung erfasst.** Dann zählt der ganze PV-Strom als selbst verbraucht.",
         },
         "heat_pump": "Vergleicht die Wärmepumpe mit deiner früheren Heizung, falls es eine gab.",
         "wallbox": "Vergleicht das E-Auto mit einem Verbrenner, wenn du möchtest. Gemessen wird, was an der Wallbox geladen wird.",
         "values": {
             "title": "Durchschnitt seit {since}",
-            "gas": "Für die Zeit seit dem {since} kennt Home Assistant deine Gaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
-            "oil": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizölpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
-            "lpg": "Für die Zeit seit dem {since} kennt Home Assistant deine Flüssiggaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
-            "pellets": "Für die Zeit seit dem {since} kennt Home Assistant deine Pelletpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
-            "district_heating": "Für die Zeit seit dem {since} kennt Home Assistant deine Fernwärmepreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
-            "electric": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizstrompreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+            "gas": "Für die Zeit seit dem {since} kennt Home Assistant deine Gaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
+            "oil": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizölpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
+            "lpg": "Für die Zeit seit dem {since} kennt Home Assistant deine Flüssiggaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
+            "pellets": "Für die Zeit seit dem {since} kennt Home Assistant deine Pelletpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
+            "district_heating": "Für die Zeit seit dem {since} kennt Home Assistant deine Fernwärmepreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
+            "electric": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizstrompreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
             "none": "Ohne frühere Heizung gibt es keinen Vergleich und damit keine Ersparnis. HA Eco zeigt Wärme, COP und Wärmepreis der Wärmepumpe. Die Werte gelten seit dem {since} und ab jetzt, bis du sie änderst.",
-            "wallbox": "Für die Zeit seit dem {since} kennt Home Assistant weder Spritpreise noch Verbräuche. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+            "wallbox": "Für die Zeit seit dem {since} kennt Home Assistant weder Spritpreise noch Verbräuche. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
             "wallbox_none": "Ohne Vergleich gibt es keine Ersparnis. HA Eco zeigt Ladekosten, Strommix und Durchschnittspreis. Ein eigener Tarif gilt seit dem {since} und ab jetzt, bis du ihn änderst.",
         },
         "now": {
@@ -445,7 +445,7 @@ TEXTS: dict[str, dict[str, Any]] = {
             "investment": ("Anschaffungskosten (optional)", "Für die Amortisation"),
             "battery_investment": (
                 "Anschaffungskosten der Batterie (optional)",
-                "Für die eigene Amortisation der Batterie. Die der PV-Anlage zählt beides, also oben ohne Batterie",
+                "Für die eigene Amortisation der Batterie. Trage die Batteriekosten nur hier ein; die PV-Anschaffungskosten oben müssen sie ausschließen. Die PV-Amortisation berücksichtigt beide Beträge.",
             ),
             "standing_charge": (
                 "Grundpreis pro Monat (optional)",

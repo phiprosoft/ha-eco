@@ -1485,6 +1485,10 @@
     "missing_price_entity": {
       "title": "{category}: Preis-Sensor fehlt",
       "description": "Den Preis-Sensor {entity} gibt es nicht mehr. Bis er ersetzt ist, gilt sein letzter Wert. Wähle auf der Integrationsseite von HA Eco unter »Neu konfigurieren › Werte ab jetzt« einen anderen oder keinen."
+    },
+    "invalid_price_entity": {
+      "title": "{category}: Preis-Sensor hat eine unpassende Einheit",
+      "description": "Die Einheit {unit} von {entity} passt nicht zu {expected}. Verwende diese Einheit, Cent je Brennstoffeinheit oder einen numerischen Helfer ohne Einheit. Bis zur Korrektur gilt der letzte gültige Preis oder der eingetragene Durchschnitt."
     }
   },
   "selector": {

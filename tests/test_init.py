@@ -759,6 +759,50 @@ async def test_missing_price_sensor_raises_issue(hass: HomeAssistant) -> None:
 
 
 @pytest.mark.usefixtures("energy")
+async def test_fuel_price_sensor_cent_unit_is_converted(hass: HomeAssistant) -> None:
+    """A cent-denominated fuel sensor is converted to the configured currency."""
+    hass.states.async_set(
+        "sensor.fuel_price",
+        "180",
+        {"unit_of_measurement": "ct/L"},
+    )
+    current = {**WALLBOX_DATA["current"], "price_entity": "sensor.fuel_price"}
+    entry = make_entry(("wallbox", {**WALLBOX_DATA, "current": current}))
+    await setup_entry(hass, entry)
+    subentry_id = _subentry(entry, "wallbox").subentry_id
+    config = entry.runtime_data.configs[subentry_id]
+    state = entry.runtime_data.states[subentry_id]
+    hour = state.timeline("price_entity").points[-1][0]
+    assert entry.runtime_data._fuel_price(
+        config, state, {"sensor.fuel_price": {hour: 180.0}}, hour
+    ) == pytest.approx(1.8)
+
+
+@pytest.mark.usefixtures("energy")
+async def test_invalid_price_sensor_unit_raises_issue(hass: HomeAssistant) -> None:
+    """An explicit incompatible price unit raises a repair issue."""
+    hass.states.async_set(
+        "sensor.bad_fuel_price",
+        "1.7",
+        {"unit_of_measurement": "USD/gal"},
+    )
+    current = {**WALLBOX_DATA["current"], "price_entity": "sensor.bad_fuel_price"}
+    entry = make_entry(("wallbox", {**WALLBOX_DATA, "current": current}))
+    await setup_entry(hass, entry)
+    subentry_id = _subentry(entry, "wallbox").subentry_id
+    issue = ir.async_get(hass).async_get_issue(
+        DOMAIN, f"invalid_price_entity_{subentry_id}"
+    )
+    assert issue is not None
+    assert issue.translation_placeholders == {
+        "category": "wallbox",
+        "entity": "sensor.bad_fuel_price",
+        "unit": "USD/gal",
+        "expected": "EUR/l",
+    }
+
+
+@pytest.mark.usefixtures("energy")
 async def test_missing_meter_raises_issue(
     hass: HomeAssistant, config_entry: MockConfigEntry
 ) -> None:

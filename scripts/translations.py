@@ -413,6 +413,10 @@ TEXTS: dict[str, dict[str, Any]] = {
                 "{category}: price sensor missing",
                 "The price sensor {entity} no longer exists. Until it is replaced, its last value counts. Choose another one, or none, under Reconfigure › Values from now on on the integration page of HA Eco.",
             ),
+            "invalid_price_entity": (
+                "{category}: price sensor has an incompatible unit",
+                "The unit {unit} of {entity} cannot be read as {expected}. Use that unit, cents per fuel unit, or a unitless numeric helper. Until corrected, the last valid price or the entered average counts.",
+            ),
         },
     },
     "de": {
@@ -810,6 +814,10 @@ TEXTS: dict[str, dict[str, Any]] = {
             "missing_price_entity": (
                 "{category}: Preis-Sensor fehlt",
                 "Den Preis-Sensor {entity} gibt es nicht mehr. Bis er ersetzt ist, gilt sein letzter Wert. Wähle auf der Integrationsseite von HA Eco unter »Neu konfigurieren › Werte ab jetzt« einen anderen oder keinen.",
+            ),
+            "invalid_price_entity": (
+                "{category}: Preis-Sensor hat eine unpassende Einheit",
+                "Die Einheit {unit} von {entity} passt nicht zu {expected}. Verwende diese Einheit, Cent je Brennstoffeinheit oder einen numerischen Helfer ohne Einheit. Bis zur Korrektur gilt der letzte gültige Preis oder der eingetragene Durchschnitt.",
             ),
         },
     },

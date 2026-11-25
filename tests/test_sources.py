@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta
+from math import inf, nan
+from types import SimpleNamespace
 from types import SimpleNamespace
 from typing import Any
 from unittest.mock import AsyncMock, patch
@@ -31,6 +33,8 @@ from custom_components.electricity_lens.sources import (
     async_solar_forecast,
     cost_stat,
     parse_preferences,
+    _hourly_steps,
+    _rows_to_series,
 )
 
 from .conftest import PREFS, import_hourly, import_hourly_mean
@@ -306,3 +310,29 @@ async def test_solar_forecast_adds_up_all_forecasts(hass: HomeAssistant) -> None
         AsyncMock(side_effect=IntegrationNotFound("forecast_solar")),
     ):
         assert await async_solar_forecast(hass, ["a"]) is None
+
+
+
+def test_recorder_values_ignore_non_finite_numbers() -> None:
+    """NaN and infinity must not poison prices or cumulative calculations."""
+    assert _rows_to_series(
+        {
+            "sensor.price": [
+                {"start": 0.0, "mean": nan},
+                {"start": 3600.0, "mean": 0.25},
+                {"start": 7200.0, "mean": inf},
+            ]
+        },
+        "mean",
+    ) == {"sensor.price": {3600.0: 0.25}}
+
+    states = [
+        SimpleNamespace(state="0.25", last_changed=datetime.fromtimestamp(0, dt_util.UTC)),
+        SimpleNamespace(state="nan", last_changed=datetime.fromtimestamp(3600, dt_util.UTC)),
+        SimpleNamespace(state="0.30", last_changed=datetime.fromtimestamp(7200, dt_util.UTC)),
+    ]
+    assert _hourly_steps(states, 0.0, 4 * 3600.0) == {
+        0.0: 0.25,
+        7200.0: 0.30,
+        10800.0: 0.30,
+    }

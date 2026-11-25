@@ -606,7 +606,7 @@ TEXTS: dict[str, dict[str, Any]] = {
             "recomputing_all": "Alles wird neu berechnet. Bei mehreren Jahren an Daten kann das ein paar Minuten dauern.",
         },
         "create_entry": "Die Vergangenheit wird jetzt nachgerechnet, bei mehreren Jahren an Daten kann das ein paar Minuten dauern. Das Dashboard »HA Eco« fügst du unter [Einstellungen › Dashboards](/config/lovelace/dashboards) › »Dashboard hinzufügen« hinzu. Seine Karten findest du auch unter »Karte hinzufügen«.",
-        "devices": {"total": "HA Eco"},
+        "devices": {"total": "Electricity Lens"},
         "entities": {
             "saving": "Ersparnis",
             "payback": "Amortisiert",

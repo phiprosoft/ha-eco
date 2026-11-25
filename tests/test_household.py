@@ -409,8 +409,7 @@ async def test_grid_price_change_recomputes_household_and_categories(
 
     # Assert: historical household costs and PV savings use the changed prices.
     expected_household = COUNTED * (
-        (CONSUMPTION * (1 - SOLAR_SHARE)) * 0.50
-        + (CONSUMPTION * SOLAR_SHARE) * 0.10
+        (CONSUMPTION * (1 - SOLAR_SHARE)) * 0.50 + (CONSUMPTION * SOLAR_SHARE) * 0.10
     )
     assert await _total(hass, "household_cost", data_start) == pytest.approx(
         expected_household

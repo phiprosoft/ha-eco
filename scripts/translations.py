@@ -445,7 +445,7 @@ TEXTS: dict[str, dict[str, Any]] = {
             "investment": ("Anschaffungskosten (optional)", "Für die Amortisation"),
             "battery_investment": (
                 "Anschaffungskosten der Batterie (optional)",
-                "Für die eigene Amortisation der Batterie. Trage die Batteriekosten nur hier ein; die PV-Anschaffungskosten oben müssen sie ausschließen. Die PV-Amortisation berücksichtigt beide Beträge.",
+                "Die eigene Amortisation beginnt mit dem ersten erfassten Laden oder Entladen; frühere Ersparnisse sind nicht enthalten. Trage die Batteriekosten nur hier ein; die PV-Anschaffungskosten oben müssen sie ausschließen. Die PV-Amortisation berücksichtigt beide Beträge.",
             ),
             "standing_charge": (
                 "Grundpreis pro Monat (optional)",
@@ -619,7 +619,7 @@ TEXTS: dict[str, dict[str, Any]] = {
         "attributes": {
             "category": "Bereich",
             "calculating": "Wird berechnet",
-            "counting_since": "Gezählt seit",
+            "counting_since": "Datenbasis ab",
             "investment": "Investition",
             "balance": "Bilanz",
             "yearly_from": "Jahreswerte ab",

@@ -2,28 +2,28 @@
   "config": {
     "step": {
       "user": {
-        "title": "Electricity Lens",
+        "title": "HA Eco",
         "description": "Computes the consumption, electricity mix, and costs of your household and of each device. If you like, also what your solar panels, heat pump, and electric car have saved, and when they pay for themselves.\n\nFrom your energy dashboard:\n{grid} Grid import with electricity price\n{export} Feed-in\n{compensation} Feed-in compensation\n✓ Solar production: {solar} sources\n{battery} Battery\n✓ Individual devices: {devices}",
         "data": {
           "categories": "Which savings should be evaluated? (optional)"
         }
       },
       "user_no_devices": {
-        "title": "Electricity Lens",
+        "title": "HA Eco",
         "description": "Computes the consumption, electricity mix, and costs of your household and of each device. If you like, also what your solar panels, heat pump, and electric car have saved, and when they pay for themselves.\n\nFrom your energy dashboard:\n{grid} Grid import with electricity price\n{export} Feed-in\n{compensation} Feed-in compensation\n✓ Solar production: {solar} sources\n{battery} Battery\n✓ Individual devices: {devices}\n\nHeat pump and electric car need individual devices in the [energy dashboard](/config/energy).",
         "data": {
           "categories": "Which savings should be evaluated? (optional)"
         }
       },
       "user_no_solar": {
-        "title": "Electricity Lens",
+        "title": "HA Eco",
         "description": "Computes the consumption, electricity mix, and costs of your household and of each device. If you like, also what your solar panels, heat pump, and electric car have saved, and when they pay for themselves.\n\nFrom your energy dashboard:\n{grid} Grid import with electricity price\n{export} Feed-in\n{compensation} Feed-in compensation\n✓ Solar production: {solar} sources\n{battery} Battery\n✓ Individual devices: {devices}\n\nSolar needs solar production in the [energy dashboard](/config/energy).",
         "data": {
           "categories": "Which savings should be evaluated? (optional)"
         }
       },
       "user_household_only": {
-        "title": "Electricity Lens",
+        "title": "HA Eco",
         "description": "Computes the consumption, electricity mix, and costs of your household and of each device. If you like, also what your solar panels, heat pump, and electric car have saved, and when they pay for themselves.\n\nFrom your energy dashboard:\n{grid} Grid import with electricity price\n{export} Feed-in\n{compensation} Feed-in compensation\n✓ Solar production: {solar} sources\n{battery} Battery\n✓ Individual devices: {devices}\n\nWithout solar production and individual devices in the [energy dashboard](/config/energy), only the household is computed."
       },
       "household": {
@@ -354,7 +354,7 @@
       },
       "heat_pump_values_none": {
         "title": "Average since {since}",
-        "description": "Without a former heating there is nothing to compare with, so there is no saving. Electricity Lens shows the heat pump's heat, COP, and heat price. The values apply since {since} and from now on, until you change them.",
+        "description": "Without a former heating there is nothing to compare with, so there is no saving. HA Eco shows the heat pump's heat, COP, and heat price. The values apply since {since} and from now on, until you change them.",
         "data": {
           "tariff": "Own electricity tariff (optional)"
         },
@@ -364,7 +364,7 @@
       },
       "heat_pump_values_none_scop": {
         "title": "Average since {since}",
-        "description": "Without a former heating there is nothing to compare with, so there is no saving. Electricity Lens shows the heat pump's heat, COP, and heat price. The values apply since {since} and from now on, until you change them.",
+        "description": "Without a former heating there is nothing to compare with, so there is no saving. HA Eco shows the heat pump's heat, COP, and heat price. The values apply since {since} and from now on, until you change them.",
         "data": {
           "scop": "COP",
           "tariff": "Own electricity tariff (optional)"
@@ -376,7 +376,7 @@
       },
       "heat_pump_values_none_scop_until": {
         "title": "Average since {since}",
-        "description": "Without a former heating there is nothing to compare with, so there is no saving. Electricity Lens shows the heat pump's heat, COP, and heat price. The values apply since {since} and from now on, until you change them.",
+        "description": "Without a former heating there is nothing to compare with, so there is no saving. HA Eco shows the heat pump's heat, COP, and heat price. The values apply since {since} and from now on, until you change them.",
         "data": {
           "scop": "COP",
           "tariff": "Own electricity tariff (optional)"
@@ -419,7 +419,7 @@
       },
       "wallbox_values_none": {
         "title": "Average since {since}",
-        "description": "Without a comparison there is no saving. Electricity Lens shows the charging costs, their mix, and the average price. A tariff of your own applies since {since} and from now on, until you change it.",
+        "description": "Without a comparison there is no saving. HA Eco shows the charging costs, their mix, and the average price. A tariff of your own applies since {since} and from now on, until you change it.",
         "data": {
           "tariff": "Own electricity tariff (optional)"
         },
@@ -436,12 +436,12 @@
       "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty."
     },
     "abort": {
-      "no_energy_dashboard": "First set up the grid import with an electricity price in the [energy dashboard](/config/energy). Then you can add Electricity Lens.",
-      "energy_interface": "The energy dashboard cannot be read. This version of Home Assistant is not supported yet; please look for an update of Electricity Lens.",
-      "single_instance_allowed": "Electricity Lens is already set up. Add more on its integration page."
+      "no_energy_dashboard": "First set up the grid import with an electricity price in the [energy dashboard](/config/energy). Then you can add HA Eco.",
+      "energy_interface": "The energy dashboard cannot be read. This version of Home Assistant is not supported yet; please look for an update of HA Eco.",
+      "single_instance_allowed": "HA Eco is already set up. Add more on its integration page."
     },
     "create_entry": {
-      "default": "The past is now being computed; with several years of data this can take a few minutes. Add the dashboard \"Electricity Lens\" under [Settings › Dashboards](/config/lovelace/dashboards) › \"Add dashboard\". Its cards are also under \"Add card\"."
+      "default": "The past is now being computed; with several years of data this can take a few minutes. Add the dashboard \"HA Eco\" under [Settings › Dashboards](/config/lovelace/dashboards) › \"Add dashboard\". Its cards are also under \"Add card\"."
     }
   },
   "options": {
@@ -535,7 +535,7 @@
         "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty."
       },
       "abort": {
-        "energy_interface": "The energy dashboard cannot be read. This version of Home Assistant is not supported yet; please look for an update of Electricity Lens.",
+        "energy_interface": "The energy dashboard cannot be read. This version of Home Assistant is not supported yet; please look for an update of HA Eco.",
         "already_configured": "This is already set up. You can change it with Reconfigure.",
         "not_available": "The energy dashboard does not provide the data for this. Solar needs solar production, heat pump and electric car need individual devices.",
         "values_from": "The new values apply from {time}.",
@@ -872,7 +872,7 @@
         },
         "heat_pump_values_none": {
           "title": "Average since {since}",
-          "description": "Without a former heating there is nothing to compare with, so there is no saving. Electricity Lens shows the heat pump's heat, COP, and heat price. The values apply since {since} and from now on, until you change them.",
+          "description": "Without a former heating there is nothing to compare with, so there is no saving. HA Eco shows the heat pump's heat, COP, and heat price. The values apply since {since} and from now on, until you change them.",
           "data": {
             "tariff": "Own electricity tariff (optional)"
           },
@@ -882,7 +882,7 @@
         },
         "heat_pump_values_none_scop": {
           "title": "Average since {since}",
-          "description": "Without a former heating there is nothing to compare with, so there is no saving. Electricity Lens shows the heat pump's heat, COP, and heat price. The values apply since {since} and from now on, until you change them.",
+          "description": "Without a former heating there is nothing to compare with, so there is no saving. HA Eco shows the heat pump's heat, COP, and heat price. The values apply since {since} and from now on, until you change them.",
           "data": {
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)"
@@ -894,7 +894,7 @@
         },
         "heat_pump_values_none_scop_until": {
           "title": "Average since {since}",
-          "description": "Without a former heating there is nothing to compare with, so there is no saving. Electricity Lens shows the heat pump's heat, COP, and heat price. The values apply since {since} and from now on, until you change them.",
+          "description": "Without a former heating there is nothing to compare with, so there is no saving. HA Eco shows the heat pump's heat, COP, and heat price. The values apply since {since} and from now on, until you change them.",
           "data": {
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)"
@@ -1117,7 +1117,7 @@
         "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty."
       },
       "abort": {
-        "energy_interface": "The energy dashboard cannot be read. This version of Home Assistant is not supported yet; please look for an update of Electricity Lens.",
+        "energy_interface": "The energy dashboard cannot be read. This version of Home Assistant is not supported yet; please look for an update of HA Eco.",
         "already_configured": "This is already set up. You can change it with Reconfigure.",
         "not_available": "The energy dashboard does not provide the data for this. Solar needs solar production, heat pump and electric car need individual devices.",
         "values_from": "The new values apply from {time}.",
@@ -1191,7 +1191,7 @@
         },
         "wallbox_values_none": {
           "title": "Average since {since}",
-          "description": "Without a comparison there is no saving. Electricity Lens shows the charging costs, their mix, and the average price. A tariff of your own applies since {since} and from now on, until you change it.",
+          "description": "Without a comparison there is no saving. HA Eco shows the charging costs, their mix, and the average price. A tariff of your own applies since {since} and from now on, until you change it.",
           "data": {
             "tariff": "Own electricity tariff (optional)"
           },
@@ -1260,7 +1260,7 @@
         "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty."
       },
       "abort": {
-        "energy_interface": "The energy dashboard cannot be read. This version of Home Assistant is not supported yet; please look for an update of Electricity Lens.",
+        "energy_interface": "The energy dashboard cannot be read. This version of Home Assistant is not supported yet; please look for an update of HA Eco.",
         "already_configured": "This is already set up. You can change it with Reconfigure.",
         "not_available": "The energy dashboard does not provide the data for this. Solar needs solar production, heat pump and electric car need individual devices.",
         "values_from": "The new values apply from {time}.",
@@ -1380,20 +1380,20 @@
   },
   "issues": {
     "energy_interface": {
-      "title": "Electricity Lens cannot read the energy dashboard",
-      "description": "This version of Home Assistant stores the energy dashboard or its statistics in a way Electricity Lens does not understand. The savings are unavailable until Electricity Lens is updated."
+      "title": "HA Eco cannot read the energy dashboard",
+      "description": "This version of Home Assistant stores the energy dashboard or its statistics in a way HA Eco does not understand. The savings are unavailable until HA Eco is updated."
     },
     "no_grid_price": {
-      "title": "Electricity Lens is missing the electricity price",
+      "title": "HA Eco is missing the electricity price",
       "description": "The energy dashboard has no grid import with an electricity price anymore. The savings keep their last values until it is set up again in the [energy dashboard](/config/energy)."
     },
     "missing_meter": {
       "title": "{category}: meter missing in the energy dashboard",
-      "description": "The energy dashboard no longer has: {meters}. {category} keeps its last figures until this is fixed. Add the meter back in the [energy dashboard](/config/energy), or choose other meters with Reconfigure on the integration page of Electricity Lens."
+      "description": "The energy dashboard no longer has: {meters}. {category} keeps its last figures until this is fixed. Add the meter back in the [energy dashboard](/config/energy), or choose other meters with Reconfigure on the integration page of HA Eco."
     },
     "missing_price_entity": {
       "title": "{category}: price sensor missing",
-      "description": "The price sensor {entity} no longer exists. Until it is replaced, its last value counts. Choose another one, or none, under Reconfigure › Values from now on on the integration page of Electricity Lens."
+      "description": "The price sensor {entity} no longer exists. Until it is replaced, its last value counts. Choose another one, or none, under Reconfigure › Values from now on on the integration page of HA Eco."
     }
   },
   "selector": {

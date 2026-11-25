@@ -2,7 +2,7 @@
 
 const REREGISTER_EVERY_MS = 100;
 const REREGISTER_FOR_MS = 60_000;
-const DOCUMENTATION_URL = "https://github.com/ignazhabibi/ha-electricity-lens";
+const DOCUMENTATION_URL = "https://github.com/phiprosoft/ha-eco";
 
 export interface CardEntry {
   tag: string;

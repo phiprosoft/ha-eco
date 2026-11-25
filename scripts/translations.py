@@ -29,7 +29,7 @@ TEXTS: dict[str, dict[str, Any]] = {
             "wallbox": "Add electric car",
         },
         "overview": {
-            "title": "Electricity Lens",
+            "title": "HA Eco",
             "description": "Computes the consumption, electricity mix, and costs of your household and of each device. If you like, also what your solar panels, heat pump, and electric car have saved, and when they pay for themselves.\n\nFrom your energy dashboard:\n{grid} Grid import with electricity price\n{export} Feed-in\n{compensation} Feed-in compensation\n✓ Solar production: {solar} sources\n{battery} Battery\n✓ Individual devices: {devices}",
             "no_devices": "Heat pump and electric car need individual devices in the [energy dashboard](/config/energy).",
             "no_solar": "Solar needs solar production in the [energy dashboard](/config/energy).",
@@ -88,9 +88,9 @@ TEXTS: dict[str, dict[str, Any]] = {
             "pellets": "For the time since {since}, Home Assistant does not know your pellet prices. Enter averages. They also apply from now on, until you change them.",
             "district_heating": "For the time since {since}, Home Assistant does not know your district heating prices. Enter averages. They also apply from now on, until you change them.",
             "electric": "For the time since {since}, Home Assistant does not know your heating electricity prices. Enter averages. They also apply from now on, until you change them.",
-            "none": "Without a former heating there is nothing to compare with, so there is no saving. Electricity Lens shows the heat pump's heat, COP, and heat price. The values apply since {since} and from now on, until you change them.",
+            "none": "Without a former heating there is nothing to compare with, so there is no saving. HA Eco shows the heat pump's heat, COP, and heat price. The values apply since {since} and from now on, until you change them.",
             "wallbox": "For the time since {since}, Home Assistant knows neither fuel prices nor consumptions. Enter averages. They also apply from now on, until you change them.",
-            "wallbox_none": "Without a comparison there is no saving. Electricity Lens shows the charging costs, their mix, and the average price. A tariff of your own applies since {since} and from now on, until you change it.",
+            "wallbox_none": "Without a comparison there is no saving. HA Eco shows the charging costs, their mix, and the average price. A tariff of your own applies since {since} and from now on, until you change it.",
         },
         "now": {
             "title": "Values from now on",
@@ -272,9 +272,9 @@ TEXTS: dict[str, dict[str, Any]] = {
             "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty.",
         },
         "aborts": {
-            "no_energy_dashboard": "First set up the grid import with an electricity price in the [energy dashboard](/config/energy). Then you can add Electricity Lens.",
-            "energy_interface": "The energy dashboard cannot be read. This version of Home Assistant is not supported yet; please look for an update of Electricity Lens.",
-            "single_instance_allowed": "Electricity Lens is already set up. Add more on its integration page.",
+            "no_energy_dashboard": "First set up the grid import with an electricity price in the [energy dashboard](/config/energy). Then you can add HA Eco.",
+            "energy_interface": "The energy dashboard cannot be read. This version of Home Assistant is not supported yet; please look for an update of HA Eco.",
+            "single_instance_allowed": "HA Eco is already set up. Add more on its integration page.",
             "already_configured": "This is already set up. You can change it with Reconfigure.",
             "not_available": "The energy dashboard does not provide the data for this. Solar needs solar production, heat pump and electric car need individual devices.",
             "values_from": "The new values apply from {time}.",
@@ -283,7 +283,7 @@ TEXTS: dict[str, dict[str, Any]] = {
             "household_saved": "Saved. The standing charge applies from {time}.",
             "recomputing_all": "Everything is being computed again. With several years of data this can take a few minutes.",
         },
-        "create_entry": 'The past is now being computed; with several years of data this can take a few minutes. Add the dashboard "Electricity Lens" under [Settings › Dashboards](/config/lovelace/dashboards) › "Add dashboard". Its cards are also under "Add card".',
+        "create_entry": 'The past is now being computed; with several years of data this can take a few minutes. Add the dashboard "HA Eco" under [Settings › Dashboards](/config/lovelace/dashboards) › "Add dashboard". Its cards are also under "Add card".',
         "devices": {"total": "Electricity Lens"},
         "entities": {
             "saving": "Saving",
@@ -322,20 +322,20 @@ TEXTS: dict[str, dict[str, Any]] = {
         },
         "issues": {
             "energy_interface": (
-                "Electricity Lens cannot read the energy dashboard",
-                "This version of Home Assistant stores the energy dashboard or its statistics in a way Electricity Lens does not understand. The savings are unavailable until Electricity Lens is updated.",
+                "HA Eco cannot read the energy dashboard",
+                "This version of Home Assistant stores the energy dashboard or its statistics in a way HA Eco does not understand. The savings are unavailable until HA Eco is updated.",
             ),
             "no_grid_price": (
-                "Electricity Lens is missing the electricity price",
+                "HA Eco is missing the electricity price",
                 "The energy dashboard has no grid import with an electricity price anymore. The savings keep their last values until it is set up again in the [energy dashboard](/config/energy).",
             ),
             "missing_meter": (
                 "{category}: meter missing in the energy dashboard",
-                "The energy dashboard no longer has: {meters}. {category} keeps its last figures until this is fixed. Add the meter back in the [energy dashboard](/config/energy), or choose other meters with Reconfigure on the integration page of Electricity Lens.",
+                "The energy dashboard no longer has: {meters}. {category} keeps its last figures until this is fixed. Add the meter back in the [energy dashboard](/config/energy), or choose other meters with Reconfigure on the integration page of HA Eco.",
             ),
             "missing_price_entity": (
                 "{category}: price sensor missing",
-                "The price sensor {entity} no longer exists. Until it is replaced, its last value counts. Choose another one, or none, under Reconfigure › Values from now on on the integration page of Electricity Lens.",
+                "The price sensor {entity} no longer exists. Until it is replaced, its last value counts. Choose another one, or none, under Reconfigure › Values from now on on the integration page of HA Eco.",
             ),
         },
     },
@@ -351,7 +351,7 @@ TEXTS: dict[str, dict[str, Any]] = {
             "wallbox": "E-Auto hinzufügen",
         },
         "overview": {
-            "title": "Electricity Lens",
+            "title": "HA Eco",
             "description": "Berechnet Verbrauch, Strommix und Kosten deines Haushalts und jedes Geräts. Wenn du möchtest, auch was PV-Anlage, Wärmepumpe und E-Auto gespart haben und wann sie sich bezahlt machen.\n\nAus deinem Energie-Dashboard:\n{grid} Netzbezug mit Strompreis\n{export} Einspeisung\n{compensation} Einspeisevergütung\n✓ PV-Erzeugung: {solar} Quellen\n{battery} Batterie\n✓ Einzelne Geräte: {devices}",
             "no_devices": "Für Wärmepumpe und E-Auto fehlen einzelne Geräte im [Energie-Dashboard](/config/energy).",
             "no_solar": "Für die PV-Anlage fehlt die PV-Erzeugung im [Energie-Dashboard](/config/energy).",
@@ -410,9 +410,9 @@ TEXTS: dict[str, dict[str, Any]] = {
             "pellets": "Für die Zeit seit dem {since} kennt Home Assistant deine Pelletpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
             "district_heating": "Für die Zeit seit dem {since} kennt Home Assistant deine Fernwärmepreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
             "electric": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizstrompreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
-            "none": "Ohne frühere Heizung gibt es keinen Vergleich und damit keine Ersparnis. Electricity Lens zeigt Wärme, COP und Wärmepreis der Wärmepumpe. Die Werte gelten seit dem {since} und ab jetzt, bis du sie änderst.",
+            "none": "Ohne frühere Heizung gibt es keinen Vergleich und damit keine Ersparnis. HA Eco zeigt Wärme, COP und Wärmepreis der Wärmepumpe. Die Werte gelten seit dem {since} und ab jetzt, bis du sie änderst.",
             "wallbox": "Für die Zeit seit dem {since} kennt Home Assistant weder Spritpreise noch Verbräuche. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
-            "wallbox_none": "Ohne Vergleich gibt es keine Ersparnis. Electricity Lens zeigt Ladekosten, Strommix und Durchschnittspreis. Ein eigener Tarif gilt seit dem {since} und ab jetzt, bis du ihn änderst.",
+            "wallbox_none": "Ohne Vergleich gibt es keine Ersparnis. HA Eco zeigt Ladekosten, Strommix und Durchschnittspreis. Ein eigener Tarif gilt seit dem {since} und ab jetzt, bis du ihn änderst.",
         },
         "now": {
             "title": "Werte ab jetzt",
@@ -594,9 +594,9 @@ TEXTS: dict[str, dict[str, Any]] = {
             "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer.",
         },
         "aborts": {
-            "no_energy_dashboard": "Richte zuerst im [Energie-Dashboard](/config/energy) den Netzbezug mit Strompreis ein. Danach kannst du Electricity Lens hinzufügen.",
-            "energy_interface": "Das Energie-Dashboard lässt sich nicht lesen. Diese Version von Home Assistant wird noch nicht unterstützt; bitte sieh nach, ob es ein Update von Electricity Lens gibt.",
-            "single_instance_allowed": "Electricity Lens ist schon eingerichtet. Weitere Auswertungen fügst du auf der Integrationsseite hinzu.",
+            "no_energy_dashboard": "Richte zuerst im [Energie-Dashboard](/config/energy) den Netzbezug mit Strompreis ein. Danach kannst du HA Eco hinzufügen.",
+            "energy_interface": "Das Energie-Dashboard lässt sich nicht lesen. Diese Version von Home Assistant wird noch nicht unterstützt; bitte sieh nach, ob es ein Update von HA Eco gibt.",
+            "single_instance_allowed": "HA Eco ist schon eingerichtet. Weitere Auswertungen fügst du auf der Integrationsseite hinzu.",
             "already_configured": "Das ist schon eingerichtet. Ändern kannst du es über »Neu konfigurieren«.",
             "not_available": "Das Energie-Dashboard liefert die Daten dafür nicht. Die PV-Anlage braucht die PV-Erzeugung, Wärmepumpe und E-Auto brauchen einzelne Geräte.",
             "values_from": "Die neuen Werte gelten ab {time} Uhr.",
@@ -605,7 +605,7 @@ TEXTS: dict[str, dict[str, Any]] = {
             "household_saved": "Gespeichert. Der Grundpreis gilt ab {time} Uhr.",
             "recomputing_all": "Alles wird neu berechnet. Bei mehreren Jahren an Daten kann das ein paar Minuten dauern.",
         },
-        "create_entry": "Die Vergangenheit wird jetzt nachgerechnet, bei mehreren Jahren an Daten kann das ein paar Minuten dauern. Das Dashboard »Electricity Lens« fügst du unter [Einstellungen › Dashboards](/config/lovelace/dashboards) › »Dashboard hinzufügen« hinzu. Seine Karten findest du auch unter »Karte hinzufügen«.",
+        "create_entry": "Die Vergangenheit wird jetzt nachgerechnet, bei mehreren Jahren an Daten kann das ein paar Minuten dauern. Das Dashboard »HA Eco« fügst du unter [Einstellungen › Dashboards](/config/lovelace/dashboards) › »Dashboard hinzufügen« hinzu. Seine Karten findest du auch unter »Karte hinzufügen«.",
         "devices": {"total": "Electricity Lens"},
         "entities": {
             "saving": "Ersparnis",
@@ -644,20 +644,20 @@ TEXTS: dict[str, dict[str, Any]] = {
         },
         "issues": {
             "energy_interface": (
-                "Electricity Lens kann das Energie-Dashboard nicht lesen",
-                "Diese Home-Assistant-Version speichert das Energie-Dashboard oder seine Statistiken so, wie Electricity Lens es nicht versteht. Die Ersparnisse sind nicht verfügbar, bis Electricity Lens aktualisiert ist.",
+                "HA Eco kann das Energie-Dashboard nicht lesen",
+                "Diese Home-Assistant-Version speichert das Energie-Dashboard oder seine Statistiken so, wie HA Eco es nicht versteht. Die Ersparnisse sind nicht verfügbar, bis HA Eco aktualisiert ist.",
             ),
             "no_grid_price": (
-                "Electricity Lens fehlt der Strompreis",
+                "HA Eco fehlt der Strompreis",
                 "Im Energie-Dashboard gibt es keinen Netzbezug mit Strompreis mehr. Die Ersparnisse behalten ihre letzten Werte, bis er im [Energie-Dashboard](/config/energy) wieder eingerichtet ist.",
             ),
             "missing_meter": (
                 "{category}: Zähler fehlt im Energie-Dashboard",
-                "Im Energie-Dashboard fehlt: {meters}. {category} behält die letzten Werte, bis das behoben ist. Trag den Zähler im [Energie-Dashboard](/config/energy) wieder ein, oder wähle mit »Neu konfigurieren« auf der Integrationsseite von Electricity Lens andere Zähler.",
+                "Im Energie-Dashboard fehlt: {meters}. {category} behält die letzten Werte, bis das behoben ist. Trag den Zähler im [Energie-Dashboard](/config/energy) wieder ein, oder wähle mit »Neu konfigurieren« auf der Integrationsseite von HA Eco andere Zähler.",
             ),
             "missing_price_entity": (
                 "{category}: Preis-Sensor fehlt",
-                "Den Preis-Sensor {entity} gibt es nicht mehr. Bis er ersetzt ist, gilt sein letzter Wert. Wähle auf der Integrationsseite von Electricity Lens unter »Neu konfigurieren › Werte ab jetzt« einen anderen oder keinen.",
+                "Den Preis-Sensor {entity} gibt es nicht mehr. Bis er ersetzt ist, gilt sein letzter Wert. Wähle auf der Integrationsseite von HA Eco unter »Neu konfigurieren › Werte ab jetzt« einen anderen oder keinen.",
             ),
         },
     },

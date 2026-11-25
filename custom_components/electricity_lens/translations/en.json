@@ -38,7 +38,7 @@
       },
       "pv": {
         "title": "Solar",
-        "description": "Counted from {since}, when Home Assistant's solar data begins. Production, feed-in, battery, and electricity prices come from the energy dashboard.",
+        "description": "Data available from {since}. HA Eco calculates solar savings only from this date; earlier production is not included. This is not the plant's commissioning date. Production, feed-in, battery, and electricity prices come from the energy dashboard.",
         "data": {
           "investment": "Purchase cost (optional)",
           "battery_investment": "Battery purchase cost (optional)"
@@ -50,7 +50,7 @@
       },
       "pv_no_export": {
         "title": "Solar",
-        "description": "**The energy dashboard has no feed-in.** All solar power then counts as used in the house.\n\nCounted from {since}, when Home Assistant's solar data begins. Production, feed-in, battery, and electricity prices come from the energy dashboard.",
+        "description": "**The energy dashboard has no feed-in.** All solar power then counts as used in the house.\n\nData available from {since}. HA Eco calculates solar savings only from this date; earlier production is not included. This is not the plant's commissioning date. Production, feed-in, battery, and electricity prices come from the energy dashboard.",
         "data": {
           "investment": "Purchase cost (optional)",
           "battery_investment": "Battery purchase cost (optional)"
@@ -482,7 +482,7 @@
       "step": {
         "pv": {
           "title": "Solar",
-          "description": "Counted from {since}, when Home Assistant's solar data begins. Production, feed-in, battery, and electricity prices come from the energy dashboard.",
+          "description": "Data available from {since}. HA Eco calculates solar savings only from this date; earlier production is not included. This is not the plant's commissioning date. Production, feed-in, battery, and electricity prices come from the energy dashboard.",
           "data": {
             "investment": "Purchase cost (optional)",
             "battery_investment": "Battery purchase cost (optional)"
@@ -494,7 +494,7 @@
         },
         "pv_no_export": {
           "title": "Solar",
-          "description": "**The energy dashboard has no feed-in.** All solar power then counts as used in the house.\n\nCounted from {since}, when Home Assistant's solar data begins. Production, feed-in, battery, and electricity prices come from the energy dashboard.",
+          "description": "**The energy dashboard has no feed-in.** All solar power then counts as used in the house.\n\nData available from {since}. HA Eco calculates solar savings only from this date; earlier production is not included. This is not the plant's commissioning date. Production, feed-in, battery, and electricity prices come from the energy dashboard.",
           "data": {
             "investment": "Purchase cost (optional)",
             "battery_investment": "Battery purchase cost (optional)"

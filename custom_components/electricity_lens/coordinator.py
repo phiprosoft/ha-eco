@@ -389,15 +389,21 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
         if setup.forecasts:
             await self._async_update_best_solar_day(setup.solar)
 
-        grid = setup.grid()
-        if grid is None or grid.import_stat is None:
+        grids = setup.priced_grids
+        if not grids:
             # Keep the last figures until the energy dashboard is fixed.
             self._issue(ISSUE_NO_GRID_PRICE, ISSUE_NO_GRID_PRICE)
             return self._results()
         ir.async_delete_issue(self.hass, DOMAIN, ISSUE_NO_GRID_PRICE)
 
         self._check_price_entities()
-        if (end := await async_end_of_data(self.hass, grid.import_stat)) is None:
+        end = None
+        for grid in grids:
+            if grid.import_stat is not None and (
+                grid_end := await async_end_of_data(self.hass, grid.import_stat)
+            ) is not None:
+                end = max(end or grid_end, grid_end)
+        if end is None:
             # No grid data yet, so there is nothing to compute.
             self._without_data = set(self.configs)
             return self._results()

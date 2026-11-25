@@ -388,6 +388,42 @@ async def test_energy_dashboard_change_computes_the_categories_again(
 
 
 @pytest.mark.usefixtures("energy")
+async def test_grid_price_change_recomputes_household_and_categories(
+    hass: HomeAssistant, data_start: datetime
+) -> None:
+    """Changing grid prices recomputes all figures that depend on them."""
+    entry = make_entry(("pv", PV_DATA))
+    await setup_entry(hass, entry)
+
+    # Act: change both the import price and feed-in compensation in the energy dashboard.
+    grid = {
+        **PREFS["energy_sources"][0],
+        "number_energy_price": 0.50,
+        "number_energy_price_export": 0.10,
+    }
+    await set_energy_prefs(
+        hass, {**PREFS, "energy_sources": [grid, *PREFS["energy_sources"][1:]]}
+    )
+    await hass.async_block_till_done(wait_background_tasks=True)
+    await async_wait_recording_done(hass)
+
+    # Assert: historical household costs and PV savings use the changed prices.
+    expected_household = COUNTED * (
+        (CONSUMPTION * (1 - SOLAR_SHARE)) * 0.50
+        + (CONSUMPTION * SOLAR_SHARE) * 0.10
+    )
+    assert await _total(hass, "household_cost", data_start) == pytest.approx(
+        expected_household
+    )
+    assert await _total(hass, "grid_cost", data_start) == pytest.approx(
+        COUNTED * (0.50 - 0.5 * 0.10)
+    )
+    assert await _total(hass, "pv_saving", data_start) == pytest.approx(
+        COUNTED * (1.5 * 0.50 + 0.5 * 0.10)
+    )
+
+
+@pytest.mark.usefixtures("energy")
 async def test_recompute_computes_everything(
     hass: HomeAssistant, data_start: datetime
 ) -> None:

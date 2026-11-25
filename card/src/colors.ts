@@ -9,7 +9,7 @@
 // - Categories (PV, heat pump, car) keep their energy colors; the heat pump
 //   has the fixed device color --color-30, the car its device's color.
 // - The standing charge is no power at all, so a quiet taupe outside these
-//   families; a theme can set --electricity-lens-standing-charge-color.
+//   families; a theme can set --ha-eco-standing-charge-color.
 // - A battery has Home Assistant's two battery colors, one for giving power
 //   and one for taking it.
 // - Lines are quiet: ratios and prices in the secondary text color.
@@ -110,7 +110,7 @@ export function palette(element: Element): Palette {
     export: read("--energy-grid-return-color", "#8353d1"),
     batteryOut: read("--energy-battery-out-color", "#4db6ac"),
     batteryIn: read("--energy-battery-in-color", "#f06292"),
-    standing: read("--electricity-lens-standing-charge-color", "#a1887f"),
+    standing: read("--ha-eco-standing-charge-color", "#a1887f"),
     // The heat pump keeps one fixed device color (--color-30), never gas.
     heat:
       style.getPropertyValue("--graph-color-30").trim() || read("--color-30", "#bf3947"),

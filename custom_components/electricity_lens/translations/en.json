@@ -1485,6 +1485,10 @@
     "missing_price_entity": {
       "title": "{category}: price sensor missing",
       "description": "The price sensor {entity} no longer exists. Until it is replaced, its last value counts. Choose another one, or none, under Reconfigure › Values from now on on the integration page of HA Eco."
+    },
+    "invalid_price_entity": {
+      "title": "{category}: price sensor has an incompatible unit",
+      "description": "The unit {unit} of {entity} cannot be read as {expected}. Use that unit, cents per fuel unit, or a unitless numeric helper. Until corrected, the last valid price or the entered average counts."
     }
   },
   "selector": {

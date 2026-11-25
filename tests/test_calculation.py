@@ -27,6 +27,7 @@ from custom_components.electricity_lens.calculation import (
     normal_price,
     paid_prices,
     price_level,
+    price_sensor_scale,
     pv_saving,
     solar_saving,
     standing_charge_share,
@@ -496,6 +497,16 @@ def test_estimated_heat() -> None:
     assert estimated_heat(
         2.0, entered_scop=None, measured_heat=0, measured_electricity=0, measuring=True
     ) == pytest.approx(0.0)
+
+
+def test_price_sensor_scale() -> None:
+    """Price sensors use the configured currency and fuel unit, or cents."""
+    assert price_sensor_scale("EUR/L", "EUR", "l") == 1.0
+    assert price_sensor_scale("€/l", "EUR", "l") == 1.0
+    assert price_sensor_scale("ct/L", "EUR", "l") == 0.01
+    assert price_sensor_scale("centEUR/kWh", "EUR", "kWh") == 0.01
+    assert price_sensor_scale(None, "EUR", "l") == 1.0
+    assert price_sensor_scale("USD/gal", "EUR", "l") is None
 
 
 def test_fuel_price() -> None:

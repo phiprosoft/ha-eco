@@ -419,6 +419,28 @@ def estimated_heat(
     return electricity * scop
 
 
+def price_sensor_scale(unit: str | None, currency: str, fuel_unit: str) -> float | None:
+    """Return the scale from a sensor unit to currency per fuel unit.
+
+    Unitless numeric helpers are interpreted in the unit requested by the setup.
+    Explicit units must match that unit, or be expressed in cents per fuel unit.
+    """
+    if unit is None or not unit.strip():
+        return 1.0
+    normalized = unit.strip().replace("€", "EUR").replace(" ", "").casefold()
+    expected = f"{currency}/{fuel_unit}".casefold()
+    if normalized == expected:
+        return 1.0
+    cent_units = {
+        f"ct/{fuel_unit}".casefold(),
+        f"cent/{fuel_unit}".casefold(),
+        f"ctEUR/{fuel_unit}".casefold(),
+        f"centEUR/{fuel_unit}".casefold(),
+        f"cEUR/{fuel_unit}".casefold(),
+    }
+    return 0.01 if normalized in cent_units else None
+
+
 def fuel_price(
     *, sensor: float | None, last_sensor: float | None, entered: float | None
 ) -> float:

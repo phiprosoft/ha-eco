@@ -193,7 +193,7 @@ household needs it.
    | Price of the former heating | Average per kWh (gas, district heating, heating electricity), per litre (heating oil, LPG), or per kilogram (pellets). Also the current value from now on. Not with no former heating. |
    | COP | Only asked without heat meters, or when the heat data begins later than the electricity data; the step names until when it estimates. Later gaps use the COP measured until then. |
    | Own electricity tariff (optional) | Only with a separate heat pump tariff. |
-   | Price sensor (optional) | Replaces the average from the setup on. While it has no value, its last value counts. Not with no former heating. |
+   | Price sensor (optional) | Replaces the average from the setup on. While it has no value, its last value counts. A unit-bearing sensor must use the configured currency per fuel unit (or cents per fuel unit); a unitless numeric helper is interpreted in that unit. Not with no former heating. |
 6. **Electric car**: charging meters, what it is compared with (a combustion
    car or nothing), and the extra purchase cost over a combustion car
    (optional). Compared with nothing, as for a second car, the car has no

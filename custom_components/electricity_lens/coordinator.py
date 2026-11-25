@@ -49,6 +49,7 @@ from .calculation import (
     normal_price,
     paid_prices,
     price_level,
+    price_sensor_scale,
     pv_saving,
     solar_saving,
     standing_charge_share,
@@ -61,7 +62,9 @@ from .const import (
     CATEGORY_PV,
     CATEGORY_WALLBOX,
     DOMAIN,
+    FUELS,
     ISSUE_ENERGY_INTERFACE,
+    ISSUE_INVALID_PRICE_ENTITY,
     ISSUE_MISSING_METER,
     ISSUE_MISSING_PRICE_ENTITY,
     ISSUE_NO_GRID_PRICE,
@@ -123,9 +126,9 @@ STORAGE_VERSION = 1
 # solar power per category; 5 price levels against the normal price instead of
 # thresholds, and the hours of each level; 6 the standing charge by the day
 # instead of by the month. Categories: 5 the battery's part of the PV plant's
-# saving.
+# saving; 6 fuel price sensor units are normalized before valuing the past.
 HOUSEHOLD_CALCULATION_VERSION = 6
-CATEGORY_CALCULATION_VERSION = 5
+CATEGORY_CALCULATION_VERSION = 6
 
 type ElectricityLensConfigEntry = ConfigEntry[ElectricityLensCoordinator]
 
@@ -440,27 +443,52 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
         )
 
     def _check_price_entities(self) -> None:
-        """Raise an issue for price sensors that no longer exist."""
+        """Raise repair issues for missing or incompatible price sensors."""
         registry = er.async_get(self.hass)
         for subentry_id, config in self.configs.items():
-            issue_id = f"{ISSUE_MISSING_PRICE_ENTITY}_{subentry_id}"
+            missing_issue = f"{ISSUE_MISSING_PRICE_ENTITY}_{subentry_id}"
+            invalid_issue = f"{ISSUE_INVALID_PRICE_ENTITY}_{subentry_id}"
             entity = config.price_entity
+            sensor_state = self.hass.states.get(entity) if entity is not None else None
             if (
                 entity is not None
                 and registry.async_get(entity) is None
-                and self.hass.states.get(entity) is None
+                and sensor_state is None
             ):
                 # Until it is replaced, its last value counts.
                 self._issue(
-                    issue_id,
+                    missing_issue,
                     ISSUE_MISSING_PRICE_ENTITY,
                     {
                         "category": self.config_entry.subentries[subentry_id].title,
                         "entity": entity,
                     },
                 )
+                ir.async_delete_issue(self.hass, DOMAIN, invalid_issue)
+                continue
+            ir.async_delete_issue(self.hass, DOMAIN, missing_issue)
+            if entity is None or sensor_state is None:
+                ir.async_delete_issue(self.hass, DOMAIN, invalid_issue)
+                continue
+            fuel_unit = (
+                FUELS[config.heating].unit
+                if config.category == CATEGORY_HEAT_PUMP
+                else "l"
+            )
+            unit = sensor_state.attributes.get("unit_of_measurement")
+            if price_sensor_scale(unit, self.hass.config.currency, fuel_unit) is None:
+                self._issue(
+                    invalid_issue,
+                    ISSUE_INVALID_PRICE_ENTITY,
+                    {
+                        "category": self.config_entry.subentries[subentry_id].title,
+                        "entity": entity,
+                        "unit": str(unit),
+                        "expected": f"{self.hass.config.currency}/{fuel_unit}",
+                    },
+                )
             else:
-                ir.async_delete_issue(self.hass, DOMAIN, issue_id)
+                ir.async_delete_issue(self.hass, DOMAIN, invalid_issue)
 
     def _key_stats(self, config: CategoryConfig, setup: EnergySetup) -> list[str]:
         """Return the statistics whose data defines when a category begins."""
@@ -789,7 +817,21 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
         """
         sensor = last = None
         if hour >= config.setup_at and (entity := _price_entity_at(state, hour)):
-            if (sensor := entity_values.get(entity, {}).get(hour)) is not None:
+            fuel_unit = (
+                FUELS[config.heating].unit
+                if config.category == CATEGORY_HEAT_PUMP
+                else "l"
+            )
+            entity_state = self.hass.states.get(entity)
+            unit = (
+                entity_state.attributes.get("unit_of_measurement")
+                if entity_state is not None
+                else None
+            )
+            scale = price_sensor_scale(unit, self.hass.config.currency, fuel_unit)
+            raw = entity_values.get(entity, {}).get(hour)
+            if raw is not None and scale is not None:
+                sensor = raw * scale
                 state.last_prices[entity] = sensor
             last = state.last_prices.get(entity)
         return fuel_price(

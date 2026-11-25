@@ -1,15 +1,15 @@
-<img src="https://raw.githubusercontent.com/ignazhabibi/ha-electricity-lens/main/custom_components/electricity_lens/brand/icon.png" alt="" width="96" align="right">
+<img src="https://raw.githubusercontent.com/phiprosoft/ha-eco/main/custom_components/electricity_lens/brand/icon.png" alt="" width="96" align="right">
 
-# Electricity Lens
+# HA Eco
 
 [![HACS Custom](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://hacs.xyz/docs/faq/custom_repositories)
-[![Release](https://img.shields.io/github/v/release/ignazhabibi/ha-electricity-lens)](https://github.com/ignazhabibi/ha-electricity-lens/releases)
+[![Release](https://img.shields.io/github/v/release/ignazhabibi/ha-electricity-lens)](https://github.com/phiprosoft/ha-eco/releases)
 
 **What your electricity really costs, where it comes from, and whether your
 solar panels, heat pump, and electric car pay off.**
 
 Home Assistant's energy dashboard shows what you consumed, produced, and paid.
-Electricity Lens answers the questions that come next:
+HA Eco answers the questions that come next:
 
 - What did each device cost me, including the solar power it used?
 - How much of my grid power did I buy in cheap hours, and what did that save?
@@ -21,20 +21,20 @@ history, hour by hour, right after setup. There is no YAML, no helper, and no
 template sensor to write.
 
 > [!IMPORTANT]
-> Electricity Lens is carefully reviewed and tested, but you use it at your own
+> HA Eco is carefully reviewed and tested, but you use it at your own
 > risk. It is provided as is, without warranty (see the [license](LICENSE)).
 > Its figures are computed from the data in your Home Assistant and can only be
 > as right as that data. They are not financial, tax, or investment advice:
 > check decisions that matter against your bills.
 
 > [!NOTE]
-> Right after setup, Electricity Lens computes your whole history, hour by
+> Right after setup, HA Eco computes your whole history, hour by
 > hour. Depending on how many years of data Home Assistant has, this takes a
 > few minutes, and on weaker hardware such as a Raspberry Pi considerably
 > longer. Until then the cards say how far it is, and a restart in between
 > continues where it stopped.
 
-![The Costs view of the Electricity Lens dashboard: the electricity bill and the costs by source per month, key figures, the cost distribution by device, and the savings of the year](https://raw.githubusercontent.com/ignazhabibi/ha-electricity-lens/main/images/costs.png)
+![The Costs view of the HA Eco dashboard: the electricity bill and the costs by source per month, key figures, the cost distribution by device, and the savings of the year](https://raw.githubusercontent.com/phiprosoft/ha-eco/main/images/costs.png)
 
 ## Contents
 
@@ -54,7 +54,7 @@ template sensor to write.
 
 ## What you get
 
-Electricity Lens is one package with three parts. HACS installs and updates
+HA Eco is one package with three parts. HACS installs and updates
 them together.
 
 | Part | What it does |
@@ -75,7 +75,7 @@ What it covers:
 | Heat pump | With its meters under *Individual devices* | Electricity and its costs, heat, COP, heat price, saving against the former heating, payback |
 | Electric car | With the wallbox meters under *Individual devices* | Charged energy and its costs, costs per 100 km, saving against a combustion car, payback |
 
-Everything runs locally in Home Assistant. Electricity Lens calls no online
+Everything runs locally in Home Assistant. HA Eco calls no online
 service and sends no data anywhere.
 
 ## Requirements
@@ -101,16 +101,16 @@ service and sends no data anywhere.
 1. Set up the energy dashboard with grid import and electricity price, your
    solar production, and the meters of heat pump and wallbox under
    *Individual devices*.
-2. Install Electricity Lens from the Marketplace (Settings › Marketplace) or
-   HACS as a custom repository: `https://github.com/ignazhabibi/ha-electricity-lens`,
+2. Install HA Eco from the Marketplace (Settings › Marketplace) or
+   HACS as a custom repository: `https://github.com/phiprosoft/ha-eco`,
    type *Integration*.
 3. Restart Home Assistant.
 4. Add the integration:
-   [![Open your Home Assistant instance and start setting up Electricity Lens.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=electricity_lens)
-   or **Settings › Devices & services › Add integration › Electricity Lens**.
+   [![Open your Home Assistant instance and start setting up HA Eco.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=electricity_lens)
+   or **Settings › Devices & services › Add integration › HA Eco**.
 5. Follow the [setup](#setup).
 6. Add the dashboard: **Settings › Dashboards › Add dashboard**, under
-   *Community dashboards*: **Electricity Lens**. The cards are in the card
+   *Community dashboards*: **HA Eco**. The cards are in the card
    picker as well. There is no dashboard resource to add: the integration
    serves the cards itself and updates them with the integration.
 
@@ -164,9 +164,9 @@ Then assign areas to the new devices if you like.
 
 ## The dashboard
 
-Electricity Lens brings a finished electricity dashboard. Add it under
+HA Eco brings a finished electricity dashboard. Add it under
 **Settings › Dashboards › Add dashboard**, under *Community dashboards*:
-**Electricity Lens**. Or in YAML:
+**HA Eco**. Or in YAML:
 
 ```yaml
 strategy:
@@ -191,17 +191,17 @@ The other views follow the energy date selection.
 **Now**: the power right now, the economics, the solar forecast, and today's
 figures.
 
-![The Now view: power flow, economics table, solar forecast gauges, costs and consumption today, and the payback of solar and heat pump](https://raw.githubusercontent.com/ignazhabibi/ha-electricity-lens/main/images/now.png)
+![The Now view: power flow, economics table, solar forecast gauges, costs and consumption today, and the payback of solar and heat pump](https://raw.githubusercontent.com/phiprosoft/ha-eco/main/images/now.png)
 
 **Heating**: heat and COP, the heat pump's electricity by source, its mix, the
 COP per meter, and its saving against the former heating.
 
-![The Heating view: heat per month with the COP, electricity by source, COP and heat price, electricity mix, COP by device, and the saving against gas heating](https://raw.githubusercontent.com/ignazhabibi/ha-electricity-lens/main/images/heating.png)
+![The Heating view: heat per month with the COP, electricity by source, COP and heat price, electricity mix, COP by device, and the saving against gas heating](https://raw.githubusercontent.com/phiprosoft/ha-eco/main/images/heating.png)
 
 **Charging**: charged energy and charging costs by source, the charging mix,
 and the saving against a combustion car.
 
-![The Charging view: charged energy and charging costs per month by source, average prices, electricity mix, and the saving against a combustion car](https://raw.githubusercontent.com/ignazhabibi/ha-electricity-lens/main/images/charging.png)
+![The Charging view: charged energy and charging costs per month by source, average prices, electricity mix, and the saving against a combustion car](https://raw.githubusercontent.com/phiprosoft/ha-eco/main/images/charging.png)
 
 Whoever wants more takes control of the dashboard (⋮ › *Take control*) and
 builds on with the same cards. A dashboard taken over keeps its views, so later
@@ -347,7 +347,7 @@ A card has one of three sources:
 
 | Source | Shows |
 |---|---|
-| Energy data | A figure of an area, computed by Electricity Lens, usually with a line below that explains it; `secondary: none` in YAML hides the line |
+| Energy data | A figure of an area, computed by HA Eco, usually with a line below that explains it; `secondary: none` in YAML hides the line |
 | Statistic | Any statistic of Home Assistant, as it is: its total over the period for a meter, its mean, minimum, or maximum for a measurement; the mean can show the range of the period below. The editor offers only what the statistic has |
 | Entity | Any entity's current state, as Home Assistant shows it |
 
@@ -421,7 +421,7 @@ color_by_source: true
 
 ## How it calculates
 
-Electricity Lens reads the recorder's hourly long-term statistics of the meters
+HA Eco reads the recorder's hourly long-term statistics of the meters
 in the energy dashboard and values each hour with the prices of that hour. It
 checks for newly compiled hours every 15 minutes, and at once when the energy
 dashboard changes. When Home Assistant was off, the recorder reports the missed
@@ -432,7 +432,7 @@ the current states of the power sensors instead.
 ### The household
 
 The household is always computed, from the energy dashboard alone. For every
-hour Electricity Lens derives:
+hour HA Eco derives:
 
 - **Consumption** of the household (grid import − feed-in + solar production +
   battery discharge − battery charge), of each individual device, and of
@@ -511,7 +511,7 @@ replaced.
   energy dashboard charged for it, so dynamic tariffs are handled hour by hour.
   With several tariffs, such as day and night, the average of the hour counts.
   Heat pump and electric car can have an own tariff instead.
-- **Measurements are facts.** Electricity Lens never filters or corrects
+- **Measurements are facts.** HA Eco never filters or corrects
   readings. If a meter recorded a wrong value, fix it in Home Assistant's
   statistics tools, which also fixes the energy dashboard, then choose
   *Recompute*.
@@ -574,7 +574,7 @@ actions:
 
 ### Statistics
 
-Electricity Lens keeps a long-term statistic of its own for every figure Home
+HA Eco keeps a long-term statistic of its own for every figure Home
 Assistant has no statistic for, including the computed past; it copies none.
 They appear in Home Assistant's statistics pickers, for example in the
 *Statistics graph* card, under their names such as "Household consumption" or
@@ -631,7 +631,7 @@ calculation, or a correction of the past, applies to the whole history.
 ## FAQ
 
 **Why do my costs differ from the energy dashboard?**
-The energy dashboard shows what the grid imports cost. Electricity Lens shows
+The energy dashboard shows what the grid imports cost. HA Eco shows
 that too, as *grid import cost* and within the *electricity bill*, which also
 holds the standing charge. Its *costs* answer another question: what your
 consumption cost, so they also count the solar power you used, at the feed-in
@@ -645,7 +645,7 @@ period that does not match the month all make a difference. Discounts, taxes
 outside the kWh price, and credits are not known to Home Assistant.
 
 **Does it work with dynamic tariffs such as Tibber, Octopus, or Nord Pool?**
-Yes. Electricity Lens uses whatever price the energy dashboard has, a price
+Yes. HA Eco uses whatever price the energy dashboard has, a price
 entity or a cost statistic, hour by hour. Price levels and the tariff saving
 follow the prices on their own, so you see how much grid power you bought in
 cheap hours.
@@ -701,7 +701,7 @@ again with the corrected statistics.
 
 **I took control of the dashboard. Why don't I get new views?**
 A dashboard taken over keeps the views it stored. To get the current layout,
-add the Electricity Lens dashboard again, or copy the new cards into yours.
+add the HA Eco dashboard again, or copy the new cards into yours.
 
 **Which languages are there?**
 English and German, following Home Assistant's language.
@@ -724,7 +724,7 @@ English and German, following Home Assistant's language.
 - **No payback percentage**: enter the purchase or extra cost.
 - **The card says it is calculating for long**: if its percentage no longer
   rises, download the diagnostics from the integration page and open an
-  [issue](https://github.com/ignazhabibi/ha-electricity-lens/issues) with them.
+  [issue](https://github.com/phiprosoft/ha-eco/issues) with them.
 
 ## Known limitations
 
@@ -746,20 +746,20 @@ English and German, following Home Assistant's language.
 - The yearly average is a plain average since counting began; the first and
   last partial seasons can make it a little high or low.
 - The energy dashboard and the recorder statistics have no public Python
-  interface. Electricity Lens keeps all access to them in one module and raises
+  interface. HA Eco keeps all access to them in one module and raises
   a repair issue instead of showing wrong numbers if a Home Assistant update
   changes them.
 
 ## Removal
 
 1. Remove the cards from your dashboards.
-2. Go to **Settings › Devices & services › Electricity Lens**, open the menu
+2. Go to **Settings › Devices & services › HA Eco**, open the menu
    (⋮) and choose **Delete**. To remove one category only, use **Delete** in
    that category's menu.
-3. Uninstall Electricity Lens in the Marketplace or HACS and restart Home
+3. Uninstall HA Eco in the Marketplace or HACS and restart Home
    Assistant.
 
-Deleting Electricity Lens removes all statistics it wrote; deleting a category
+Deleting HA Eco removes all statistics it wrote; deleting a category
 removes that category's saving statistic.
 
 ## Contributing

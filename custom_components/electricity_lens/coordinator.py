@@ -187,9 +187,10 @@ def _number(hass: HomeAssistant, entity_id: str | None) -> float | None:
     if entity_id is None or (state := hass.states.get(entity_id)) is None:
         return None
     try:
-        return float(state.state)
-    except ValueError:
+        value = float(state.state)
+    except (TypeError, ValueError):
         return None
+    return value if math.isfinite(value) else None
 
 
 def value_at(
@@ -203,7 +204,10 @@ def value_at(
     if hour < config.setup_at:
         return config.before.get(key)
     value = state.timeline(key).value_at(hour)
-    return float(value) if isinstance(value, int | float) else None
+    if not isinstance(value, int | float):
+        return None
+    number = float(value)
+    return number if math.isfinite(number) else None
 
 
 def _heat_meter_figures(

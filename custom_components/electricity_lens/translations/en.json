@@ -38,26 +38,26 @@
       },
       "pv": {
         "title": "Solar",
-        "description": "Counted from {since}, when Home Assistant's solar data begins. Production, feed-in, battery, and electricity prices come from the energy dashboard.",
+        "description": "Data available from {since}. HA Eco calculates solar savings only from this date; earlier production is not included. This is not the plant's commissioning date. Production, feed-in, battery, and electricity prices come from the energy dashboard.",
         "data": {
           "investment": "Purchase cost (optional)",
           "battery_investment": "Battery purchase cost (optional)"
         },
         "data_description": {
           "investment": "For the payback",
-          "battery_investment": "For the battery's own payback. Solar's counts both, so leave the battery out above"
+          "battery_investment": "The battery's own payback starts with its first recorded charge or discharge; earlier savings are not included. Enter the battery cost here only; the PV purchase cost above must exclude it. The PV payback includes both."
         }
       },
       "pv_no_export": {
         "title": "Solar",
-        "description": "**The energy dashboard has no feed-in.** All solar power then counts as used in the house.\n\nCounted from {since}, when Home Assistant's solar data begins. Production, feed-in, battery, and electricity prices come from the energy dashboard.",
+        "description": "**The energy dashboard has no feed-in.** All solar power then counts as used in the house.\n\nData available from {since}. HA Eco calculates solar savings only from this date; earlier production is not included. This is not the plant's commissioning date. Production, feed-in, battery, and electricity prices come from the energy dashboard.",
         "data": {
           "investment": "Purchase cost (optional)",
           "battery_investment": "Battery purchase cost (optional)"
         },
         "data_description": {
           "investment": "For the payback",
-          "battery_investment": "For the battery's own payback. Solar's counts both, so leave the battery out above"
+          "battery_investment": "The battery's own payback starts with its first recorded charge or discharge; earlier savings are not included. Enter the battery cost here only; the PV purchase cost above must exclude it. The PV payback includes both."
         }
       },
       "heat_pump": {
@@ -78,7 +78,7 @@
       },
       "heat_pump_values_gas": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant does not know your gas prices. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant does not know your gas prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "gas_price": "Gas price",
           "tariff": "Own electricity tariff (optional)",
@@ -92,7 +92,7 @@
       },
       "heat_pump_values_gas_scop": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant does not know your gas prices. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant does not know your gas prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "gas_price": "Gas price",
           "scop": "COP",
@@ -108,7 +108,7 @@
       },
       "heat_pump_values_gas_scop_until": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant does not know your gas prices. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant does not know your gas prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "gas_price": "Gas price",
           "scop": "COP",
@@ -124,7 +124,7 @@
       },
       "heat_pump_values_oil": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant does not know your heating oil prices. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant does not know your heating oil prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "oil_price": "Heating oil price",
           "tariff": "Own electricity tariff (optional)",
@@ -138,7 +138,7 @@
       },
       "heat_pump_values_oil_scop": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant does not know your heating oil prices. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant does not know your heating oil prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "oil_price": "Heating oil price",
           "scop": "COP",
@@ -154,7 +154,7 @@
       },
       "heat_pump_values_oil_scop_until": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant does not know your heating oil prices. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant does not know your heating oil prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "oil_price": "Heating oil price",
           "scop": "COP",
@@ -170,7 +170,7 @@
       },
       "heat_pump_values_lpg": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant does not know your LPG prices. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant does not know your LPG prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "lpg_price": "LPG price",
           "tariff": "Own electricity tariff (optional)",
@@ -184,7 +184,7 @@
       },
       "heat_pump_values_lpg_scop": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant does not know your LPG prices. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant does not know your LPG prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "lpg_price": "LPG price",
           "scop": "COP",
@@ -200,7 +200,7 @@
       },
       "heat_pump_values_lpg_scop_until": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant does not know your LPG prices. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant does not know your LPG prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "lpg_price": "LPG price",
           "scop": "COP",
@@ -216,7 +216,7 @@
       },
       "heat_pump_values_pellets": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant does not know your pellet prices. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant does not know your pellet prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "pellets_price": "Pellet price",
           "tariff": "Own electricity tariff (optional)",
@@ -230,7 +230,7 @@
       },
       "heat_pump_values_pellets_scop": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant does not know your pellet prices. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant does not know your pellet prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "pellets_price": "Pellet price",
           "scop": "COP",
@@ -246,7 +246,7 @@
       },
       "heat_pump_values_pellets_scop_until": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant does not know your pellet prices. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant does not know your pellet prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "pellets_price": "Pellet price",
           "scop": "COP",
@@ -262,7 +262,7 @@
       },
       "heat_pump_values_district_heating": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant does not know your district heating prices. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant does not know your district heating prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "district_heating_price": "District heating price",
           "tariff": "Own electricity tariff (optional)",
@@ -276,7 +276,7 @@
       },
       "heat_pump_values_district_heating_scop": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant does not know your district heating prices. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant does not know your district heating prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "district_heating_price": "District heating price",
           "scop": "COP",
@@ -292,7 +292,7 @@
       },
       "heat_pump_values_district_heating_scop_until": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant does not know your district heating prices. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant does not know your district heating prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "district_heating_price": "District heating price",
           "scop": "COP",
@@ -308,7 +308,7 @@
       },
       "heat_pump_values_electric": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant does not know your heating electricity prices. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant does not know your heating electricity prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "electric_price": "Heating electricity price",
           "tariff": "Own electricity tariff (optional)",
@@ -322,7 +322,7 @@
       },
       "heat_pump_values_electric_scop": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant does not know your heating electricity prices. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant does not know your heating electricity prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "electric_price": "Heating electricity price",
           "scop": "COP",
@@ -338,7 +338,7 @@
       },
       "heat_pump_values_electric_scop_until": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant does not know your heating electricity prices. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant does not know your heating electricity prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "electric_price": "Heating electricity price",
           "scop": "COP",
@@ -402,7 +402,7 @@
       },
       "wallbox_values": {
         "title": "Average since {since}",
-        "description": "For the time since {since}, Home Assistant knows neither fuel prices nor consumptions. Enter averages. They also apply from now on, until you change them.",
+        "description": "For the time since {since}, Home Assistant knows neither fuel prices nor consumptions. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
         "data": {
           "ev_consumption": "Electric car consumption",
           "combustion_consumption": "Combustion car consumption",
@@ -482,26 +482,26 @@
       "step": {
         "pv": {
           "title": "Solar",
-          "description": "Counted from {since}, when Home Assistant's solar data begins. Production, feed-in, battery, and electricity prices come from the energy dashboard.",
+          "description": "Data available from {since}. HA Eco calculates solar savings only from this date; earlier production is not included. This is not the plant's commissioning date. Production, feed-in, battery, and electricity prices come from the energy dashboard.",
           "data": {
             "investment": "Purchase cost (optional)",
             "battery_investment": "Battery purchase cost (optional)"
           },
           "data_description": {
             "investment": "For the payback",
-            "battery_investment": "For the battery's own payback. Solar's counts both, so leave the battery out above"
+            "battery_investment": "The battery's own payback starts with its first recorded charge or discharge; earlier savings are not included. Enter the battery cost here only; the PV purchase cost above must exclude it. The PV payback includes both."
           }
         },
         "pv_no_export": {
           "title": "Solar",
-          "description": "**The energy dashboard has no feed-in.** All solar power then counts as used in the house.\n\nCounted from {since}, when Home Assistant's solar data begins. Production, feed-in, battery, and electricity prices come from the energy dashboard.",
+          "description": "**The energy dashboard has no feed-in.** All solar power then counts as used in the house.\n\nData available from {since}. HA Eco calculates solar savings only from this date; earlier production is not included. This is not the plant's commissioning date. Production, feed-in, battery, and electricity prices come from the energy dashboard.",
           "data": {
             "investment": "Purchase cost (optional)",
             "battery_investment": "Battery purchase cost (optional)"
           },
           "data_description": {
             "investment": "For the payback",
-            "battery_investment": "For the battery's own payback. Solar's counts both, so leave the battery out above"
+            "battery_investment": "The battery's own payback starts with its first recorded charge or discharge; earlier savings are not included. Enter the battery cost here only; the PV purchase cost above must exclude it. The PV payback includes both."
           }
         },
         "reconfigure": {
@@ -519,7 +519,7 @@
           },
           "data_description": {
             "investment": "For the payback",
-            "battery_investment": "For the battery's own payback. Solar's counts both, so leave the battery out above"
+            "battery_investment": "The battery's own payback starts with its first recorded charge or discharge; earlier savings are not included. Enter the battery cost here only; the PV purchase cost above must exclude it. The PV payback includes both."
           }
         },
         "recompute": {
@@ -596,7 +596,7 @@
         },
         "heat_pump_values_gas": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant does not know your gas prices. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant does not know your gas prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "gas_price": "Gas price",
             "tariff": "Own electricity tariff (optional)",
@@ -610,7 +610,7 @@
         },
         "heat_pump_values_gas_scop": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant does not know your gas prices. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant does not know your gas prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "gas_price": "Gas price",
             "scop": "COP",
@@ -626,7 +626,7 @@
         },
         "heat_pump_values_gas_scop_until": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant does not know your gas prices. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant does not know your gas prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "gas_price": "Gas price",
             "scop": "COP",
@@ -642,7 +642,7 @@
         },
         "heat_pump_values_oil": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant does not know your heating oil prices. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant does not know your heating oil prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "oil_price": "Heating oil price",
             "tariff": "Own electricity tariff (optional)",
@@ -656,7 +656,7 @@
         },
         "heat_pump_values_oil_scop": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant does not know your heating oil prices. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant does not know your heating oil prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "oil_price": "Heating oil price",
             "scop": "COP",
@@ -672,7 +672,7 @@
         },
         "heat_pump_values_oil_scop_until": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant does not know your heating oil prices. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant does not know your heating oil prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "oil_price": "Heating oil price",
             "scop": "COP",
@@ -688,7 +688,7 @@
         },
         "heat_pump_values_lpg": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant does not know your LPG prices. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant does not know your LPG prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "lpg_price": "LPG price",
             "tariff": "Own electricity tariff (optional)",
@@ -702,7 +702,7 @@
         },
         "heat_pump_values_lpg_scop": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant does not know your LPG prices. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant does not know your LPG prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "lpg_price": "LPG price",
             "scop": "COP",
@@ -718,7 +718,7 @@
         },
         "heat_pump_values_lpg_scop_until": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant does not know your LPG prices. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant does not know your LPG prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "lpg_price": "LPG price",
             "scop": "COP",
@@ -734,7 +734,7 @@
         },
         "heat_pump_values_pellets": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant does not know your pellet prices. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant does not know your pellet prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "pellets_price": "Pellet price",
             "tariff": "Own electricity tariff (optional)",
@@ -748,7 +748,7 @@
         },
         "heat_pump_values_pellets_scop": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant does not know your pellet prices. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant does not know your pellet prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "pellets_price": "Pellet price",
             "scop": "COP",
@@ -764,7 +764,7 @@
         },
         "heat_pump_values_pellets_scop_until": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant does not know your pellet prices. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant does not know your pellet prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "pellets_price": "Pellet price",
             "scop": "COP",
@@ -780,7 +780,7 @@
         },
         "heat_pump_values_district_heating": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant does not know your district heating prices. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant does not know your district heating prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "district_heating_price": "District heating price",
             "tariff": "Own electricity tariff (optional)",
@@ -794,7 +794,7 @@
         },
         "heat_pump_values_district_heating_scop": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant does not know your district heating prices. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant does not know your district heating prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "district_heating_price": "District heating price",
             "scop": "COP",
@@ -810,7 +810,7 @@
         },
         "heat_pump_values_district_heating_scop_until": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant does not know your district heating prices. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant does not know your district heating prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "district_heating_price": "District heating price",
             "scop": "COP",
@@ -826,7 +826,7 @@
         },
         "heat_pump_values_electric": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant does not know your heating electricity prices. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant does not know your heating electricity prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "electric_price": "Heating electricity price",
             "tariff": "Own electricity tariff (optional)",
@@ -840,7 +840,7 @@
         },
         "heat_pump_values_electric_scop": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant does not know your heating electricity prices. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant does not know your heating electricity prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "electric_price": "Heating electricity price",
             "scop": "COP",
@@ -856,7 +856,7 @@
         },
         "heat_pump_values_electric_scop_until": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant does not know your heating electricity prices. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant does not know your heating electricity prices. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "electric_price": "Heating electricity price",
             "scop": "COP",
@@ -1174,7 +1174,7 @@
         },
         "wallbox_values": {
           "title": "Average since {since}",
-          "description": "For the time since {since}, Home Assistant knows neither fuel prices nor consumptions. Enter averages. They also apply from now on, until you change them.",
+          "description": "For the time since {since}, Home Assistant knows neither fuel prices nor consumptions. Enter averages. They also apply from now on, until you change them. Savings are counted only from this date; earlier savings are not included. This is the start of meter data, not the installation or purchase date.",
           "data": {
             "ev_consumption": "Electric car consumption",
             "combustion_consumption": "Combustion car consumption",
@@ -1295,7 +1295,7 @@
             "name": "Calculating"
           },
           "counting_since": {
-            "name": "Counted since"
+            "name": "Data available since"
           },
           "investment": {
             "name": "Investment"

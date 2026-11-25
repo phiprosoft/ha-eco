@@ -38,26 +38,26 @@
       },
       "pv": {
         "title": "PV-Anlage",
-        "description": "Gerechnet wird ab dem {since}, seitdem hat Home Assistant PV-Daten. Erzeugung, Einspeisung, Batterie und Strompreise kommen aus dem Energie-Dashboard.",
+        "description": "Datenbasis ab {since}: HA Eco berechnet die PV-Ersparnis erst ab diesem Datum. Frühere Erträge sind nicht enthalten. Das ist nicht das Inbetriebnahmedatum der Anlage. Erzeugung, Einspeisung, Batterie und Strompreise kommen aus dem Energie-Dashboard.",
         "data": {
           "investment": "Anschaffungskosten (optional)",
           "battery_investment": "Anschaffungskosten der Batterie (optional)"
         },
         "data_description": {
           "investment": "Für die Amortisation",
-          "battery_investment": "Für die eigene Amortisation der Batterie. Die der PV-Anlage zählt beides, also oben ohne Batterie"
+          "battery_investment": "Die eigene Amortisation beginnt mit dem ersten erfassten Laden oder Entladen; frühere Ersparnisse sind nicht enthalten. Trage die Batteriekosten nur hier ein; die PV-Anschaffungskosten oben müssen sie ausschließen. Die PV-Amortisation berücksichtigt beide Beträge."
         }
       },
       "pv_no_export": {
         "title": "PV-Anlage",
-        "description": "**Im Energie-Dashboard ist keine Einspeisung erfasst.** Dann zählt der ganze PV-Strom als selbst verbraucht.\n\nGerechnet wird ab dem {since}, seitdem hat Home Assistant PV-Daten. Erzeugung, Einspeisung, Batterie und Strompreise kommen aus dem Energie-Dashboard.",
+        "description": "**Im Energie-Dashboard ist keine Einspeisung erfasst.** Dann zählt der ganze PV-Strom als selbst verbraucht.\n\nDatenbasis ab {since}: HA Eco berechnet die PV-Ersparnis erst ab diesem Datum. Frühere Erträge sind nicht enthalten. Das ist nicht das Inbetriebnahmedatum der Anlage. Erzeugung, Einspeisung, Batterie und Strompreise kommen aus dem Energie-Dashboard.",
         "data": {
           "investment": "Anschaffungskosten (optional)",
           "battery_investment": "Anschaffungskosten der Batterie (optional)"
         },
         "data_description": {
           "investment": "Für die Amortisation",
-          "battery_investment": "Für die eigene Amortisation der Batterie. Die der PV-Anlage zählt beides, also oben ohne Batterie"
+          "battery_investment": "Die eigene Amortisation beginnt mit dem ersten erfassten Laden oder Entladen; frühere Ersparnisse sind nicht enthalten. Trage die Batteriekosten nur hier ein; die PV-Anschaffungskosten oben müssen sie ausschließen. Die PV-Amortisation berücksichtigt beide Beträge."
         }
       },
       "heat_pump": {
@@ -78,7 +78,7 @@
       },
       "heat_pump_values_gas": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Gaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Gaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "gas_price": "Gaspreis",
           "tariff": "Eigener Stromtarif (optional)",
@@ -92,7 +92,7 @@
       },
       "heat_pump_values_gas_scop": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Gaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Gaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "gas_price": "Gaspreis",
           "scop": "COP",
@@ -108,7 +108,7 @@
       },
       "heat_pump_values_gas_scop_until": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Gaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Gaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "gas_price": "Gaspreis",
           "scop": "COP",
@@ -124,7 +124,7 @@
       },
       "heat_pump_values_oil": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizölpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizölpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "oil_price": "Heizölpreis",
           "tariff": "Eigener Stromtarif (optional)",
@@ -138,7 +138,7 @@
       },
       "heat_pump_values_oil_scop": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizölpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizölpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "oil_price": "Heizölpreis",
           "scop": "COP",
@@ -154,7 +154,7 @@
       },
       "heat_pump_values_oil_scop_until": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizölpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizölpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "oil_price": "Heizölpreis",
           "scop": "COP",
@@ -170,7 +170,7 @@
       },
       "heat_pump_values_lpg": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Flüssiggaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Flüssiggaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "lpg_price": "Flüssiggaspreis",
           "tariff": "Eigener Stromtarif (optional)",
@@ -184,7 +184,7 @@
       },
       "heat_pump_values_lpg_scop": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Flüssiggaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Flüssiggaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "lpg_price": "Flüssiggaspreis",
           "scop": "COP",
@@ -200,7 +200,7 @@
       },
       "heat_pump_values_lpg_scop_until": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Flüssiggaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Flüssiggaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "lpg_price": "Flüssiggaspreis",
           "scop": "COP",
@@ -216,7 +216,7 @@
       },
       "heat_pump_values_pellets": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Pelletpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Pelletpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "pellets_price": "Pelletpreis",
           "tariff": "Eigener Stromtarif (optional)",
@@ -230,7 +230,7 @@
       },
       "heat_pump_values_pellets_scop": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Pelletpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Pelletpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "pellets_price": "Pelletpreis",
           "scop": "COP",
@@ -246,7 +246,7 @@
       },
       "heat_pump_values_pellets_scop_until": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Pelletpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Pelletpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "pellets_price": "Pelletpreis",
           "scop": "COP",
@@ -262,7 +262,7 @@
       },
       "heat_pump_values_district_heating": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Fernwärmepreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Fernwärmepreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "district_heating_price": "Fernwärmepreis",
           "tariff": "Eigener Stromtarif (optional)",
@@ -276,7 +276,7 @@
       },
       "heat_pump_values_district_heating_scop": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Fernwärmepreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Fernwärmepreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "district_heating_price": "Fernwärmepreis",
           "scop": "COP",
@@ -292,7 +292,7 @@
       },
       "heat_pump_values_district_heating_scop_until": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Fernwärmepreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Fernwärmepreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "district_heating_price": "Fernwärmepreis",
           "scop": "COP",
@@ -308,7 +308,7 @@
       },
       "heat_pump_values_electric": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizstrompreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizstrompreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "electric_price": "Heizstrompreis",
           "tariff": "Eigener Stromtarif (optional)",
@@ -322,7 +322,7 @@
       },
       "heat_pump_values_electric_scop": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizstrompreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizstrompreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "electric_price": "Heizstrompreis",
           "scop": "COP",
@@ -338,7 +338,7 @@
       },
       "heat_pump_values_electric_scop_until": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizstrompreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizstrompreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "electric_price": "Heizstrompreis",
           "scop": "COP",
@@ -402,7 +402,7 @@
       },
       "wallbox_values": {
         "title": "Durchschnitt seit {since}",
-        "description": "Für die Zeit seit dem {since} kennt Home Assistant weder Spritpreise noch Verbräuche. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+        "description": "Für die Zeit seit dem {since} kennt Home Assistant weder Spritpreise noch Verbräuche. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
         "data": {
           "ev_consumption": "Verbrauch E-Auto",
           "combustion_consumption": "Verbrauch Verbrenner",
@@ -482,26 +482,26 @@
       "step": {
         "pv": {
           "title": "PV-Anlage",
-          "description": "Gerechnet wird ab dem {since}, seitdem hat Home Assistant PV-Daten. Erzeugung, Einspeisung, Batterie und Strompreise kommen aus dem Energie-Dashboard.",
+          "description": "Datenbasis ab {since}: HA Eco berechnet die PV-Ersparnis erst ab diesem Datum. Frühere Erträge sind nicht enthalten. Das ist nicht das Inbetriebnahmedatum der Anlage. Erzeugung, Einspeisung, Batterie und Strompreise kommen aus dem Energie-Dashboard.",
           "data": {
             "investment": "Anschaffungskosten (optional)",
             "battery_investment": "Anschaffungskosten der Batterie (optional)"
           },
           "data_description": {
             "investment": "Für die Amortisation",
-            "battery_investment": "Für die eigene Amortisation der Batterie. Die der PV-Anlage zählt beides, also oben ohne Batterie"
+            "battery_investment": "Die eigene Amortisation beginnt mit dem ersten erfassten Laden oder Entladen; frühere Ersparnisse sind nicht enthalten. Trage die Batteriekosten nur hier ein; die PV-Anschaffungskosten oben müssen sie ausschließen. Die PV-Amortisation berücksichtigt beide Beträge."
           }
         },
         "pv_no_export": {
           "title": "PV-Anlage",
-          "description": "**Im Energie-Dashboard ist keine Einspeisung erfasst.** Dann zählt der ganze PV-Strom als selbst verbraucht.\n\nGerechnet wird ab dem {since}, seitdem hat Home Assistant PV-Daten. Erzeugung, Einspeisung, Batterie und Strompreise kommen aus dem Energie-Dashboard.",
+          "description": "**Im Energie-Dashboard ist keine Einspeisung erfasst.** Dann zählt der ganze PV-Strom als selbst verbraucht.\n\nDatenbasis ab {since}: HA Eco berechnet die PV-Ersparnis erst ab diesem Datum. Frühere Erträge sind nicht enthalten. Das ist nicht das Inbetriebnahmedatum der Anlage. Erzeugung, Einspeisung, Batterie und Strompreise kommen aus dem Energie-Dashboard.",
           "data": {
             "investment": "Anschaffungskosten (optional)",
             "battery_investment": "Anschaffungskosten der Batterie (optional)"
           },
           "data_description": {
             "investment": "Für die Amortisation",
-            "battery_investment": "Für die eigene Amortisation der Batterie. Die der PV-Anlage zählt beides, also oben ohne Batterie"
+            "battery_investment": "Die eigene Amortisation beginnt mit dem ersten erfassten Laden oder Entladen; frühere Ersparnisse sind nicht enthalten. Trage die Batteriekosten nur hier ein; die PV-Anschaffungskosten oben müssen sie ausschließen. Die PV-Amortisation berücksichtigt beide Beträge."
           }
         },
         "reconfigure": {
@@ -519,7 +519,7 @@
           },
           "data_description": {
             "investment": "Für die Amortisation",
-            "battery_investment": "Für die eigene Amortisation der Batterie. Die der PV-Anlage zählt beides, also oben ohne Batterie"
+            "battery_investment": "Die eigene Amortisation beginnt mit dem ersten erfassten Laden oder Entladen; frühere Ersparnisse sind nicht enthalten. Trage die Batteriekosten nur hier ein; die PV-Anschaffungskosten oben müssen sie ausschließen. Die PV-Amortisation berücksichtigt beide Beträge."
           }
         },
         "recompute": {
@@ -596,7 +596,7 @@
         },
         "heat_pump_values_gas": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Gaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Gaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "gas_price": "Gaspreis",
             "tariff": "Eigener Stromtarif (optional)",
@@ -610,7 +610,7 @@
         },
         "heat_pump_values_gas_scop": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Gaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Gaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "gas_price": "Gaspreis",
             "scop": "COP",
@@ -626,7 +626,7 @@
         },
         "heat_pump_values_gas_scop_until": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Gaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Gaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "gas_price": "Gaspreis",
             "scop": "COP",
@@ -642,7 +642,7 @@
         },
         "heat_pump_values_oil": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizölpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizölpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "oil_price": "Heizölpreis",
             "tariff": "Eigener Stromtarif (optional)",
@@ -656,7 +656,7 @@
         },
         "heat_pump_values_oil_scop": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizölpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizölpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "oil_price": "Heizölpreis",
             "scop": "COP",
@@ -672,7 +672,7 @@
         },
         "heat_pump_values_oil_scop_until": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizölpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizölpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "oil_price": "Heizölpreis",
             "scop": "COP",
@@ -688,7 +688,7 @@
         },
         "heat_pump_values_lpg": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Flüssiggaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Flüssiggaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "lpg_price": "Flüssiggaspreis",
             "tariff": "Eigener Stromtarif (optional)",
@@ -702,7 +702,7 @@
         },
         "heat_pump_values_lpg_scop": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Flüssiggaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Flüssiggaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "lpg_price": "Flüssiggaspreis",
             "scop": "COP",
@@ -718,7 +718,7 @@
         },
         "heat_pump_values_lpg_scop_until": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Flüssiggaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Flüssiggaspreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "lpg_price": "Flüssiggaspreis",
             "scop": "COP",
@@ -734,7 +734,7 @@
         },
         "heat_pump_values_pellets": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Pelletpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Pelletpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "pellets_price": "Pelletpreis",
             "tariff": "Eigener Stromtarif (optional)",
@@ -748,7 +748,7 @@
         },
         "heat_pump_values_pellets_scop": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Pelletpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Pelletpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "pellets_price": "Pelletpreis",
             "scop": "COP",
@@ -764,7 +764,7 @@
         },
         "heat_pump_values_pellets_scop_until": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Pelletpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Pelletpreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "pellets_price": "Pelletpreis",
             "scop": "COP",
@@ -780,7 +780,7 @@
         },
         "heat_pump_values_district_heating": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Fernwärmepreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Fernwärmepreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "district_heating_price": "Fernwärmepreis",
             "tariff": "Eigener Stromtarif (optional)",
@@ -794,7 +794,7 @@
         },
         "heat_pump_values_district_heating_scop": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Fernwärmepreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Fernwärmepreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "district_heating_price": "Fernwärmepreis",
             "scop": "COP",
@@ -810,7 +810,7 @@
         },
         "heat_pump_values_district_heating_scop_until": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Fernwärmepreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Fernwärmepreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "district_heating_price": "Fernwärmepreis",
             "scop": "COP",
@@ -826,7 +826,7 @@
         },
         "heat_pump_values_electric": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizstrompreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizstrompreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "electric_price": "Heizstrompreis",
             "tariff": "Eigener Stromtarif (optional)",
@@ -840,7 +840,7 @@
         },
         "heat_pump_values_electric_scop": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizstrompreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizstrompreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "electric_price": "Heizstrompreis",
             "scop": "COP",
@@ -856,7 +856,7 @@
         },
         "heat_pump_values_electric_scop_until": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizstrompreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant deine Heizstrompreise nicht. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "electric_price": "Heizstrompreis",
             "scop": "COP",
@@ -1174,7 +1174,7 @@
         },
         "wallbox_values": {
           "title": "Durchschnitt seit {since}",
-          "description": "Für die Zeit seit dem {since} kennt Home Assistant weder Spritpreise noch Verbräuche. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst.",
+          "description": "Für die Zeit seit dem {since} kennt Home Assistant weder Spritpreise noch Verbräuche. Trage Durchschnittswerte ein. Sie gelten auch ab jetzt, bis du sie änderst. Die Ersparnis wird erst ab diesem Datum berechnet; frühere Ersparnisse sind nicht enthalten. Das ist der Beginn der Zählerdaten, nicht das Inbetriebnahme- oder Kaufdatum.",
           "data": {
             "ev_consumption": "Verbrauch E-Auto",
             "combustion_consumption": "Verbrauch Verbrenner",
@@ -1295,7 +1295,7 @@
             "name": "Wird berechnet"
           },
           "counting_since": {
-            "name": "Gezählt seit"
+            "name": "Datenbasis ab"
           },
           "investment": {
             "name": "Investition"

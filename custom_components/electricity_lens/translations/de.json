@@ -38,7 +38,7 @@
       },
       "pv": {
         "title": "PV-Anlage",
-        "description": "Gerechnet wird ab dem {since}, seitdem hat Home Assistant PV-Daten. Erzeugung, Einspeisung, Batterie und Strompreise kommen aus dem Energie-Dashboard.",
+        "description": "Datenbasis ab {since}: HA Eco berechnet die PV-Ersparnis erst ab diesem Datum. Frühere Erträge sind nicht enthalten. Das ist nicht das Inbetriebnahmedatum der Anlage. Erzeugung, Einspeisung, Batterie und Strompreise kommen aus dem Energie-Dashboard.",
         "data": {
           "investment": "Anschaffungskosten (optional)",
           "battery_investment": "Anschaffungskosten der Batterie (optional)"
@@ -50,7 +50,7 @@
       },
       "pv_no_export": {
         "title": "PV-Anlage",
-        "description": "**Im Energie-Dashboard ist keine Einspeisung erfasst.** Dann zählt der ganze PV-Strom als selbst verbraucht.\n\nGerechnet wird ab dem {since}, seitdem hat Home Assistant PV-Daten. Erzeugung, Einspeisung, Batterie und Strompreise kommen aus dem Energie-Dashboard.",
+        "description": "**Im Energie-Dashboard ist keine Einspeisung erfasst.** Dann zählt der ganze PV-Strom als selbst verbraucht.\n\nDatenbasis ab {since}: HA Eco berechnet die PV-Ersparnis erst ab diesem Datum. Frühere Erträge sind nicht enthalten. Das ist nicht das Inbetriebnahmedatum der Anlage. Erzeugung, Einspeisung, Batterie und Strompreise kommen aus dem Energie-Dashboard.",
         "data": {
           "investment": "Anschaffungskosten (optional)",
           "battery_investment": "Anschaffungskosten der Batterie (optional)"
@@ -482,7 +482,7 @@
       "step": {
         "pv": {
           "title": "PV-Anlage",
-          "description": "Gerechnet wird ab dem {since}, seitdem hat Home Assistant PV-Daten. Erzeugung, Einspeisung, Batterie und Strompreise kommen aus dem Energie-Dashboard.",
+          "description": "Datenbasis ab {since}: HA Eco berechnet die PV-Ersparnis erst ab diesem Datum. Frühere Erträge sind nicht enthalten. Das ist nicht das Inbetriebnahmedatum der Anlage. Erzeugung, Einspeisung, Batterie und Strompreise kommen aus dem Energie-Dashboard.",
           "data": {
             "investment": "Anschaffungskosten (optional)",
             "battery_investment": "Anschaffungskosten der Batterie (optional)"
@@ -494,7 +494,7 @@
         },
         "pv_no_export": {
           "title": "PV-Anlage",
-          "description": "**Im Energie-Dashboard ist keine Einspeisung erfasst.** Dann zählt der ganze PV-Strom als selbst verbraucht.\n\nGerechnet wird ab dem {since}, seitdem hat Home Assistant PV-Daten. Erzeugung, Einspeisung, Batterie und Strompreise kommen aus dem Energie-Dashboard.",
+          "description": "**Im Energie-Dashboard ist keine Einspeisung erfasst.** Dann zählt der ganze PV-Strom als selbst verbraucht.\n\nDatenbasis ab {since}: HA Eco berechnet die PV-Ersparnis erst ab diesem Datum. Frühere Erträge sind nicht enthalten. Das ist nicht das Inbetriebnahmedatum der Anlage. Erzeugung, Einspeisung, Batterie und Strompreise kommen aus dem Energie-Dashboard.",
           "data": {
             "investment": "Anschaffungskosten (optional)",
             "battery_investment": "Anschaffungskosten der Batterie (optional)"

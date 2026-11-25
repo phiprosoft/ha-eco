@@ -333,7 +333,11 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
                 ISSUE_NO_GRID_PRICE,
                 *(
                     f"{issue}_{subentry_id}"
-                    for issue in (ISSUE_MISSING_METER, ISSUE_MISSING_PRICE_ENTITY)
+                    for issue in (
+                        ISSUE_MISSING_METER,
+                        ISSUE_MISSING_PRICE_ENTITY,
+                        ISSUE_INVALID_PRICE_ENTITY,
+                    )
                     for subentry_id in self.configs
                 ),
             },

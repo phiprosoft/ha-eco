@@ -803,6 +803,30 @@ async def test_invalid_price_sensor_unit_raises_issue(hass: HomeAssistant) -> No
 
 
 @pytest.mark.usefixtures("energy")
+async def test_invalid_price_sensor_issue_survives_reload(
+    hass: HomeAssistant,
+) -> None:
+    """A configured invalid price unit remains visible after coordinator reload."""
+    hass.states.async_set(
+        "sensor.bad_fuel_price",
+        "1.7",
+        {"unit_of_measurement": "USD/gal"},
+    )
+    current = {**WALLBOX_DATA["current"], "price_entity": "sensor.bad_fuel_price"}
+    entry = make_entry(("wallbox", {**WALLBOX_DATA, "current": current}))
+    await setup_entry(hass, entry)
+    subentry_id = _subentry(entry, "wallbox").subentry_id
+    issue_id = f"invalid_price_entity_{subentry_id}"
+    assert ir.async_get(hass).async_get_issue(DOMAIN, issue_id) is not None
+
+    # Act: setup reload removes stale issues, but this one still describes
+    # the current configuration and must remain until the sensor is fixed.
+    await entry.runtime_data.async_load()
+
+    assert ir.async_get(hass).async_get_issue(DOMAIN, issue_id) is not None
+
+
+@pytest.mark.usefixtures("energy")
 async def test_missing_meter_raises_issue(
     hass: HomeAssistant, config_entry: MockConfigEntry
 ) -> None:

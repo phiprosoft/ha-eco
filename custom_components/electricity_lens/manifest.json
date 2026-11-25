@@ -17,8 +17,8 @@
   ],
   "documentation": "https://github.com/phiprosoft/ha-eco",
   "integration_type": "service",
-  "issue_tracker": "https://github.com/phiprosoft/ha-eco/issues",
   "iot_class": "calculated",
+  "issue_tracker": "https://github.com/phiprosoft/ha-eco/issues",
   "requirements": [],
   "single_config_entry": true,
   "version": "0.35.1"

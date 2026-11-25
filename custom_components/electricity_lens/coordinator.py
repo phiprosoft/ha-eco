@@ -399,9 +399,11 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
         self._check_price_entities()
         end = None
         for grid in grids:
-            if grid.import_stat is not None and (
-                grid_end := await async_end_of_data(self.hass, grid.import_stat)
-            ) is not None:
+            if (
+                grid.import_stat is not None
+                and (grid_end := await async_end_of_data(self.hass, grid.import_stat))
+                is not None
+            ):
                 end = max(end or grid_end, grid_end)
         if end is None:
             # No grid data yet, so there is nothing to compute.

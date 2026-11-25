@@ -1,9 +1,20 @@
 {
   "domain": "electricity_lens",
   "name": "HA Eco",
-  "codeowners": ["@phiprosoft"],
+  "categories": [
+    "energy"
+  ],
+  "codeowners": [
+    "@phiprosoft"
+  ],
   "config_flow": true,
-  "dependencies": ["energy", "frontend", "http", "recorder", "websocket_api"],
+  "dependencies": [
+    "energy",
+    "frontend",
+    "http",
+    "recorder",
+    "websocket_api"
+  ],
   "documentation": "https://github.com/phiprosoft/ha-eco",
   "integration_type": "service",
   "iot_class": "calculated",

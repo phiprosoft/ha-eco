@@ -7,7 +7,7 @@ body:
       value: |
         Thanks for taking the time. Before you start, two things often explain a problem:
 
-        - The [FAQ](https://github.com/ignazhabibi/ha-electricity-lens#faq), for example why costs differ from the energy dashboard.
+        - The [FAQ](https://github.com/phiprosoft/ha-eco#faq), for example why costs differ from the energy dashboard.
         - A wrong meter reading: fix it under **Developer tools › Statistics**, then choose **Configure › Recompute** on the integration page.
   - type: textarea
     id: what
@@ -26,8 +26,8 @@ body:
   - type: input
     id: version
     attributes:
-      label: Electricity Lens version
-      placeholder: v0.33.2
+      label: HA Eco version
+      placeholder: v0.35.1
     validations:
       required: true
   - type: input
@@ -68,10 +68,9 @@ body:
   - type: textarea
     id: diagnostics
     attributes:
-      label: Diagnostics
+      label: Sanitized diagnostics (optional)
       description: |
-        On **Settings › Devices & services › Electricity Lens**, open the menu (⋮), choose **Download diagnostics**, and drag the file here.
-        It holds your settings, the energy dashboard's meters and prices, and the computed figures; no passwords or tokens.
+        Diagnostics contain entity and statistic IDs, configured tariffs and prices, settings, and computed household figures. GitHub issues are public. Do not attach the original diagnostics file. Redact private IDs and values first, or paste only the relevant sanitized excerpts. Never include passwords, access tokens, or other secrets.
   - type: textarea
     id: logs
     attributes:

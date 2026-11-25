@@ -15,3 +15,11 @@ coverage.xml
 build/
 dist/
 *.egg-info/
+
+# Local credentials and private keys.
+.env
+.env.*
+!.env.example
+secrets.yaml
+*.pem
+*.key

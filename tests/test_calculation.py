@@ -21,6 +21,7 @@ from custom_components.electricity_lens.calculation import (
     fuel_price,
     heat_pump_saving,
     heating_cost,
+    historical_category_saving,
     household_hour,
     internal_rate_of_return,
     normal_price,
@@ -520,3 +521,100 @@ def test_solar_saving() -> None:
     assert solar_saving(
         alternative_cost=alternative, cost=cost, saving=saving
     ) == pytest.approx(1.0 * (0.30 - 0.08))
+
+
+def test_historical_pv_energy_totals() -> None:
+    """Historical PV and battery savings use aggregate kWh and average prices."""
+    saving, battery, estimated = historical_category_saving(
+        "pv",
+        "gas",
+        {
+            "solar_kwh": 10000,
+            "export_kwh": 4000,
+            "battery_charge_kwh": 1000,
+            "battery_discharge_kwh": 800,
+            "electricity_price": 0.30,
+            "feed_in_price": 0.08,
+        },
+    )
+    assert saving == pytest.approx(2060)
+    assert battery == pytest.approx(160)
+    assert estimated
+
+
+def test_historical_pv_battery_is_marked_as_aggregate_estimate() -> None:
+    """Aggregate battery totals cannot establish the exact source and destination."""
+    _, battery, estimated = historical_category_saving(
+        "pv",
+        "gas",
+        {
+            "solar_kwh": 10000,
+            "export_kwh": 4000,
+            "battery_charge_kwh": 1000,
+            "battery_discharge_kwh": 800,
+            "electricity_price": 0.30,
+            "feed_in_price": 0.08,
+        },
+    )
+    assert battery == pytest.approx(160)
+    assert estimated
+
+
+def test_historical_heat_pump_measured_and_estimated_heat() -> None:
+    """Measured heat is preferred; COP estimates heat only when it is absent."""
+    values = {
+        "electricity_kwh": 3000,
+        "electricity_price": 0.30,
+        "fuel_price": 0.10,
+    }
+    measured = historical_category_saving(
+        "heat_pump", "gas", {**values, "heat_kwh": 12000, "scop": 3.0}
+    )
+    estimated = historical_category_saving("heat_pump", "gas", {**values, "scop": 4.0})
+    expected = 12000 / 0.92 * 0.10 - 3000 * 0.30
+    assert measured == pytest.approx((expected, 0.0, False))
+    assert estimated == pytest.approx((expected, 0.0, True))
+
+
+def test_historical_heat_zero_uses_scop_estimate() -> None:
+    """A zero heat total is treated as missing when a seasonal COP is supplied."""
+    result = historical_category_saving(
+        "heat_pump",
+        "gas",
+        {
+            "electricity_kwh": 3000,
+            "heat_kwh": 0,
+            "scop": 4.0,
+            "electricity_price": 0.30,
+            "fuel_price": 0.10,
+        },
+    )
+    expected = 12000 / 0.92 * 0.10 - 3000 * 0.30
+    assert result == pytest.approx((expected, 0.0, True))
+
+
+def test_historical_wallbox_saving() -> None:
+    """Historical charging energy is compared with fuel for the same distance."""
+    saving, battery, estimated = historical_category_saving(
+        "wallbox",
+        "gas",
+        {
+            "electricity_kwh": 5000,
+            "ev_consumption": 20,
+            "combustion_consumption": 7,
+            "fuel_price": 1.8,
+            "electricity_price": 0.30,
+        },
+    )
+    assert saving == pytest.approx(1650)
+    assert battery == 0
+    assert not estimated
+
+
+def test_historical_legacy_aggregate_remains_supported() -> None:
+    """Existing installations keep their previously entered aggregate baseline."""
+    assert historical_category_saving("pv", "gas", {"saving": 1234.5}) == (
+        1234.5,
+        0.0,
+        False,
+    )

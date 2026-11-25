@@ -433,7 +433,9 @@
       "heating_required": "Wähle die frühere Heizung.",
       "value_required": "Gib einen Wert über 0 an.",
       "scop_range": "Gib einen COP zwischen 1 und 10 an.",
-      "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer."
+      "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer.",
+      "historical_values_required": "Trage alle erforderlichen historischen Energiemengen, Durchschnittspreise und ein Startdatum ein.",
+      "historical_overlaps_recorder": "Der Start des historischen Zeitraums muss vor dem Beginn der Home-Assistant-Aufzeichnung liegen. Bereits aufgezeichnete Zeiträume dürfen nicht doppelt gezählt werden."
     },
     "abort": {
       "no_energy_dashboard": "Richte zuerst im [Energie-Dashboard](/config/energy) den Netzbezug mit Strompreis ein. Danach kannst du HA Eco hinzufügen.",
@@ -508,7 +510,8 @@
           "title": "Was möchtest du ändern?",
           "menu_options": {
             "investment": "Anschaffungskosten",
-            "recompute": "Neu berechnen"
+            "recompute": "Neu berechnen",
+            "historical": "Historische Ersparnis"
           }
         },
         "investment": {
@@ -525,6 +528,30 @@
         "recompute": {
           "title": "Neu berechnen",
           "description": "Rechnet die PV-Anlage mit den aktuellen Messdaten neu, zum Beispiel nachdem du einen falschen Messwert in den Statistiken korrigiert hast. Deine Werte bleiben, wie sie sind."
+        },
+        "historical": {
+          "title": "Historische Energiedaten",
+          "description": "Optionale Gesamtwerte für die Zeit vor den Home-Assistant-Statistiken. Trage die gesamten kWh und die durchschnittlichen Preise für diesen Zeitraum ein. HA Eco berechnet daraus eine geschätzte Gesamtersparnis. Es werden keine Stunden- oder Monatsverläufe erfunden.",
+          "data": {
+            "historical_enabled": "Historische Energiedaten berücksichtigen",
+            "since": "Beginn des Zeitraums",
+            "solar_kwh": "PV-Erzeugung",
+            "export_kwh": "Netzeinspeisung",
+            "electricity_price": "Durchschnittlicher Strompreis",
+            "feed_in_price": "Durchschnittliche Einspeisevergütung",
+            "battery_charge_kwh": "Batterie geladen",
+            "battery_discharge_kwh": "Batterie entladen"
+          },
+          "data_description": {
+            "historical_enabled": "Kann jederzeit deaktiviert werden; die Eingaben bleiben gespeichert.",
+            "since": "Muss vor dem ersten aufgezeichneten Energiedatum von Home Assistant liegen.",
+            "solar_kwh": "Gesamte PV-Erzeugung in kWh im historischen Zeitraum.",
+            "export_kwh": "Gesamte Einspeisung in kWh. Leer lassen oder 0 eintragen, wenn es keine gab.",
+            "electricity_price": "Durchschnittliche Kosten pro kWh im historischen Zeitraum.",
+            "feed_in_price": "Durchschnittliche Vergütung pro eingespeister kWh.",
+            "battery_charge_kwh": "Gesamte in die Batterie geladene Energie in kWh.",
+            "battery_discharge_kwh": "Gesamte aus der Batterie entnommene Energie in kWh."
+          }
         }
       },
       "error": {
@@ -532,7 +559,9 @@
         "heating_required": "Wähle die frühere Heizung.",
         "value_required": "Gib einen Wert über 0 an.",
         "scop_range": "Gib einen COP zwischen 1 und 10 an.",
-        "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer."
+        "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer.",
+        "historical_values_required": "Trage alle erforderlichen historischen Energiemengen, Durchschnittspreise und ein Startdatum ein.",
+        "historical_overlaps_recorder": "Der Start des historischen Zeitraums muss vor dem Beginn der Home-Assistant-Aufzeichnung liegen. Bereits aufgezeichnete Zeiträume dürfen nicht doppelt gezählt werden."
       },
       "abort": {
         "energy_interface": "Das Energie-Dashboard lässt sich nicht lesen. Diese Version von Home Assistant wird noch nicht unterstützt; bitte sieh nach, ob es ein Update von HA Eco gibt.",
@@ -571,7 +600,8 @@
             "now": "Werte ab jetzt",
             "before": "Durchschnittswerte vor der Einrichtung",
             "meters": "Zähler und Mehrkosten",
-            "recompute": "Neu berechnen"
+            "recompute": "Neu berechnen",
+            "historical": "Historische Ersparnis"
           }
         },
         "meters": {
@@ -593,6 +623,28 @@
         "recompute": {
           "title": "Neu berechnen",
           "description": "Rechnet die Wärmepumpe mit den aktuellen Messdaten neu, zum Beispiel nachdem du einen falschen Messwert in den Statistiken korrigiert hast. Deine Werte bleiben, wie sie sind."
+        },
+        "historical": {
+          "title": "Historische Energiedaten",
+          "description": "Optionale Gesamtwerte für die Zeit vor den Home-Assistant-Statistiken. Trage die gesamten kWh und die durchschnittlichen Preise für diesen Zeitraum ein. HA Eco berechnet daraus eine geschätzte Gesamtersparnis. Es werden keine Stunden- oder Monatsverläufe erfunden.",
+          "data": {
+            "historical_enabled": "Historische Energiedaten berücksichtigen",
+            "since": "Beginn des Zeitraums",
+            "electricity_kwh": "Historische Strommenge",
+            "heat_kwh": "Erzeugte Wärme",
+            "scop": "Saisonaler COP",
+            "electricity_price": "Durchschnittlicher Strompreis",
+            "fuel_price": "Durchschnittlicher Spritpreis"
+          },
+          "data_description": {
+            "historical_enabled": "Kann jederzeit deaktiviert werden; die Eingaben bleiben gespeichert.",
+            "since": "Muss vor dem ersten aufgezeichneten Energiedatum von Home Assistant liegen.",
+            "electricity_kwh": "Gesamter Stromverbrauch der Wärmepumpe oder geladene Energie des E-Autos in kWh.",
+            "heat_kwh": "Gemessene Wärmemenge in kWh. Falls nicht vorhanden, unten einen saisonalen COP eintragen.",
+            "scop": "Schätzt die Wärme aus dem Stromverbrauch, wenn kein Wärmemengenzähler vorhanden ist.",
+            "electricity_price": "Durchschnittliche Kosten pro kWh im historischen Zeitraum.",
+            "fuel_price": "Durchschnittlicher Preis pro Einheit der früheren Heizung bzw. pro Liter Kraftstoff."
+          }
         },
         "heat_pump_values_gas": {
           "title": "Durchschnitt seit {since}",
@@ -1114,7 +1166,9 @@
         "heating_required": "Wähle die frühere Heizung.",
         "value_required": "Gib einen Wert über 0 an.",
         "scop_range": "Gib einen COP zwischen 1 und 10 an.",
-        "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer."
+        "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer.",
+        "historical_values_required": "Trage alle erforderlichen historischen Energiemengen, Durchschnittspreise und ein Startdatum ein.",
+        "historical_overlaps_recorder": "Der Start des historischen Zeitraums muss vor dem Beginn der Home-Assistant-Aufzeichnung liegen. Bereits aufgezeichnete Zeiträume dürfen nicht doppelt gezählt werden."
       },
       "abort": {
         "energy_interface": "Das Energie-Dashboard lässt sich nicht lesen. Diese Version von Home Assistant wird noch nicht unterstützt; bitte sieh nach, ob es ein Update von HA Eco gibt.",
@@ -1151,7 +1205,8 @@
             "now": "Werte ab jetzt",
             "before": "Durchschnittswerte vor der Einrichtung",
             "meters": "Zähler und Mehrkosten",
-            "recompute": "Neu berechnen"
+            "recompute": "Neu berechnen",
+            "historical": "Historische Ersparnis"
           }
         },
         "meters": {
@@ -1171,6 +1226,28 @@
         "recompute": {
           "title": "Neu berechnen",
           "description": "Rechnet das E-Auto mit den aktuellen Messdaten neu, zum Beispiel nachdem du einen falschen Messwert in den Statistiken korrigiert hast. Deine Werte bleiben, wie sie sind."
+        },
+        "historical": {
+          "title": "Historische Energiedaten",
+          "description": "Optionale Gesamtwerte für die Zeit vor den Home-Assistant-Statistiken. Trage die gesamten kWh und die durchschnittlichen Preise für diesen Zeitraum ein. HA Eco berechnet daraus eine geschätzte Gesamtersparnis. Es werden keine Stunden- oder Monatsverläufe erfunden.",
+          "data": {
+            "historical_enabled": "Historische Energiedaten berücksichtigen",
+            "since": "Beginn des Zeitraums",
+            "electricity_kwh": "Historische Strommenge",
+            "ev_consumption": "Verbrauch E-Auto",
+            "combustion_consumption": "Verbrauch Verbrenner",
+            "electricity_price": "Durchschnittlicher Strompreis",
+            "fuel_price": "Durchschnittlicher Spritpreis"
+          },
+          "data_description": {
+            "historical_enabled": "Kann jederzeit deaktiviert werden; die Eingaben bleiben gespeichert.",
+            "since": "Muss vor dem ersten aufgezeichneten Energiedatum von Home Assistant liegen.",
+            "electricity_kwh": "Gesamter Stromverbrauch der Wärmepumpe oder geladene Energie des E-Autos in kWh.",
+            "ev_consumption": "Durchschnittliche kWh pro 100 km an der Wallbox einschließlich Ladeverlusten.",
+            "combustion_consumption": "Durchschnittlicher Kraftstoffverbrauch eines vergleichbaren Verbrenners in Litern pro 100 km.",
+            "electricity_price": "Durchschnittliche Kosten pro kWh im historischen Zeitraum.",
+            "fuel_price": "Durchschnittlicher Preis pro Einheit der früheren Heizung bzw. pro Liter Kraftstoff."
+          }
         },
         "wallbox_values": {
           "title": "Durchschnitt seit {since}",
@@ -1257,7 +1334,9 @@
         "heating_required": "Wähle die frühere Heizung.",
         "value_required": "Gib einen Wert über 0 an.",
         "scop_range": "Gib einen COP zwischen 1 und 10 an.",
-        "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer."
+        "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer.",
+        "historical_values_required": "Trage alle erforderlichen historischen Energiemengen, Durchschnittspreise und ein Startdatum ein.",
+        "historical_overlaps_recorder": "Der Start des historischen Zeitraums muss vor dem Beginn der Home-Assistant-Aufzeichnung liegen. Bereits aufgezeichnete Zeiträume dürfen nicht doppelt gezählt werden."
       },
       "abort": {
         "energy_interface": "Das Energie-Dashboard lässt sich nicht lesen. Diese Version von Home Assistant wird noch nicht unterstützt; bitte sieh nach, ob es ein Update von HA Eco gibt.",
@@ -1323,6 +1402,18 @@
           },
           "heat_estimated": {
             "name": "Wärme teilweise geschätzt"
+          },
+          "historical_saving": {
+            "name": "Historische Ersparnis"
+          },
+          "historical_since": {
+            "name": "Historischer Zeitraum ab"
+          },
+          "historical_method": {
+            "name": "Methode der historischen Berechnung"
+          },
+          "historical_estimated": {
+            "name": "Historische Wärme geschätzt"
           }
         }
       },

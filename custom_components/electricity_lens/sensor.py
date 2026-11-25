@@ -245,6 +245,10 @@ class CategorySensor(ElectricityLensEntity, SensorEntity):  # pyright: ignore[re
             "price",
             "heating",
             "heat_estimated",
+            "historical_saving",
+            "historical_since",
+            "historical_method",
+            "historical_estimated",
             "statistic_id",
             "balance",
             "years_left",
@@ -300,6 +304,25 @@ class CategorySensor(ElectricityLensEntity, SensorEntity):  # pyright: ignore[re
             "yearly_from": result.yearly_from.isoformat()
             if result.yearly_from
             else None,
+            "historical_saving": result.historical_saving,
+            "historical_since": result.historical_since.isoformat()
+            if result.historical_since
+            else None,
+            "historical_method": (
+                (
+                    "legacy_aggregate"
+                    if "saving"
+                    in self.coordinator.configs[self._subentry_id].historical_data
+                    else "aggregate_energy_estimate"
+                )
+                if result.historical_since is not None
+                else None
+            ),
+            "historical_estimated": (
+                result.historical_estimated
+                if result.historical_since is not None
+                else None
+            ),
         }
         if result.price is not None:
             attributes["price"] = result.price

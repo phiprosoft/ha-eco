@@ -9,7 +9,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, cast
 
-from .calculation import Timeline
+from .calculation import Timeline, historical_category_saving
 from .const import (
     CATEGORY_HEAT_PUMP,
     CATEGORY_WALLBOX,
@@ -21,6 +21,8 @@ from .const import (
     CONF_CURRENT,
     CONF_HEAT_METERS,
     CONF_HEATING,
+    CONF_HISTORICAL_DATA,
+    CONF_HISTORICAL_ENABLED,
     CONF_INVESTMENT,
     CONF_METERS,
     CONF_RECOMPUTE,
@@ -28,6 +30,7 @@ from .const import (
     CONF_STANDING_CHARGE,
     HEATING_GAS,
     HEATING_NONE,
+    HISTORICAL_SINCE,
     VALUE_COMBUSTION_CONSUMPTION,
     VALUE_EV_CONSUMPTION,
     VALUE_PRICE,
@@ -77,6 +80,10 @@ class CategoryConfig:
     current: Mapping[str, float] = field(default_factory=dict[str, float])
     price_entity: str | None = None
     recompute: float | None = None
+    historical_enabled: bool = False
+    """Whether the separate historical baseline contributes to lifetime results."""
+    historical_data: Mapping[str, Any] = field(default_factory=dict[str, Any])
+    """Preserved user-entered aggregate values; not an hourly timeline."""
 
     @classmethod
     def from_data(cls, category: str, data: Mapping[str, Any]) -> CategoryConfig:
@@ -98,7 +105,62 @@ class CategoryConfig:
             current=_numbers(current),
             price_entity=current.get(VALUE_PRICE_ENTITY) or None,
             recompute=float(recompute) if recompute is not None else None,
+            historical_enabled=data.get(CONF_HISTORICAL_ENABLED, False) is True,
+            historical_data=(
+                dict(data.get(CONF_HISTORICAL_DATA, {}))
+                if isinstance(data.get(CONF_HISTORICAL_DATA, {}), Mapping)
+                else {}
+            ),
         )
+
+    @property
+    def historical_values(self) -> tuple[float, float, bool]:
+        """Return the historical category saving, battery share, and estimate flag."""
+        if not self.historical_enabled or self.historical_since is None:
+            return 0.0, 0.0, False
+        if not self.is_compared:
+            return 0.0, 0.0, False
+        return historical_category_saving(
+            self.category, self.heating, self.historical_data
+        )
+
+    @property
+    def historical_saving(self) -> float:
+        """Return the calculated historical saving, only when enabled."""
+        return self.historical_values[0]
+
+    @property
+    def historical_battery_saving(self) -> float:
+        """Return the battery's share of historical PV saving."""
+        return self.historical_values[1]
+
+    @property
+    def historical_estimated(self) -> bool:
+        """Return whether historical totals require an aggregate-flow estimate."""
+        return self.historical_values[2]
+
+    @property
+    def historical_battery_since(self) -> float | None:
+        """Return the baseline start if battery energy totals were supplied."""
+        if any(
+            key in self.historical_data
+            for key in ("battery_charge_kwh", "battery_discharge_kwh")
+        ):
+            return self.historical_since
+        return None
+
+    @property
+    def historical_since(self) -> float | None:
+        """Return the start timestamp of the historical baseline, if valid."""
+        value = self.historical_data.get(HISTORICAL_SINCE)
+        if (
+            not self.historical_enabled
+            or not isinstance(value, int | float)
+            or isinstance(value, bool)
+            or value <= 0
+        ):
+            return None
+        return float(value)
 
     @property
     def total_investment(self) -> float | None:
@@ -147,6 +209,14 @@ class CategoryConfig:
             "setup_at": self.setup_at,
             "before": dict(sorted(self.before.items())),
             "recompute": self.recompute,
+            **(
+                {
+                    "historical_enabled": True,
+                    "historical_data": dict(sorted(self.historical_data.items())),
+                }
+                if self.historical_enabled
+                else {}
+            ),
         }
         return settings_hash(relevant)
 
@@ -378,6 +448,9 @@ class CategoryResult:
     category: str
     calculating: bool
     saving: float | None = None
+    historical_saving: float = 0.0
+    historical_since: datetime | None = None
+    historical_estimated: bool = False
     investment: float | None = None
     payback: float | None = None
     per_year: float | None = None

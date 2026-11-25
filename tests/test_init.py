@@ -272,6 +272,108 @@ async def test_car_without_comparison(
     assert float(balance.state) == pytest.approx(COUNTED * PV_PER_HOUR - 10000)
 
 
+def test_historical_baseline_is_opt_in_and_preserved() -> None:
+    """Old entries default off; opting out does not erase entered baseline data."""
+    data = dict(PV_DATA)
+    config = CategoryConfig.from_data("pv", data)
+    assert config.historical_enabled is False
+    assert config.historical_data == {}
+
+    configured = CategoryConfig.from_data(
+        "pv",
+        {
+            **data,
+            "historical_enabled": True,
+            "historical_data": {"production_kwh": 12500.0, "since": "2020-01-01"},
+        },
+    )
+    assert configured.historical_enabled is True
+    assert configured.historical_saving == 0.0
+    assert configured.historical_since is None
+    numeric = CategoryConfig.from_data(
+        "pv",
+        {
+            **data,
+            "historical_enabled": True,
+            "historical_data": {"saving": 500.0, "since": 1_700_000_000.0},
+        },
+    )
+    assert numeric.historical_saving == 500.0
+    assert numeric.historical_since == 1_700_000_000.0
+    assert configured.historical_data == {
+        "production_kwh": 12500.0,
+        "since": "2020-01-01",
+    }
+
+    disabled = CategoryConfig.from_data(
+        "pv",
+        {
+            **data,
+            "historical_enabled": False,
+            "historical_data": {"production_kwh": 12500.0, "since": "2020-01-01"},
+        },
+    )
+    assert disabled.historical_enabled is False
+    assert disabled.historical_data == configured.historical_data
+    assert disabled.fingerprint == config.fingerprint
+    assert configured.fingerprint != config.fingerprint
+    assert (
+        CategoryConfig.from_data(
+            "pv",
+            {
+                **data,
+                "historical_enabled": True,
+                "historical_data": {
+                    "production_kwh": 13000.0,
+                    "since": "2020-01-01",
+                },
+            },
+        ).fingerprint
+        != configured.fingerprint
+    )
+
+
+def test_category_config_calculates_historical_energy_totals() -> None:
+    """Category settings expose calculated historical saving and provenance."""
+    pv = CategoryConfig.from_data(
+        "pv",
+        {
+            **PV_DATA,
+            "historical_enabled": True,
+            "historical_data": {
+                "since": 1_700_000_000.0,
+                "solar_kwh": 10000,
+                "export_kwh": 4000,
+                "electricity_price": 0.30,
+                "feed_in_price": 0.08,
+                "battery_charge_kwh": 1000,
+                "battery_discharge_kwh": 800,
+            },
+        },
+    )
+    assert pv.historical_saving == pytest.approx(2060)
+    assert pv.historical_battery_saving == pytest.approx(160)
+    assert pv.historical_battery_since == 1_700_000_000.0
+    assert pv.historical_estimated is True
+
+    heat_pump = CategoryConfig.from_data(
+        "heat_pump",
+        {
+            **HEAT_PUMP_DATA,
+            "historical_enabled": True,
+            "historical_data": {
+                "since": 1_700_000_000.0,
+                "electricity_kwh": 3000,
+                "scop": 4,
+                "electricity_price": 0.30,
+                "fuel_price": 0.10,
+            },
+        },
+    )
+    assert heat_pump.historical_saving == pytest.approx(12000 / 0.92 * 0.10 - 900)
+    assert heat_pump.historical_estimated is True
+
+
 def test_comparison_keeps_the_past_of_cars_compared_as_before() -> None:
     """A car compared with a combustion car keeps its fingerprint."""
     data = dict(WALLBOX_DATA)
@@ -286,6 +388,70 @@ def test_comparison_keeps_the_past_of_cars_compared_as_before() -> None:
         CategoryConfig.from_data("wallbox", {**data, "comparison": "none"}).fingerprint
         != before
     )
+
+
+@pytest.mark.usefixtures("energy")
+async def test_historical_savings_are_lifetime_only(
+    hass: HomeAssistant, data_start: datetime
+) -> None:
+    """An aggregate baseline affects lifetime results, not hourly statistics."""
+    historical_since = (data_start - timedelta(days=365)).timestamp()
+    entry = make_entry(
+        (
+            "pv",
+            {
+                **PV_DATA,
+                "historical_enabled": True,
+                "historical_data": {"saving": 500.0, "since": historical_since},
+            },
+        )
+    )
+    await setup_entry(hass, entry)
+
+    saving = _state(hass, "sensor.solar_saving")
+    expected_history = COUNTED * PV_PER_HOUR
+    assert float(saving.state) == pytest.approx(expected_history + 500.0)
+    assert saving.attributes["historical_saving"] == 500.0
+    assert saving.attributes["historical_since"] is not None
+    # The recorder statistic remains the measured HA history only.
+    sums = await statistic_sums(hass, "electricity_lens:pv_saving", data_start)
+    assert sums[-1] == pytest.approx(expected_history)
+
+
+@pytest.mark.usefixtures("energy")
+async def test_historical_pv_energy_totals_are_lifetime_only(
+    hass: HomeAssistant, data_start: datetime
+) -> None:
+    """PV energy totals add a calculated baseline without synthetic statistics."""
+    historical_since = (data_start - timedelta(days=365)).timestamp()
+    entry = make_entry(
+        (
+            "pv",
+            {
+                **PV_DATA,
+                "historical_enabled": True,
+                "historical_data": {
+                    "since": historical_since,
+                    "solar_kwh": 10000,
+                    "export_kwh": 4000,
+                    "electricity_price": 0.30,
+                    "feed_in_price": 0.08,
+                },
+            },
+        )
+    )
+    await setup_entry(hass, entry)
+
+    saving = _state(hass, "sensor.solar_saving")
+    historical = 6000 * 0.30 + 4000 * 0.08
+    expected_history = COUNTED * PV_PER_HOUR
+    assert float(saving.state) == pytest.approx(expected_history + historical)
+    assert saving.attributes["historical_saving"] == pytest.approx(historical)
+    assert saving.attributes["historical_method"] == "aggregate_energy_estimate"
+    assert saving.attributes["historical_estimated"] is False
+    # Historical kWh are not spread over the recorder's hourly statistics.
+    sums = await statistic_sums(hass, "electricity_lens:pv_saving", data_start)
+    assert sums[-1] == pytest.approx(expected_history)
 
 
 @pytest.mark.usefixtures("energy")

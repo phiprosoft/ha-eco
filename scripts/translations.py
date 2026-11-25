@@ -284,7 +284,7 @@ TEXTS: dict[str, dict[str, Any]] = {
             "recomputing_all": "Everything is being computed again. With several years of data this can take a few minutes.",
         },
         "create_entry": 'The past is now being computed; with several years of data this can take a few minutes. Add the dashboard "HA Eco" under [Settings › Dashboards](/config/lovelace/dashboards) › "Add dashboard". Its cards are also under "Add card".',
-        "devices": {"total": "HA Eco"},
+        "devices": {"total": "Electricity Lens"},
         "entities": {
             "saving": "Saving",
             "payback": "Paid back",

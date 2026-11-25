@@ -2,7 +2,7 @@
 
 # HA Eco
 
-[![HACS Custom](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://hacs.xyz/docs/faq/custom_repositories)
+![Private repository](https://img.shields.io/badge/repository-private-lightgrey)
 [![Release](https://img.shields.io/github/v/release/phiprosoft/ha-eco)](https://github.com/phiprosoft/ha-eco/releases)
 
 **What your electricity really costs, where it comes from, and whether your
@@ -54,8 +54,8 @@ template sensor to write.
 
 ## What you get
 
-HA Eco is one package with three parts. HACS installs and updates
-them together.
+HA Eco is one package with three parts. The integration provides the
+dashboard and all seven cards, so they are installed and updated together.
 
 | Part | What it does |
 |---|---|
@@ -96,27 +96,45 @@ service and sends no data anywhere.
 
 ## Installation
 
-[![Open your Home Assistant instance and open this repository in HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=phiprosoft&repository=ha-eco&category=integration)
+> [!IMPORTANT]
+> This GitHub repository is currently private. HA Eco therefore cannot be
+> installed from the Home Assistant Marketplace or HACS. You need a GitHub
+> account that has access to this repository. The installation below is a
+> manual installation for authorized users.
 
 1. Set up the energy dashboard with grid import and electricity price, your
-   solar production, and the meters of heat pump and wallbox under
+   solar production, and the meters of the heat pump and wallbox under
    *Individual devices*.
-2. Install HA Eco from the Marketplace (Settings › Marketplace) or
-   HACS as a custom repository: `https://github.com/phiprosoft/ha-eco`,
-   type *Integration*.
-3. Restart Home Assistant.
-4. Add the integration:
+2. Sign in to GitHub with an account that has access to
+   [`phiprosoft/ha-eco`](https://github.com/phiprosoft/ha-eco).
+3. Open the repository, select **Code › Download ZIP**, and extract the ZIP
+   archive.
+4. Copy the complete folder
+   `custom_components/electricity_lens` from the extracted repository into
+   your Home Assistant configuration directory, so the final path is
+   `config/custom_components/electricity_lens/manifest.json`. Create the
+   `custom_components` directory if it does not exist. Do not copy the whole
+   repository into that directory.
+5. Restart Home Assistant.
+6. Add the integration:
    [![Open your Home Assistant instance and start setting up HA Eco.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=electricity_lens)
    or **Settings › Devices & services › Add integration › HA Eco**.
-5. Follow the [setup](#setup).
-6. Add the dashboard: **Settings › Dashboards › Add dashboard**, under
-   *Community dashboards*: **HA Eco**. The cards are in the card
-   picker as well. There is no dashboard resource to add: the integration
-   serves the cards itself and updates them with the integration.
+7. Follow the [setup](#setup).
+8. Add the dashboard: **Settings › Dashboards › Add dashboard**, under
+   *Community dashboards*: **HA Eco**. The cards are also available in the
+   card picker. No separate dashboard resource or Lovelace resource needs to
+   be added; the integration serves the cards itself.
+
+### Updating
+
+Download the latest ZIP from the repository and replace the existing
+`config/custom_components/electricity_lens` folder with the new one. Keep your
+Home Assistant configuration and backups, then restart Home Assistant. Your
+integration settings and recorded statistics are stored by Home Assistant and
+are not part of this folder.
 
 The past is computed in the background right after setup; on weaker hardware
 this can take a while (see the note at the top).
-
 ## Setup
 
 The setup asks only for what Home Assistant cannot know, such as what the heat
@@ -756,8 +774,9 @@ English and German, following Home Assistant's language.
 2. Go to **Settings › Devices & services › HA Eco**, open the menu
    (⋮) and choose **Delete**. To remove one category only, use **Delete** in
    that category's menu.
-3. Uninstall HA Eco in the Marketplace or HACS and restart Home
-   Assistant.
+3. Remove the folder `config/custom_components/electricity_lens` and
+   restart Home Assistant. For a manual installation there is no separate
+   Marketplace or HACS uninstall step.
 
 Deleting HA Eco removes all statistics it wrote; deleting a category
 removes that category's saving statistic.

@@ -361,8 +361,9 @@ def _rows_to_series(
         for row in stat_rows:
             if (value := row.get(key)) is not None:
                 number = float(value)
-                if isfinite(number):
-                    values[float(row["start"])] = number
+                start = float(row["start"])
+                if isfinite(number) and isfinite(start):
+                    values[start] = number
     return series
 
 

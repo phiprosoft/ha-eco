@@ -582,7 +582,7 @@ Each category counts from the first hour Home Assistant has data for it.
 
 | Phase | What counts |
 |---|---|
-| Before Home Assistant had data | Nothing. Earlier production and savings are not included. The date shown by HA Eco is the start of its data, not the plant's commissioning date. |
+| Before Home Assistant had data | Nothing. Earlier production and savings are not included. The date shown by HA Eco is the start of its data, not the equipment's commissioning or purchase date. |
 | From the first data to the setup | One average per value (gas, oil, or fuel price, consumptions, COP, own tariff), entered at setup, because Home Assistant does not know earlier prices. |
 | From the setup on | The averages as starting values. Changed values and a price sensor apply from the next full hour; what was computed stays, just as the energy dashboard treats a new electricity price. |
 
@@ -600,7 +600,7 @@ show.
 | Saving | Total saving since counting began, in your currency. Its history is the statistic *electricity_lens:pv_saving*, *…heat_pump_saving*, or *…wallbox_saving* (named after the sensor), including the computed past; you can pick it in Home Assistant's statistics cards. Its attributes show the statistic's id, since when it counts, the investment, the saving minus the investment, from when yearly figures exist, the gas, oil, or fuel price in effect now, and for the heat pump the former heating and whether heat was partly estimated. The solar's has its battery's part, with its saving, investment, yearly saving, payback, years left, and since when it counts. |
 | Paid back | Share of the investment the saving has covered, in percent. Unknown without an investment. Its attributes show the investment and the years left at the yearly average. |
 | Saving per year | Average saving per year. Unknown before twelve months of data. |
-| Return per year | Internal rate of return so far, in percent per year: the investment at the start of counting, the saving evenly over the years since, and no value left at the end. Zero when the saving has just covered the investment, and unknown before that or without an investment. It leaves out maintenance. It is not a lifetime return: if the plant was bought before Home Assistant had data, earlier savings are missing while the full purchase cost is counted. Its attributes show how far the saving has gone beyond the investment. |
+| Return per year | Internal rate of return so far, in percent per year: the investment at the start of counting, the saving evenly over the years since, and no value left at the end. Zero when the saving has just covered the investment, and unknown before that or without an investment. It leaves out maintenance. It is not a lifetime return: if the plant or device predates Home Assistant's data, earlier savings are missing while the full purchase or extra cost is counted. Its attributes show how far the saving has gone beyond the investment. |
 | Solar left today, Solar tomorrow | The solar forecast in kWh for the rest of today and for tomorrow over all forecasts of the energy dashboard, updated every 15 minutes. Only with a forecast in the energy dashboard. Their attributes show the best solar day of the last twelve months, the scale of the dashboard's gauges, and whether the data covers all twelve months. |
 | Balance | All savings minus all investments. Unknown while any category is calculating or has no data yet. Its attributes show all savings, all investments, the yearly savings, the share of all investments the savings have covered, the years until they cover them at the yearly savings, and, while the past is computed, how far it is in percent. |
 
@@ -790,7 +790,7 @@ English and German, following Home Assistant's language.
 - Only data Home Assistant has counts. Savings from before Home Assistant
   recorded the energy dashboard are not included. Entering the original purchase
   cost does not restore those missing savings; payback and return therefore cover
-  only the recorded period, not the plant's full lifetime.
+  only the recorded period, not the plant's or device's full lifetime.
 - Several cars sharing a wallbox use one average consumption.
 - The yearly average is a plain average since counting began; the first and
   last partial seasons can make it a little high or low.

@@ -45,7 +45,7 @@
         },
         "data_description": {
           "investment": "For the payback",
-          "battery_investment": "For the battery's own payback. Enter the battery cost here only; the PV purchase cost above must exclude it. The PV payback includes both."
+          "battery_investment": "The battery's own payback starts with its first recorded charge or discharge; earlier savings are not included. Enter the battery cost here only; the PV purchase cost above must exclude it. The PV payback includes both."
         }
       },
       "pv_no_export": {
@@ -57,7 +57,7 @@
         },
         "data_description": {
           "investment": "For the payback",
-          "battery_investment": "For the battery's own payback. Enter the battery cost here only; the PV purchase cost above must exclude it. The PV payback includes both."
+          "battery_investment": "The battery's own payback starts with its first recorded charge or discharge; earlier savings are not included. Enter the battery cost here only; the PV purchase cost above must exclude it. The PV payback includes both."
         }
       },
       "heat_pump": {
@@ -489,7 +489,7 @@
           },
           "data_description": {
             "investment": "For the payback",
-            "battery_investment": "For the battery's own payback. Enter the battery cost here only; the PV purchase cost above must exclude it. The PV payback includes both."
+            "battery_investment": "The battery's own payback starts with its first recorded charge or discharge; earlier savings are not included. Enter the battery cost here only; the PV purchase cost above must exclude it. The PV payback includes both."
           }
         },
         "pv_no_export": {
@@ -501,7 +501,7 @@
           },
           "data_description": {
             "investment": "For the payback",
-            "battery_investment": "For the battery's own payback. Enter the battery cost here only; the PV purchase cost above must exclude it. The PV payback includes both."
+            "battery_investment": "The battery's own payback starts with its first recorded charge or discharge; earlier savings are not included. Enter the battery cost here only; the PV purchase cost above must exclude it. The PV payback includes both."
           }
         },
         "reconfigure": {
@@ -519,7 +519,7 @@
           },
           "data_description": {
             "investment": "For the payback",
-            "battery_investment": "For the battery's own payback. Enter the battery cost here only; the PV purchase cost above must exclude it. The PV payback includes both."
+            "battery_investment": "The battery's own payback starts with its first recorded charge or discharge; earlier savings are not included. Enter the battery cost here only; the PV purchase cost above must exclude it. The PV payback includes both."
           }
         },
         "recompute": {

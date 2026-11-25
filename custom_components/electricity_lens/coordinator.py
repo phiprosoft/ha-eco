@@ -880,10 +880,21 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
         """
         return settings_hash(
             {
-                "grids": sorted(
-                    [grid.import_stat or "", grid.export_stat or ""]
-                    for grid in setup.grids
-                ),
+                "grids": [
+                    {
+                        "import": grid.import_stat,
+                        "export": grid.export_stat,
+                        "cost": grid.cost_stat,
+                        "compensation": grid.compensation_stat,
+                        "price_entity": grid.price_entity,
+                        "price": grid.price,
+                        "export_price_entity": grid.export_price_entity,
+                        "export_price": grid.export_price,
+                    }
+                    for grid in sorted(
+                        setup.grids, key=lambda item: item.import_stat or ""
+                    )
+                ],
                 "solar": sorted(setup.solar),
                 "batteries": sorted(
                     [battery.discharge_stat, battery.charge_stat]

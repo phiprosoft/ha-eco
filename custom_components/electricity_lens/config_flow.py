@@ -13,7 +13,6 @@ meters, so it can only be shown in the second step.
 from __future__ import annotations
 
 import asyncio
-
 from collections.abc import Iterable, Mapping
 from datetime import datetime
 from typing import Any, Literal, override
@@ -542,7 +541,7 @@ async def async_scop_needed(
     if any(start is None for start in heat_starts):
         return True, None
     heat_start = max(start for start in heat_starts if start is not None)
-    return data_start is not None and data_start + HOUR < heat_start, heat_start, heat_start
+    return data_start is not None and data_start + HOUR < heat_start, heat_start
 
 
 async def async_data_since(hass: HomeAssistant, stats: list[str]) -> float:

@@ -244,7 +244,7 @@ async def test_scop_only_where_heat_data_is_missing(
     assert result["step_id"] == "heat_pump_values_gas_scop_until"
     assert result["description_placeholders"]["heat_until"]  # pyright: ignore[reportOptionalSubscript]
 
-    
+
 async def test_scop_needed_until_all_heat_meters_have_data(
     hass: HomeAssistant, data_start: datetime
 ) -> None:

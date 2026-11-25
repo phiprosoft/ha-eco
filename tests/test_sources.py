@@ -5,7 +5,6 @@ from __future__ import annotations
 from datetime import datetime, timedelta
 from math import inf, nan
 from types import SimpleNamespace
-from types import SimpleNamespace
 from typing import Any
 from unittest.mock import AsyncMock, patch
 
@@ -20,6 +19,8 @@ from pytest_homeassistant_custom_component.components.recorder.common import (
 )
 
 from custom_components.electricity_lens.sources import (
+    _hourly_steps,
+    _rows_to_series,
     EnergyInterfaceError,
     EnergySetup,
     GridSource,
@@ -33,8 +34,6 @@ from custom_components.electricity_lens.sources import (
     async_solar_forecast,
     cost_stat,
     parse_preferences,
-    _hourly_steps,
-    _rows_to_series,
 )
 
 from .conftest import PREFS, import_hourly, import_hourly_mean

@@ -123,7 +123,7 @@ TEXTS: dict[str, dict[str, Any]] = {
             "investment": ("Purchase cost (optional)", "For the payback"),
             "battery_investment": (
                 "Battery purchase cost (optional)",
-                "For the battery's own payback. Enter the battery cost here only; the PV purchase cost above must exclude it. The PV payback includes both.",
+                "The battery's own payback starts with its first recorded charge or discharge; earlier savings are not included. Enter the battery cost here only; the PV purchase cost above must exclude it. The PV payback includes both.",
             ),
             "standing_charge": (
                 "Standing charge per month (optional)",

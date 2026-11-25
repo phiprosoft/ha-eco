@@ -75,7 +75,7 @@ TEXTS: dict[str, dict[str, Any]] = {
             "saving": "saving",
         },
         "pv": {
-            "description": "Counted from {since}, when Home Assistant's solar data begins. Production, feed-in, battery, and electricity prices come from the energy dashboard.",
+            "description": "Data available from {since}. HA Eco calculates solar savings only from this date; earlier production is not included. This is not the plant's commissioning date. Production, feed-in, battery, and electricity prices come from the energy dashboard.",
             "no_export": "**The energy dashboard has no feed-in.** All solar power then counts as used in the house.",
         },
         "heat_pump": "Compares the heat pump with your former heating, if there was one.",

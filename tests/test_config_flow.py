@@ -251,9 +251,7 @@ async def test_scop_needed_until_all_heat_meters_have_data(
     """COP is requested until the latest selected heat meter starts."""
     import_hourly(hass, "sensor.heat_pump", data_start, [0.0, 1.0, 1.0, 1.0])
     import_hourly(hass, "sensor.heat", data_start, [0.0, 4.0, 4.0, 4.0])
-    import_hourly(
-        hass, "sensor.heat_late", data_start + timedelta(hours=2), [0.0, 4.0]
-    )
+    import_hourly(hass, "sensor.heat_late", data_start + timedelta(hours=2), [0.0, 4.0])
     await async_wait_recording_done(hass)
 
     scop, heat_start = await async_scop_needed(

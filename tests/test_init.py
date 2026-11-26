@@ -766,6 +766,7 @@ def test_value_with_entity_uses_sensor_and_falls_back_to_manual() -> None:
         },
     )
     state = CategoryState()
+    state.timeline(VALUE_EV_CONSUMPTION).set(20.0, 0.0)
     state.entity_timeline("ev_consumption_entity").set("sensor.ev_consumption", 0.0)
     values = {"sensor.ev_consumption": {0.0: 18.5}}
     assert value_with_entity(

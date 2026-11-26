@@ -447,7 +447,9 @@ async def test_historical_pv_energy_totals_are_lifetime_only(
     historical = 6000 * 0.30 + 4000 * 0.08
     assert float(saving.state) == pytest.approx(historical)
     assert saving.attributes["historical_saving"] == pytest.approx(historical)
-    assert saving.attributes["historical_method"] == "aggregate_energy_estimate_through_now"
+    assert (
+        saving.attributes["historical_method"] == "aggregate_energy_estimate_through_now"
+    )
     assert saving.attributes["historical_estimated"] is False
     # The aggregate replaces recorder data through its saved cutoff.
     assert await statistic_sums(hass, "electricity_lens:pv_saving", data_start) == []

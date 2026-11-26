@@ -599,7 +599,7 @@ class ElectricityLensConfigFlow(ConfigFlow, domain=DOMAIN):
     """Set up the household: an overview, then the chosen categories."""
 
     VERSION = 1
-    MINOR_VERSION = 3
+    MINOR_VERSION = 4
 
     def __init__(self) -> None:
         """Initialize the flow."""

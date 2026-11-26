@@ -1292,7 +1292,7 @@ async def test_entries_of_1_2_lose_the_price_thresholds(hass: HomeAssistant) -> 
 
     assert await hass.config_entries.async_setup(entry.entry_id)
 
-    assert entry.minor_version == 3
+    assert entry.minor_version == 4
     assert entry.options == {"standing_charge": 12}
 
 

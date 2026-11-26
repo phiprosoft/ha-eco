@@ -763,9 +763,9 @@ def test_heat_gap_uses_measured_cop() -> None:
     heat = ElectricityLensCoordinator._heat
     assert heat(config, state, changes, 1.0, 0.0, entity_values={}) == 4.0
     assert state.heat_start == 0.0
-    assert heat(
-        config, state, changes, 2.0, HOUR, entity_values={}
-    ) == pytest.approx(8.0)
+    assert heat(config, state, changes, 2.0, HOUR, entity_values={}) == pytest.approx(
+        8.0
+    )
     assert state.estimated
 
 

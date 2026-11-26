@@ -919,9 +919,9 @@ class CategorySubentryFlow(ConfigSubentryFlow):
             )
         errors: dict[str, str] = {}
         if user_input is not None and not (
-            errors := validate_meters(category, user_input)
+            errors := validate_meters(self.hass, category, user_input)
         ):
-            await self._async_take_meters(meters_data(category, user_input))
+            await self._async_take_meters(meters_data(self.hass, category, user_input))
             return await self._async_values_form(None, reconfigure=False)
         schema = meters_schema(self.hass, category, self._setup, self._taken())
         if user_input is not None:

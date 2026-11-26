@@ -269,25 +269,54 @@ def _heat_device(hass: HomeAssistant, *sensors: tuple[str, str, bool]) -> str:
     return device.id
 
 
-async def test_device_heat_meter_ignores_disabled_and_non_energy(hass: HomeAssistant) -> None:
-    device = _heat_device(hass,("heat","energy",False),("power","power",False),("old","energy",True))
-    assert device_heat_meters(hass,device) == ["sensor.heat"]
-    data = {**HEAT_PUMP_METERS,"heat_device":device}
-    assert validate_meters(hass,"heat_pump",data) == {}
-    assert meters_data(hass,"heat_pump",data)["heat_meters"] == ["sensor.heat"]
+async def test_device_heat_meter_ignores_disabled_and_non_energy(
+    hass: HomeAssistant,
+) -> None:
+    device = _heat_device(
+        hass,
+        ("heat", "energy", False),
+        ("power", "power", False),
+        ("old", "energy", True),
+    )
+    assert device_heat_meters(hass, device) == ["sensor.heat"]
+    data = {**HEAT_PUMP_METERS, "heat_device": device}
+    assert validate_meters(hass, "heat_pump", data) == {}
+    assert meters_data(hass, "heat_pump", data)["heat_meters"] == ["sensor.heat"]
 
 
-async def test_device_heat_meter_rejects_ambiguous_device(hass: HomeAssistant) -> None:
-    device = _heat_device(hass,("heat_a","energy",False),("heat_b","energy",False))
-    data = {**HEAT_PUMP_METERS,"heat_device":device}
-    assert validate_meters(hass,"heat_pump",data) == {"heat_device":"heat_device_ambiguous"}
+async def test_device_heat_meter_rejects_ambiguous_device(
+    hass: HomeAssistant,
+) -> None:
+    device = _heat_device(
+        hass, ("heat_a", "energy", False), ("heat_b", "energy", False)
+    )
+    data = {**HEAT_PUMP_METERS, "heat_device": device}
+    assert validate_meters(hass, "heat_pump", data) == {
+        "heat_device": "heat_device_ambiguous"
+    }
+
+
+async def test_device_heat_meter_rejects_device_without_energy_meter(
+    hass: HomeAssistant,
+) -> None:
+    device = _heat_device(hass, ("power", "power", False))
+    data = {**HEAT_PUMP_METERS, "heat_device": device}
+    assert validate_meters(hass, "heat_pump", data) == {
+        "heat_device": "heat_device_none"
+    }
 
 
 async def test_manual_heat_meters_override_device(hass: HomeAssistant) -> None:
-    device = _heat_device(hass,("heat_a","energy",False),("heat_b","energy",False))
-    data = {**HEAT_PUMP_METERS,"heat_device":device,"heat_meters":["sensor.manual"]}
-    assert validate_meters(hass,"heat_pump",data) == {}
-    assert meters_data(hass,"heat_pump",data)["heat_meters"] == ["sensor.manual"]
+    device = _heat_device(
+        hass, ("heat_a", "energy", False), ("heat_b", "energy", False)
+    )
+    data = {
+        **HEAT_PUMP_METERS,
+        "heat_device": device,
+        "heat_meters": ["sensor.manual"],
+    }
+    assert validate_meters(hass, "heat_pump", data) == {}
+    assert meters_data(hass, "heat_pump", data)["heat_meters"] == ["sensor.manual"]
 
 
 async def test_scop_needed_until_all_heat_meters_have_data(

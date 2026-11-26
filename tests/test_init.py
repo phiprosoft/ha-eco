@@ -272,6 +272,15 @@ async def test_car_without_comparison(
     assert float(balance.state) == pytest.approx(COUNTED * PV_PER_HOUR - 10000)
 
 
+def test_scop_entity_is_loaded_as_a_category_source() -> None:
+    """The configured COP entity is part of the generic entity source set."""
+    config = CategoryConfig.from_data(
+        "heat_pump",
+        {"current": {"scop_entity": "sensor.heat_pump_scop"}},
+    )
+    assert config.entity_sources == {"scop_entity": "sensor.heat_pump_scop"}
+
+
 def test_category_config_keeps_entity_sources_separate_from_numbers() -> None:
     """All configured entity selectors are exposed independently of numeric values."""
     config = CategoryConfig.from_data(

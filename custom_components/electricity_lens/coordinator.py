@@ -767,16 +767,25 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
                         device_costs=device_costs,
                     ):
                         add(figure, hour, amount)
-            elif (ev := value_with_entity(
-                config, state, entity_values, VALUE_EV_CONSUMPTION, hour, minimum=0.01
-            )) and (combustion := value_with_entity(
-                config,
-                state,
-                entity_values,
-                VALUE_COMBUSTION_CONSUMPTION,
-                hour,
-                minimum=0.01,
-            )) is not None:
+            elif (
+                ev := value_with_entity(
+                    config,
+                    state,
+                    entity_values,
+                    VALUE_EV_CONSUMPTION,
+                    hour,
+                    minimum=0.01,
+                )
+            ) and (
+                combustion := value_with_entity(
+                    config,
+                    state,
+                    entity_values,
+                    VALUE_COMBUSTION_CONSUMPTION,
+                    hour,
+                    minimum=0.01,
+                )
+            ) is not None:
                 saving = wallbox_saving(
                     electricity=electricity,
                     ev_consumption=ev,

@@ -788,6 +788,44 @@ async def test_historical_baseline_replaces_overlapping_recorder_data(
     assert historical["until"] > historical["since"]
 
 
+async def test_legacy_aggregate_totals_get_cutoff_when_resaved(
+    hass: HomeAssistant,
+) -> None:
+    """Resaving legacy totals records their first explicit through-now cutoff."""
+    since = datetime(2020, 1, 1).timestamp()
+    entry = make_entry(
+        (
+            "pv",
+            {
+                "historical_enabled": True,
+                "historical_data": {
+                    "since": since,
+                    "solar_kwh": 10000,
+                    "export_kwh": 4000,
+                    "electricity_price": 0.30,
+                    "feed_in_price": 0.08,
+                },
+            },
+        )
+    )
+    await setup_entry(hass, entry)
+    result = await _reconfigure(hass, entry, "pv", "historical")
+    result = await hass.config_entries.subentries.async_configure(
+        result["flow_id"],
+        {
+            "historical_enabled": True,
+            "since": "2020-01-01",
+            "solar_kwh": 10000,
+            "export_kwh": 4000,
+            "electricity_price": 0.30,
+            "feed_in_price": 0.08,
+        },
+    )
+    assert result["reason"] == "recomputing"
+    historical = _data(entry, "pv")["historical_data"]
+    assert historical["until"] > historical["since"]
+
+
 async def test_historical_future_date_is_rejected(hass: HomeAssistant) -> None:
     """Historical totals cannot start in the future."""
     entry = make_entry(("pv", {}))

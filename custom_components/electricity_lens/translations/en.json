@@ -65,12 +65,14 @@
         "description": "Compares the heat pump with your former heating, if there was one.",
         "data": {
           "meters": "Electricity consumption",
+          "heat_device": "Heat meter device (optional)",
           "heat_meters": "Produced heat (optional)",
           "heating": "Former heating",
           "investment": "Extra cost (optional)"
         },
         "data_description": {
           "meters": "Total meter, or heating and hot water separately",
+          "heat_device": "Takes over the device's heat meter; with several, choose them below",
           "heat_meters": "Select heat meters in the same order as their matching electricity meters; COP is needed until all have data",
           "heating": "None, as in a new build: no saving, but heat, COP, and heat price",
           "investment": "Extra purchase cost over the former heating. For the payback."
@@ -431,6 +433,8 @@
     "error": {
       "meters_required": "Choose at least one meter.",
       "heating_required": "Choose the former heating.",
+      "heat_device_none": "This device has no energy meter. Choose the heat meters below.",
+      "heat_device_ambiguous": "This device has several energy meters. Choose the heat meters below, in the order of the electricity meters.",
       "value_required": "Enter a value above 0.",
       "scop_range": "Enter a COP between 1 and 10.",
       "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty.",
@@ -557,6 +561,8 @@
       "error": {
         "meters_required": "Choose at least one meter.",
         "heating_required": "Choose the former heating.",
+        "heat_device_none": "This device has no energy meter. Choose the heat meters below.",
+        "heat_device_ambiguous": "This device has several energy meters. Choose the heat meters below, in the order of the electricity meters.",
         "value_required": "Enter a value above 0.",
         "scop_range": "Enter a COP between 1 and 10.",
         "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty.",
@@ -583,12 +589,14 @@
           "description": "Compares the heat pump with your former heating, if there was one.",
           "data": {
             "meters": "Electricity consumption",
+            "heat_device": "Heat meter device (optional)",
             "heat_meters": "Produced heat (optional)",
             "heating": "Former heating",
             "investment": "Extra cost (optional)"
           },
           "data_description": {
             "meters": "Total meter, or heating and hot water separately",
+            "heat_device": "Takes over the device's heat meter; with several, choose them below",
             "heat_meters": "Select heat meters in the same order as their matching electricity meters; COP is needed until all have data",
             "heating": "None, as in a new build: no saving, but heat, COP, and heat price",
             "investment": "Extra purchase cost over the former heating. For the payback."
@@ -609,12 +617,14 @@
           "description": "Other meters or another former heating compute everything again. The extra cost applies at once.",
           "data": {
             "meters": "Electricity consumption",
+            "heat_device": "Heat meter device (optional)",
             "heat_meters": "Produced heat (optional)",
             "heating": "Former heating",
             "investment": "Extra cost (optional)"
           },
           "data_description": {
             "meters": "Total meter, or heating and hot water separately",
+            "heat_device": "Takes over the device's heat meter; with several, choose them below",
             "heat_meters": "Select heat meters in the same order as their matching electricity meters; COP is needed until all have data",
             "heating": "None, as in a new build: no saving, but heat, COP, and heat price",
             "investment": "Extra purchase cost over the former heating. For the payback."
@@ -1164,6 +1174,8 @@
       "error": {
         "meters_required": "Choose at least one meter.",
         "heating_required": "Choose the former heating.",
+        "heat_device_none": "This device has no energy meter. Choose the heat meters below.",
+        "heat_device_ambiguous": "This device has several energy meters. Choose the heat meters below, in the order of the electricity meters.",
         "value_required": "Enter a value above 0.",
         "scop_range": "Enter a COP between 1 and 10.",
         "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty.",
@@ -1332,6 +1344,8 @@
       "error": {
         "meters_required": "Choose at least one meter.",
         "heating_required": "Choose the former heating.",
+        "heat_device_none": "This device has no energy meter. Choose the heat meters below.",
+        "heat_device_ambiguous": "This device has several energy meters. Choose the heat meters below, in the order of the electricity meters.",
         "value_required": "Enter a value above 0.",
         "scop_range": "Enter a COP between 1 and 10.",
         "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty.",

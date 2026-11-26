@@ -65,12 +65,14 @@
         "description": "Vergleicht die Wärmepumpe mit deiner früheren Heizung, falls es eine gab.",
         "data": {
           "meters": "Stromverbrauch",
+          "heat_device": "Gerät des Wärmemengenzählers (optional)",
           "heat_meters": "Erzeugte Wärme (optional)",
           "heating": "Frühere Heizung",
           "investment": "Mehrkosten (optional)"
         },
         "data_description": {
           "meters": "Gesamtzähler, oder Heizung und Warmwasser einzeln",
+          "heat_device": "Übernimmt dessen Wärmemengenzähler; bei mehreren wähle sie unten",
           "heat_meters": "Wähle Wärmemengenzähler in derselben Reihenfolge wie die zugehörigen Stromzähler; bis alle Daten liefern, wird der COP benötigt",
           "heating": "Keine, etwa im Neubau: keine Ersparnis, aber Wärme, COP und Wärmepreis",
           "investment": "Mehrkosten der Anschaffung gegenüber der früheren Heizung. Für die Amortisation."
@@ -431,6 +433,8 @@
     "error": {
       "meters_required": "Wähle mindestens einen Zähler.",
       "heating_required": "Wähle die frühere Heizung.",
+      "heat_device_none": "Dieses Gerät hat keinen Energiezähler. Wähle die Wärmemengenzähler unten.",
+      "heat_device_ambiguous": "Dieses Gerät hat mehrere Energiezähler. Wähle die Wärmemengenzähler unten, in der Reihenfolge der Stromzähler.",
       "value_required": "Gib einen Wert über 0 an.",
       "scop_range": "Gib einen COP zwischen 1 und 10 an.",
       "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer.",
@@ -557,6 +561,8 @@
       "error": {
         "meters_required": "Wähle mindestens einen Zähler.",
         "heating_required": "Wähle die frühere Heizung.",
+        "heat_device_none": "Dieses Gerät hat keinen Energiezähler. Wähle die Wärmemengenzähler unten.",
+        "heat_device_ambiguous": "Dieses Gerät hat mehrere Energiezähler. Wähle die Wärmemengenzähler unten, in der Reihenfolge der Stromzähler.",
         "value_required": "Gib einen Wert über 0 an.",
         "scop_range": "Gib einen COP zwischen 1 und 10 an.",
         "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer.",
@@ -583,12 +589,14 @@
           "description": "Vergleicht die Wärmepumpe mit deiner früheren Heizung, falls es eine gab.",
           "data": {
             "meters": "Stromverbrauch",
+            "heat_device": "Gerät des Wärmemengenzählers (optional)",
             "heat_meters": "Erzeugte Wärme (optional)",
             "heating": "Frühere Heizung",
             "investment": "Mehrkosten (optional)"
           },
           "data_description": {
             "meters": "Gesamtzähler, oder Heizung und Warmwasser einzeln",
+            "heat_device": "Übernimmt dessen Wärmemengenzähler; bei mehreren wähle sie unten",
             "heat_meters": "Wähle Wärmemengenzähler in derselben Reihenfolge wie die zugehörigen Stromzähler; bis alle Daten liefern, wird der COP benötigt",
             "heating": "Keine, etwa im Neubau: keine Ersparnis, aber Wärme, COP und Wärmepreis",
             "investment": "Mehrkosten der Anschaffung gegenüber der früheren Heizung. Für die Amortisation."
@@ -609,12 +617,14 @@
           "description": "Andere Zähler oder eine andere frühere Heizung berechnen alles neu. Mehrkosten gelten sofort.",
           "data": {
             "meters": "Stromverbrauch",
+            "heat_device": "Gerät des Wärmemengenzählers (optional)",
             "heat_meters": "Erzeugte Wärme (optional)",
             "heating": "Frühere Heizung",
             "investment": "Mehrkosten (optional)"
           },
           "data_description": {
             "meters": "Gesamtzähler, oder Heizung und Warmwasser einzeln",
+            "heat_device": "Übernimmt dessen Wärmemengenzähler; bei mehreren wähle sie unten",
             "heat_meters": "Wähle Wärmemengenzähler in derselben Reihenfolge wie die zugehörigen Stromzähler; bis alle Daten liefern, wird der COP benötigt",
             "heating": "Keine, etwa im Neubau: keine Ersparnis, aber Wärme, COP und Wärmepreis",
             "investment": "Mehrkosten der Anschaffung gegenüber der früheren Heizung. Für die Amortisation."
@@ -1164,6 +1174,8 @@
       "error": {
         "meters_required": "Wähle mindestens einen Zähler.",
         "heating_required": "Wähle die frühere Heizung.",
+        "heat_device_none": "Dieses Gerät hat keinen Energiezähler. Wähle die Wärmemengenzähler unten.",
+        "heat_device_ambiguous": "Dieses Gerät hat mehrere Energiezähler. Wähle die Wärmemengenzähler unten, in der Reihenfolge der Stromzähler.",
         "value_required": "Gib einen Wert über 0 an.",
         "scop_range": "Gib einen COP zwischen 1 und 10 an.",
         "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer.",
@@ -1332,6 +1344,8 @@
       "error": {
         "meters_required": "Wähle mindestens einen Zähler.",
         "heating_required": "Wähle die frühere Heizung.",
+        "heat_device_none": "Dieses Gerät hat keinen Energiezähler. Wähle die Wärmemengenzähler unten.",
+        "heat_device_ambiguous": "Dieses Gerät hat mehrere Energiezähler. Wähle die Wärmemengenzähler unten, in der Reihenfolge der Stromzähler.",
         "value_required": "Gib einen Wert über 0 an.",
         "scop_range": "Gib einen COP zwischen 1 und 10 an.",
         "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer.",

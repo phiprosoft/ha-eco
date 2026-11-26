@@ -186,6 +186,10 @@ TEXTS: dict[str, dict[str, Any]] = {
                 "Electricity consumption",
                 "Total meter, or heating and hot water separately",
             ),
+            "heat_device": (
+                "Heat meter device (optional)",
+                "Takes over the device's heat meter; with several, choose them below",
+            ),
             "heat_meters": (
                 "Produced heat (optional)",
                 "Select heat meters in the same order as their matching electricity meters; COP is needed until all have data",
@@ -337,6 +341,8 @@ TEXTS: dict[str, dict[str, Any]] = {
         "errors": {
             "meters_required": "Choose at least one meter.",
             "heating_required": "Choose the former heating.",
+            "heat_device_none": "This device has no energy meter. Choose the heat meters below.",
+            "heat_device_ambiguous": "This device has several energy meters. Choose the heat meters below, in the order of the electricity meters.",
             "value_required": "Enter a value above 0.",
             "scop_range": "Enter a COP between 1 and 10.",
             "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty.",
@@ -588,6 +594,10 @@ TEXTS: dict[str, dict[str, Any]] = {
                 "Stromverbrauch",
                 "Gesamtzähler, oder Heizung und Warmwasser einzeln",
             ),
+            "heat_device": (
+                "Gerät des Wärmemengenzählers (optional)",
+                "Übernimmt dessen Wärmemengenzähler; bei mehreren wähle sie unten",
+            ),
             "heat_meters": (
                 "Erzeugte Wärme (optional)",
                 "Wähle Wärmemengenzähler in derselben Reihenfolge wie die zugehörigen Stromzähler; bis alle Daten liefern, wird der COP benötigt",
@@ -739,6 +749,8 @@ TEXTS: dict[str, dict[str, Any]] = {
         "errors": {
             "meters_required": "Wähle mindestens einen Zähler.",
             "heating_required": "Wähle die frühere Heizung.",
+            "heat_device_none": "Dieses Gerät hat keinen Energiezähler. Wähle die Wärmemengenzähler unten.",
+            "heat_device_ambiguous": "Dieses Gerät hat mehrere Energiezähler. Wähle die Wärmemengenzähler unten, in der Reihenfolge der Stromzähler.",
             "value_required": "Gib einen Wert über 0 an.",
             "scop_range": "Gib einen COP zwischen 1 und 10 an.",
             "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer.",
@@ -899,7 +911,7 @@ def meters_block(t: dict[str, Any], category: str) -> dict[str, Any]:
     if category == "heat_pump":
         return fields(
             t,
-            ["meters", "heat_meters", "heating", "investment"],
+            ["meters", "heat_device", "heat_meters", "heating", "investment"],
             {"investment": "heat_pump_investment"},
         )
     return fields(

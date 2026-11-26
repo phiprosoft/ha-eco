@@ -166,7 +166,7 @@ async def test_full_setup(hass: HomeAssistant) -> None:
         )
     assert result["type"] is FlowResultType.CREATE_ENTRY
     entry = result["result"]
-    assert entry.minor_version == 3
+    assert entry.minor_version == 4
     assert entry.options == {"standing_charge": 12.5}
     subentries = {s.subentry_type: s for s in entry.subentries.values()}
     assert subentries["pv"].data["investment"] == 14500

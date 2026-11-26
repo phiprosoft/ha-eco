@@ -484,6 +484,7 @@ def values_schema(
     *,
     scop: bool,
     price_entity: bool,
+    allow_entity_scop: bool = False,
 ) -> probatio.Schema:
     """Return the form of the values: averages before, or values from now on.
 
@@ -507,9 +508,9 @@ def values_schema(
         field = probatio.Optional if price_entity else probatio.Required
         fields[field(prices[0])] = _number(f"{currency}/{unit}")
     if scop:
-        scop_field = probatio.Optional if price_entity else probatio.Required
+        scop_field = probatio.Optional if allow_entity_scop else probatio.Required
         fields[scop_field(VALUE_SCOP)] = _number(maximum=10, step=0.1)
-        if price_entity:
+        if allow_entity_scop:
             fields[probatio.Optional(VALUE_SCOP_ENTITY)] = SCOP_ENTITY_SELECTOR
     fields[probatio.Optional(VALUE_TARIFF)] = _number(f"{currency}/kWh")
     if price_entity and prices is not None:
@@ -1274,7 +1275,14 @@ class CategorySubentryFlow(ConfigSubentryFlow):
                 {"time": valid_from.strftime("%H:%M")},
             )
         schema = self.add_suggested_values_to_schema(
-            values_schema(self.hass, category, heating, scop=scop, price_entity=True),
+            values_schema(
+                self.hass,
+                category,
+                heating,
+                scop=scop,
+                price_entity=True,
+                allow_entity_scop=scop,
+            ),
             user_input
             if user_input is not None
             else values_form_input(

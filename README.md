@@ -184,6 +184,7 @@ household needs it.
    | Field | Description |
    |---|---|
    | Electricity consumption | The heat pump's meters from the energy dashboard's individual devices. |
+   | Heat meter device (optional) | Uses a device's only enabled energy meter automatically; if it has several, select the heat meters manually to avoid double counting. |
    | Produced heat (optional) | Heat meters for the same parts as the electricity meters. An hour counts as measured when every heat meter has data for it. |
    | Former heating | Gas, heating oil, LPG, pellets, district heating, or an electric heating such as storage heaters; or none, as in a new build. Without one there is nothing to compare with: the heat pump has no saving, no saving sensors, and no place in the economics, but its heat, COP, heat price, and the Heating view. |
    | Extra cost (optional) | Extra purchase cost over the former heating, for the payback. Not with no former heating. |

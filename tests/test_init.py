@@ -432,6 +432,7 @@ async def test_historical_pv_energy_totals_are_lifetime_only(
                 "historical_enabled": True,
                 "historical_data": {
                     "since": historical_since,
+                    "until": datetime.now().timestamp(),
                     "solar_kwh": 10000,
                     "export_kwh": 4000,
                     "electricity_price": 0.30,
@@ -444,14 +445,15 @@ async def test_historical_pv_energy_totals_are_lifetime_only(
 
     saving = _state(hass, "sensor.solar_saving")
     historical = 6000 * 0.30 + 4000 * 0.08
-    expected_history = COUNTED * PV_PER_HOUR
-    assert float(saving.state) == pytest.approx(expected_history + historical)
+    assert float(saving.state) == pytest.approx(historical)
     assert saving.attributes["historical_saving"] == pytest.approx(historical)
-    assert saving.attributes["historical_method"] == "aggregate_energy_estimate"
+    assert (
+        saving.attributes["historical_method"]
+        == "aggregate_energy_estimate_through_now"
+    )
     assert saving.attributes["historical_estimated"] is False
-    # Historical kWh are not spread over the recorder's hourly statistics.
-    sums = await statistic_sums(hass, "electricity_lens:pv_saving", data_start)
-    assert sums[-1] == pytest.approx(expected_history)
+    # The aggregate replaces recorder data through its saved cutoff.
+    assert await statistic_sums(hass, "electricity_lens:pv_saving", data_start) == []
 
 
 @pytest.mark.usefixtures("energy")
@@ -1292,8 +1294,49 @@ async def test_entries_of_1_2_lose_the_price_thresholds(hass: HomeAssistant) -> 
 
     assert await hass.config_entries.async_setup(entry.entry_id)
 
-    assert entry.minor_version == 3
+    assert entry.minor_version == 4
     assert entry.options == {"standing_charge": 12}
+
+
+@pytest.mark.usefixtures("energy")
+async def test_entries_of_1_3_migrate_historical_energy_cutoff(
+    hass: HomeAssistant, data_start: datetime
+) -> None:
+    """Existing aggregate totals gain a persisted cutoff at upgrade time."""
+    since = (data_start - timedelta(days=365)).timestamp()
+    entry = make_entry(
+        (
+            "pv",
+            {
+                **PV_DATA,
+                "historical_enabled": True,
+                "historical_data": {
+                    "since": since,
+                    "solar_kwh": 10000,
+                    "export_kwh": 4000,
+                    "electricity_price": 0.30,
+                    "feed_in_price": 0.08,
+                },
+            },
+        ),
+        minor_version=3,
+    )
+    entry.add_to_hass(hass)
+
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done(wait_background_tasks=True)
+    await async_wait_recording_done(hass)
+
+    assert entry.minor_version == 4
+    historical = _subentry(entry, "pv").data["historical_data"]
+    assert historical["until"] > since
+    saving = _state(hass, "sensor.solar_saving")
+    assert float(saving.state) == pytest.approx(6000 * 0.30 + 4000 * 0.08)
+    assert (
+        saving.attributes["historical_method"]
+        == "aggregate_energy_estimate_through_now"
+    )
+    assert await statistic_sums(hass, "electricity_lens:pv_saving", data_start) == []
 
 
 async def test_forecast_sensors(hass: HomeAssistant) -> None:

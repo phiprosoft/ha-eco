@@ -16,6 +16,7 @@ from homeassistant.const import PERCENTAGE, UnitOfEnergy
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
+from homeassistant.util import dt as dt_util
 
 from .const import DOMAIN
 from .coordinator import ElectricityLensConfigEntry, ElectricityLensCoordinator
@@ -289,6 +290,7 @@ class CategorySensor(ElectricityLensEntity, SensorEntity):  # pyright: ignore[re
         """Return since when the saving counts and the price it uses now."""
         if (result := self._result) is None:
             return None
+        historical_until = self.coordinator.configs[self._subentry_id].historical_until
         if self.entity_description.key != "saving":
             attributes_fn = self.entity_description.attributes_fn
             return attributes_fn(result) if attributes_fn else None
@@ -308,12 +310,23 @@ class CategorySensor(ElectricityLensEntity, SensorEntity):  # pyright: ignore[re
             "historical_since": result.historical_since.isoformat()
             if result.historical_since
             else None,
+            "historical_until": (
+                dt_util.as_local(
+                    dt_util.utc_from_timestamp(historical_until)
+                ).isoformat()
+                if historical_until is not None
+                else None
+            ),
             "historical_method": (
                 (
                     "legacy_aggregate"
                     if "saving"
                     in self.coordinator.configs[self._subentry_id].historical_data
-                    else "aggregate_energy_estimate"
+                    else (
+                        "aggregate_energy_estimate_through_now"
+                        if historical_until is not None
+                        else "aggregate_energy_estimate"
+                    )
                 )
                 if result.historical_since is not None
                 else None

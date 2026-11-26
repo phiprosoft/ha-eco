@@ -31,6 +31,7 @@ from .const import (
     HEATING_GAS,
     HEATING_NONE,
     HISTORICAL_SINCE,
+    HISTORICAL_UNTIL,
     VALUE_COMBUSTION_CONSUMPTION,
     VALUE_EV_CONSUMPTION,
     VALUE_PRICE,
@@ -158,6 +159,19 @@ class CategoryConfig:
             or not isinstance(value, int | float)
             or isinstance(value, bool)
             or value <= 0
+        ):
+            return None
+        return float(value)
+
+    @property
+    def historical_until(self) -> float | None:
+        """Return the cutoff of aggregate totals that replace recorder history."""
+        value = self.historical_data.get(HISTORICAL_UNTIL)
+        if (
+            self.historical_since is None
+            or not isinstance(value, int | float)
+            or isinstance(value, bool)
+            or value <= self.historical_since
         ):
             return None
         return float(value)

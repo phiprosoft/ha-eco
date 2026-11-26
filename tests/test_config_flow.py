@@ -166,7 +166,7 @@ async def test_full_setup(hass: HomeAssistant) -> None:
         )
     assert result["type"] is FlowResultType.CREATE_ENTRY
     entry = result["result"]
-    assert entry.minor_version == 3
+    assert entry.minor_version == 4
     assert entry.options == {"standing_charge": 12.5}
     subentries = {s.subentry_type: s for s in entry.subentries.values()}
     assert subentries["pv"].data["investment"] == 14500
@@ -762,10 +762,10 @@ def test_historical_pv_battery_without_export_meter(
     assert data["battery_discharge_kwh"] == 800
 
 
-async def test_historical_baseline_rejects_recorder_overlap(
+async def test_historical_baseline_replaces_overlapping_recorder_data(
     hass: HomeAssistant, data_start: datetime
 ) -> None:
-    """A baseline beginning after recorder history has started is rejected."""
+    """Aggregate totals through today replace, rather than overlap, recorder data."""
     import_hourly(hass, "sensor.solar", data_start, [0.0, 2.0])
     await async_wait_recording_done(hass)
     entry = make_entry(("pv", {}))
@@ -775,7 +775,87 @@ async def test_historical_baseline_rejects_recorder_overlap(
         result["flow_id"],
         {
             "historical_enabled": True,
-            "since": (data_start + timedelta(days=1)).date().isoformat(),
+            "since": data_start.date().isoformat(),
+            "solar_kwh": 10000,
+            "export_kwh": 4000,
+            "electricity_price": 0.30,
+            "feed_in_price": 0.08,
+        },
+    )
+    assert result["reason"] == "recomputing"
+    historical = _data(entry, "pv")["historical_data"]
+    assert historical["since"] > 0
+    assert historical["until"] > historical["since"]
+
+
+async def test_legacy_aggregate_totals_get_cutoff_when_resaved(
+    hass: HomeAssistant,
+) -> None:
+    """Resaving legacy totals records their first explicit through-now cutoff."""
+    since = datetime(2020, 1, 1).timestamp()
+    entry = make_entry(
+        (
+            "pv",
+            {
+                "historical_enabled": True,
+                "historical_data": {
+                    "since": since,
+                    "solar_kwh": 10000,
+                    "export_kwh": 4000,
+                    "electricity_price": 0.30,
+                    "feed_in_price": 0.08,
+                },
+            },
+        )
+    )
+    await setup_entry(hass, entry)
+    result = await _reconfigure(hass, entry, "pv", "historical")
+    result = await hass.config_entries.subentries.async_configure(
+        result["flow_id"],
+        {
+            "historical_enabled": True,
+            "since": "2020-01-01",
+            "solar_kwh": 10000,
+            "export_kwh": 4000,
+            "electricity_price": 0.30,
+            "feed_in_price": 0.08,
+        },
+    )
+    assert result["reason"] == "recomputing"
+    historical = _data(entry, "pv")["historical_data"]
+    assert historical["until"] > historical["since"]
+
+
+def test_historical_totals_reject_zero_fuel_price() -> None:
+    """A zero former-fuel price is not a valid historical comparison."""
+    assert (
+        historical_data_from_input(
+            "wallbox",
+            "",
+            {
+                "since": "2020-01-01",
+                "electricity_kwh": 1000,
+                "ev_consumption": 20,
+                "combustion_consumption": 7,
+                "electricity_price": 0.30,
+                "fuel_price": 0,
+            },
+        )
+        is None
+    )
+
+
+async def test_historical_future_date_is_rejected(hass: HomeAssistant) -> None:
+    """Historical totals cannot start in the future."""
+    entry = make_entry(("pv", {}))
+    await setup_entry(hass, entry)
+    result = await _reconfigure(hass, entry, "pv", "historical")
+    tomorrow = (datetime.now().date() + timedelta(days=1)).isoformat()
+    result = await hass.config_entries.subentries.async_configure(
+        result["flow_id"],
+        {
+            "historical_enabled": True,
+            "since": tomorrow,
             "solar_kwh": 10000,
             "export_kwh": 4000,
             "electricity_price": 0.30,
@@ -783,7 +863,7 @@ async def test_historical_baseline_rejects_recorder_overlap(
         },
     )
     assert result["type"] is FlowResultType.FORM
-    assert result["errors"] == {"base": "historical_overlaps_recorder"}
+    assert result["errors"] == {"base": "historical_future_date"}
 
 
 async def test_historical_energy_totals_can_be_enabled_and_disabled(
@@ -825,6 +905,23 @@ async def test_historical_energy_totals_can_be_enabled_and_disabled(
     assert data["historical_data"]["solar_kwh"] == 10000
     assert data["historical_data"]["export_kwh"] == 4000
     assert data["historical_data"]["since"] > 0
+    cutoff = data["historical_data"]["until"]
+
+    # Reopening and saving unchanged values must not move the cutoff forward:
+    # that would claim the same totals cover new recorder data.
+    result = await _reconfigure(hass, entry, "pv", "historical")
+    result = await hass.config_entries.subentries.async_configure(
+        result["flow_id"],
+        {
+            "historical_enabled": True,
+            "since": "2020-01-01",
+            "solar_kwh": 10000,
+            "export_kwh": 4000,
+            "electricity_price": 0.30,
+            "feed_in_price": 0.08,
+        },
+    )
+    assert _data(entry, "pv")["historical_data"]["until"] == cutoff
 
     result = await _reconfigure(hass, entry, "pv", "historical")
     result = await hass.config_entries.subentries.async_configure(

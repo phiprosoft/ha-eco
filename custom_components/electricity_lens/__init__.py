@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
+from typing import Any, cast
 
 from homeassistant.components import frontend
 from homeassistant.components.http import (
@@ -19,12 +20,25 @@ from homeassistant.helpers.dispatcher import (
 )
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.loader import async_get_integration
+from homeassistant.util import dt as dt_util
 
 from . import websocket_api
 from .const import (
     CARD_FILENAME,
+    CONF_HISTORICAL_DATA,
     DOMAIN,
     FRONTEND_URL,
+    HISTORICAL_BATTERY_CHARGE,
+    HISTORICAL_BATTERY_DISCHARGE,
+    HISTORICAL_COMBUSTION_CONSUMPTION,
+    HISTORICAL_ELECTRICITY,
+    HISTORICAL_EV_CONSUMPTION,
+    HISTORICAL_EXPORT,
+    HISTORICAL_HEAT,
+    HISTORICAL_SCOP,
+    HISTORICAL_SINCE,
+    HISTORICAL_SOLAR,
+    HISTORICAL_UNTIL,
     RETIRED_OPTIONS,
     SIGNAL_ENERGY_PREFS_UPDATED,
 )
@@ -133,15 +147,58 @@ async def async_migrate_entry(
     """
     if entry.version != 1 or entry.minor_version < 2:
         return False
-    if entry.minor_version == 2:
+
+    minor_version = entry.minor_version
+    options = entry.options
+    if minor_version == 2:
+        options = {
+            key: value for key, value in options.items() if key not in RETIRED_OPTIONS
+        }
+        minor_version = 3
+
+    if minor_version == 3:
+        # Before 0.35.6, aggregate energy totals were not given an explicit
+        # end timestamp. The user-entered totals cover the selected date
+        # through the upgrade, so persist that cutoff before resuming meters.
+        energy_keys = (
+            HISTORICAL_SOLAR,
+            HISTORICAL_EXPORT,
+            HISTORICAL_BATTERY_CHARGE,
+            HISTORICAL_BATTERY_DISCHARGE,
+            HISTORICAL_ELECTRICITY,
+            HISTORICAL_HEAT,
+            HISTORICAL_SCOP,
+            HISTORICAL_EV_CONSUMPTION,
+            HISTORICAL_COMBUSTION_CONSUMPTION,
+        )
+        cutoff = dt_util.utcnow().timestamp()
+        for subentry in tuple(entry.subentries.values()):
+            historical = cast(
+                dict[str, Any] | None, subentry.data.get(CONF_HISTORICAL_DATA)
+            )
+            if not isinstance(historical, dict) or HISTORICAL_UNTIL in historical:
+                continue
+            since = historical.get(HISTORICAL_SINCE)
+            if (
+                not isinstance(since, int | float)
+                or isinstance(since, bool)
+                or since <= 0
+                or not any(key in historical for key in energy_keys)
+            ):
+                continue
+            data: dict[str, Any] = {
+                **subentry.data,
+                CONF_HISTORICAL_DATA: {
+                    **historical,
+                    HISTORICAL_UNTIL: cutoff,
+                },
+            }
+            hass.config_entries.async_update_subentry(entry, subentry, data=data)
+        minor_version = 4
+
+    if minor_version != entry.minor_version or options != entry.options:
         hass.config_entries.async_update_entry(
-            entry,
-            options={
-                key: value
-                for key, value in entry.options.items()
-                if key not in RETIRED_OPTIONS
-            },
-            minor_version=3,
+            entry, options=options, minor_version=minor_version
         )
     return True
 

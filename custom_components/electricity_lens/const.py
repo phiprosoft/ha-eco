@@ -38,6 +38,8 @@ CONF_HISTORICAL_DATA: Final = "historical_data"
 
 # Keys inside CONF_HISTORICAL_DATA. Energy is kWh; prices are per kWh or fuel unit.
 HISTORICAL_SINCE: Final = "since"
+# Timestamp through which aggregate historical totals were entered.
+HISTORICAL_UNTIL: Final = "until"
 HISTORICAL_SAVING: Final = "saving"  # Legacy aggregate, retained for old entries.
 HISTORICAL_SOLAR: Final = "solar_kwh"
 HISTORICAL_EXPORT: Final = "export_kwh"

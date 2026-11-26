@@ -141,6 +141,13 @@ def _ceil_hour(timestamp: float) -> float:
     return math.ceil(timestamp / HOUR) * HOUR
 
 
+def _category_data_start(first_data: float, historical_until: float | None) -> float:
+    """Start recorder calculations after aggregate totals' inclusive cutoff."""
+    if historical_until is None:
+        return first_data
+    return max(first_data, _ceil_hour(historical_until))
+
+
 def next_full_hour() -> float:
     """Return the start of the next full hour, from when new values apply."""
     return _ceil_hour(time() + 1)
@@ -536,12 +543,13 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
             state.reset(state.fingerprint)
             state.household = household
         if state.data_start is None:
-            state.data_start = await async_first_hour(
+            first_data = await async_first_hour(
                 self.hass, self._key_stats(config, setup)
             )
-            if state.data_start is None:
+            if first_data is None:
                 self._without_data.add(subentry_id)
                 return
+            state.data_start = _category_data_start(first_data, config.historical_until)
         self._without_data.discard(subentry_id)
 
         counting_since = _ceil_hour(state.data_start)
@@ -1332,7 +1340,7 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
                     summary = summarize(
                         saving=historical_saving,
                         counting_since=historical_since,
-                        until=time(),
+                        until=config.historical_until or time(),
                         investment=config.total_investment,
                     )
                     results[subentry_id] = CategoryResult(
@@ -1455,7 +1463,7 @@ def _battery_result(
     if not starts:
         return None
     counting_since = min(starts)
-    until = state.next_hour or time()
+    until = state.next_hour or config.historical_until or time()
     saving = state.totals.get("battery_saving", 0.0) + config.historical_battery_saving
     summary = summarize(
         saving=saving,

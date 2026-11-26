@@ -1138,8 +1138,7 @@ class CategorySubentryFlow(ConfigSubentryFlow):
                             if key != HISTORICAL_SINCE
                         )
                         and all(
-                            key in values
-                            or key in (HISTORICAL_SINCE, HISTORICAL_UNTIL)
+                            key in values or key in (HISTORICAL_SINCE, HISTORICAL_UNTIL)
                             for key in historical
                         )
                     )

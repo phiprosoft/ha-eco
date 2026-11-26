@@ -549,9 +549,7 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
             if first_data is None:
                 self._without_data.add(subentry_id)
                 return
-            state.data_start = _category_data_start(
-                first_data, config.historical_until
-            )
+            state.data_start = _category_data_start(first_data, config.historical_until)
         self._without_data.discard(subentry_id)
 
         counting_since = _ceil_hour(state.data_start)

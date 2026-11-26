@@ -73,7 +73,6 @@ from .const import (
     VALUE_PRICE,
     VALUE_PRICE_ENTITY,
     VALUE_SCOP,
-    VALUE_SCOP_ENTITY,
     VALUE_TARIFF,
 )
 from .models import (

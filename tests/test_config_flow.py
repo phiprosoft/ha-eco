@@ -33,6 +33,8 @@ from custom_components.electricity_lens.config_flow import (
 )
 from custom_components.electricity_lens.const import (
     CATEGORY_HEAT_PUMP,
+    CATEGORY_WALLBOX,
+    COMPARISON_COMBUSTION,
     DOMAIN,
     HEATING_GAS,
     VALUE_SCOP,
@@ -1032,6 +1034,33 @@ async def test_reconfigure_now_accepts_scop_entity_without_manual_scop() -> None
         allow_entity_scop=True,
     )
     assert errors == {}
+
+
+def test_reconfigure_now_rejects_empty_manual_scop_without_entity() -> None:
+    """An explicitly empty COP needs a live sensor."""
+    errors = validate_values(
+        CATEGORY_HEAT_PUMP,
+        HEATING_GAS,
+        {"scop": None},
+        allow_entity_price=True,
+        allow_entity_scop=True,
+    )
+    assert errors[VALUE_SCOP] == "value_required"
+
+
+def test_reconfigure_wallbox_requires_each_manual_or_entity_consumption() -> None:
+    """Each car consumption average needs either a number or a sensor."""
+    errors = validate_values(
+        CATEGORY_WALLBOX,
+        COMPARISON_COMBUSTION,
+        {
+            "fuel_price_entity": "sensor.fuel_price",
+            "ev_consumption_entity": "sensor.ev_consumption",
+        },
+        allow_entity_price=True,
+        allow_entity_values=True,
+    )
+    assert errors["combustion_consumption"] == "value_required"
 
 
 def test_reconfigure_now_requires_manual_or_entity_scop() -> None:

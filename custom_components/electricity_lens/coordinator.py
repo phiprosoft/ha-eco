@@ -891,7 +891,11 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
             if isinstance(scop_entity, str)
             else None
         )
-        entered_scop = entity_scop if entity_scop is not None and 1 <= entity_scop <= 10 else value_at(config, state, VALUE_SCOP, hour)
+        entered_scop = (
+            entity_scop
+            if entity_scop is not None and 1 <= entity_scop <= 10
+            else value_at(config, state, VALUE_SCOP, hour)
+        )
         return estimated_heat(
             electricity,
             entered_scop=entered_scop,

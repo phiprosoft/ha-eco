@@ -1024,7 +1024,10 @@ async def test_reconfigure_now_accepts_scop_entity_without_manual_scop() -> None
     errors = validate_values(
         CATEGORY_HEAT_PUMP,
         HEATING_GAS,
-        {"gas_price_entity": "sensor.gas_price", "scop_entity": "sensor.heat_pump_scop"},
+        {
+            "gas_price_entity": "sensor.gas_price",
+            "scop_entity": "sensor.heat_pump_scop",
+        },
         allow_entity_price=True,
         allow_entity_scop=True,
     )
@@ -1041,6 +1044,29 @@ def test_reconfigure_now_requires_manual_or_entity_scop() -> None:
         allow_entity_scop=True,
     )
     assert errors[VALUE_SCOP] == "value_required"
+
+
+async def test_reconfigure_now_accepts_scop_entity_without_manual_value(
+    hass: HomeAssistant,
+) -> None:
+    """A COP sensor replaces the manual value in the current period."""
+    entry = make_entry(("heat_pump", HEAT_PUMP_DATA))
+    await setup_entry(hass, entry)
+    result = await _reconfigure(hass, entry, "heat_pump", "now")
+    assert "scop_entity" in _fields(result)
+    result = await hass.config_entries.subentries.async_configure(
+        result["flow_id"],
+        {
+            "gas_price_entity": "sensor.gas",
+            "scop_entity": "sensor.heat_pump_scop",
+        },
+    )
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "values_from"
+    assert _data(entry, "heat_pump")["current"] == {
+        "price_entity": "sensor.gas",
+        "scop_entity": "sensor.heat_pump_scop",
+    }
 
 
 def test_reconfigure_now_accepts_price_entity_without_manual_price(

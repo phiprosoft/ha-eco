@@ -122,7 +122,7 @@ TEXTS: dict[str, dict[str, Any]] = {
         },
         "historical": {
             "title": "Historical energy data",
-            "description": "Optional totals for the period before Home Assistant statistics. Enter the total kWh and average prices for that whole period. HA Eco calculates an estimated total saving from these values. No hourly or monthly history is invented.",
+            "description": "Enter totals from the start date through the moment you save (today). These values replace all Home Assistant recorder data in that interval; HA Eco resumes meter-based calculations at the next full hour. No partial periods or artificial hourly/monthly history are calculated.",
         },
         "fields": {
             "investment": ("Purchase cost (optional)", "For the payback"),
@@ -139,24 +139,24 @@ TEXTS: dict[str, dict[str, Any]] = {
                 "Date from which this total amount applies.",
             ),
             "since": (
-                "Period start date",
-                "Must be before the first recorded Home Assistant energy data.",
+                "Start of the total period",
+                "Start of the period covered by the totals below through the time you save. It may be before or after Home Assistant recording began.",
             ),
             "solar_kwh": (
                 "Solar production",
-                "Total PV production in kWh for the historical period.",
+                "Total PV production in kWh from the start date through saving.",
             ),
             "export_kwh": (
                 "Energy fed into the grid",
-                "Total exported energy in kWh. Leave empty or enter 0 if none.",
+                "Total energy exported to the grid in kWh over the same period.",
             ),
             "battery_charge_kwh": (
                 "Battery charged",
-                "Total energy charged into the battery in kWh.",
+                "Total energy charged into the battery over the same period.",
             ),
             "battery_discharge_kwh": (
                 "Battery discharged",
-                "Total energy discharged from the battery in kWh.",
+                "Total energy discharged from the battery over the same period.",
             ),
             "electricity_kwh": (
                 "Electricity consumed",
@@ -164,15 +164,15 @@ TEXTS: dict[str, dict[str, Any]] = {
             ),
             "heat_kwh": (
                 "Useful heat produced",
-                "Total measured heat in kWh. If unavailable, enter a seasonal COP below.",
+                "Measured heat over the same period. Takes precedence over COP.",
             ),
             "electricity_price": (
                 "Average electricity price",
-                "Average cost per kWh over the historical period.",
+                "Average price per kWh for the entire period from the start date through saving. For dynamic tariffs, use a consumption-weighted average where possible.",
             ),
             "feed_in_price": (
                 "Average feed-in compensation",
-                "Average compensation per exported kWh.",
+                "Average compensation per exported kWh over the same period.",
             ),
             "battery_investment": (
                 "Battery purchase cost (optional)",
@@ -307,17 +307,21 @@ TEXTS: dict[str, dict[str, Any]] = {
                 "Fuel price sensor (optional)",
                 "Replaces the fuel price",
             ),
-            "historical_electricity_kwh": (
+            "historical_heat_pump_electricity_kwh": (
                 "Historical electricity total",
-                "Total electricity consumed by the heat pump or charged into the car, in kWh.",
+                "Total heat-pump electricity consumption from the start date through saving.",
+            ),
+            "historical_wallbox_electricity_kwh": (
+                "Historical electricity total",
+                "Total energy charged at the wallbox from the start date through saving.",
             ),
             "historical_scop": (
                 "Seasonal COP",
-                "Estimates heat from electricity consumption when no heat meter is available.",
+                "Estimates heat from electricity when no measured heat total is entered.",
             ),
             "historical_fuel_price": (
                 "Average fuel price",
-                "Average price per unit of the former heating fuel or petrol.",
+                "Consumption-weighted average price of the former heating fuel or petrol over the same period.",
             ),
             "historical_ev_consumption": (
                 "Electric car consumption",
@@ -325,7 +329,7 @@ TEXTS: dict[str, dict[str, Any]] = {
             ),
             "historical_combustion_consumption": (
                 "Combustion car consumption",
-                "Average fuel consumption of a comparable car in litres per 100 km.",
+                "Average fuel consumption of a comparable combustion car in litres per 100 km.",
             ),
         },
         "heating": {
@@ -347,7 +351,7 @@ TEXTS: dict[str, dict[str, Any]] = {
             "scop_range": "Enter a COP between 1 and 10.",
             "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty.",
             "historical_values_required": "Enter all required historical energy totals, average prices, and a start date.",
-            "historical_overlaps_recorder": "The historical period must start before Home Assistant recording begins. Periods already recorded by Home Assistant must not be counted twice.",
+            "historical_future_date": "The start date cannot be in the future.",
         },
         "aborts": {
             "no_energy_dashboard": "First set up the grid import with an electricity price in the [energy dashboard](/config/energy). Then you can add HA Eco.",
@@ -386,6 +390,7 @@ TEXTS: dict[str, dict[str, Any]] = {
             "historical_since": "Historical period from",
             "historical_method": "Historical calculation method",
             "historical_estimated": "Historical heat estimated",
+            "historical_until": "Historical data through",
         },
         "figure_attributes": {
             "payback": {"investment": "Investment", "years_left": "Years left"},
@@ -530,7 +535,7 @@ TEXTS: dict[str, dict[str, Any]] = {
         },
         "historical": {
             "title": "Historische Energiedaten",
-            "description": "Optionale Gesamtwerte für die Zeit vor den Home-Assistant-Statistiken. Trage die gesamten kWh und die durchschnittlichen Preise für diesen Zeitraum ein. HA Eco berechnet daraus eine geschätzte Gesamtersparnis. Es werden keine Stunden- oder Monatsverläufe erfunden.",
+            "description": "Trage Gesamtwerte vom Startdatum bis zum Speichern ein (heute). Diese Werte ersetzen alle Home-Assistant-Aufzeichnungen in diesem Zeitraum; ab der nächsten vollen Stunde rechnet HA Eco wieder mit den Zählern. Es werden keine Teilzeiträume oder künstlichen Stunden-/Monatsverläufe berechnet.",
         },
         "fields": {
             "investment": ("Anschaffungskosten (optional)", "Für die Amortisation"),
@@ -547,24 +552,24 @@ TEXTS: dict[str, dict[str, Any]] = {
                 "Datum, ab dem dieser Gesamtbetrag gilt.",
             ),
             "since": (
-                "Beginn des Zeitraums",
-                "Muss vor dem ersten aufgezeichneten Energiedatum von Home Assistant liegen.",
+                "Beginn des Gesamtzeitraums",
+                "Beginn des Zeitraums, für den du die untenstehenden Gesamtwerte bis zum Speichern ermittelt hast. Das Datum darf vor oder nach dem Beginn der HA-Aufzeichnung liegen.",
             ),
             "solar_kwh": (
                 "PV-Erzeugung",
-                "Gesamte PV-Erzeugung in kWh im historischen Zeitraum.",
+                "Gesamte PV-Erzeugung in kWh vom Startdatum bis zum Speichern.",
             ),
             "export_kwh": (
                 "Netzeinspeisung",
-                "Gesamte Einspeisung in kWh. Leer lassen oder 0 eintragen, wenn es keine gab.",
+                "Gesamte Netzeinspeisung in kWh im selben Zeitraum.",
             ),
             "battery_charge_kwh": (
                 "Batterie geladen",
-                "Gesamte in die Batterie geladene Energie in kWh.",
+                "Gesamte in die Batterie geladene Energie im selben Zeitraum.",
             ),
             "battery_discharge_kwh": (
                 "Batterie entladen",
-                "Gesamte aus der Batterie entnommene Energie in kWh.",
+                "Gesamte aus der Batterie entnommene Energie im selben Zeitraum.",
             ),
             "electricity_kwh": (
                 "Stromverbrauch",
@@ -572,15 +577,15 @@ TEXTS: dict[str, dict[str, Any]] = {
             ),
             "heat_kwh": (
                 "Erzeugte Wärme",
-                "Gemessene Wärmemenge in kWh. Falls nicht vorhanden, unten einen saisonalen COP eintragen.",
+                "Gemessene Wärmemenge im selben Zeitraum. Hat Vorrang vor dem COP.",
             ),
             "electricity_price": (
                 "Durchschnittlicher Strompreis",
-                "Durchschnittliche Kosten pro kWh im historischen Zeitraum.",
+                "Durchschnittlicher Preis je kWh für den gesamten Zeitraum vom Startdatum bis zum Speichern. Bei dynamischen Tarifen möglichst den verbrauchsgewichteten Durchschnitt verwenden.",
             ),
             "feed_in_price": (
                 "Durchschnittliche Einspeisevergütung",
-                "Durchschnittliche Vergütung pro eingespeister kWh.",
+                "Durchschnittliche Vergütung pro eingespeister kWh im selben Zeitraum.",
             ),
             "battery_investment": (
                 "Anschaffungskosten der Batterie (optional)",
@@ -715,17 +720,21 @@ TEXTS: dict[str, dict[str, Any]] = {
                 "Spritpreis-Sensor (optional)",
                 "Ersetzt den Spritpreis",
             ),
-            "historical_electricity_kwh": (
+            "historical_heat_pump_electricity_kwh": (
                 "Historische Strommenge",
-                "Gesamter Stromverbrauch der Wärmepumpe oder geladene Energie des E-Autos in kWh.",
+                "Gesamter Stromverbrauch der Wärmepumpe vom Startdatum bis zum Speichern.",
+            ),
+            "historical_wallbox_electricity_kwh": (
+                "Historische Strommenge",
+                "Gesamte an der Wallbox geladene Energie vom Startdatum bis zum Speichern.",
             ),
             "historical_scop": (
                 "Saisonaler COP",
-                "Schätzt die Wärme aus dem Stromverbrauch, wenn kein Wärmemengenzähler vorhanden ist.",
+                "Schätzt die Wärme aus dem Stromverbrauch, wenn keine gemessene Wärmemenge eingetragen ist.",
             ),
             "historical_fuel_price": (
                 "Durchschnittlicher Spritpreis",
-                "Durchschnittlicher Preis pro Einheit der früheren Heizung bzw. pro Liter Kraftstoff.",
+                "Verbrauchsgewichteter durchschnittlicher Preis der früheren Heizung bzw. des Kraftstoffs im selben Zeitraum.",
             ),
             "historical_ev_consumption": (
                 "Verbrauch E-Auto",
@@ -755,7 +764,7 @@ TEXTS: dict[str, dict[str, Any]] = {
             "scop_range": "Gib einen COP zwischen 1 und 10 an.",
             "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer.",
             "historical_values_required": "Trage alle erforderlichen historischen Energiemengen, Durchschnittspreise und ein Startdatum ein.",
-            "historical_overlaps_recorder": "Der Start des historischen Zeitraums muss vor dem Beginn der Home-Assistant-Aufzeichnung liegen. Bereits aufgezeichnete Zeiträume dürfen nicht doppelt gezählt werden.",
+            "historical_future_date": "Das Startdatum darf nicht in der Zukunft liegen.",
         },
         "aborts": {
             "no_energy_dashboard": "Richte zuerst im [Energie-Dashboard](/config/energy) den Netzbezug mit Strompreis ein. Danach kannst du HA Eco hinzufügen.",
@@ -794,6 +803,7 @@ TEXTS: dict[str, dict[str, Any]] = {
             "historical_since": "Historischer Zeitraum ab",
             "historical_method": "Methode der historischen Berechnung",
             "historical_estimated": "Historische Wärme geschätzt",
+            "historical_until": "Historische Daten bis",
         },
         "figure_attributes": {
             "payback": {"investment": "Investition", "years_left": "Restliche Jahre"},
@@ -1055,7 +1065,11 @@ def subentry_steps(t: dict[str, Any], category: str) -> dict[str, Any]:
     """Return the steps of adding and changing a category."""
     recompute = form(t["recompute"]["title"], t["recompute"][category], {})
     historical_overrides = {
-        "electricity_kwh": "historical_electricity_kwh",
+        "electricity_kwh": (
+            "historical_heat_pump_electricity_kwh"
+            if category == "heat_pump"
+            else "historical_wallbox_electricity_kwh"
+        ),
         "scop": "historical_scop",
         "fuel_price": "historical_fuel_price",
         "ev_consumption": "historical_ev_consumption",

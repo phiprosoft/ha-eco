@@ -212,6 +212,10 @@ TEXTS: dict[str, dict[str, Any]] = {
             ),
             "fuel_price": ("Fuel price", None),
             "scop": ("COP", "Estimates the heat from the electricity consumption"),
+            "scop_entity": (
+                "COP sensor (optional)",
+                "Provides the current COP; replaces the manual value from now on",
+            ),
             "tariff": (
                 "Own electricity tariff (optional)",
                 "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
@@ -251,6 +255,14 @@ TEXTS: dict[str, dict[str, Any]] = {
             "combustion_consumption": (
                 "Combustion car consumption",
                 "What a comparable combustion car would have used",
+            ),
+            "ev_consumption_entity": (
+                "EV consumption sensor (optional)",
+                "Provides the current consumption in kWh/100 km from the changeover time",
+            ),
+            "combustion_consumption_entity": (
+                "Combustion car consumption sensor (optional)",
+                "Provides the current comparison consumption in l/100 km from the changeover time",
             ),
         },
         "overrides": {
@@ -625,6 +637,10 @@ TEXTS: dict[str, dict[str, Any]] = {
             ),
             "fuel_price": ("Spritpreis", None),
             "scop": ("COP", "Schätzt die Wärme aus dem Stromverbrauch"),
+            "scop_entity": (
+                "COP-Sensor (optional)",
+                "Liefert den aktuellen COP; ersetzt den manuellen Wert ab jetzt",
+            ),
             "tariff": (
                 "Eigener Stromtarif (optional)",
                 "Nur bei eigenem Wärmepumpentarif, sonst gilt der Preis aus dem Energie-Dashboard",
@@ -664,6 +680,14 @@ TEXTS: dict[str, dict[str, Any]] = {
             "combustion_consumption": (
                 "Verbrauch Verbrenner",
                 "Was ein vergleichbarer Verbrenner gebraucht hätte",
+            ),
+            "ev_consumption_entity": (
+                "E-Auto-Verbrauchssensor (optional)",
+                "Liefert den aktuellen Verbrauch in kWh/100 km ab dem Umstellungszeitpunkt",
+            ),
+            "combustion_consumption_entity": (
+                "Verbrenner-Verbrauchssensor (optional)",
+                "Liefert den aktuellen Vergleichsverbrauch in l/100 km ab dem Umstellungszeitpunkt",
             ),
         },
         "overrides": {
@@ -951,12 +975,20 @@ def heat_pump_values_steps(t: dict[str, Any], prefix: str) -> dict[str, Any]:
         if prefix == "heat_pump_values":
             variants = {
                 "": [*priced, "tariff", *sensor],
-                "_scop": [*priced, "scop", "tariff", *sensor],
-                "_scop_until": [*priced, "scop", "tariff", *sensor],
+                "_scop": [*priced, "scop", "scop_entity", "tariff", *sensor],
+                "_scop_until": [
+                    *priced,
+                    "scop",
+                    "scop_entity",
+                    "tariff",
+                    *sensor,
+                ],
             }
             title, description = t["values"]["title"], t["values"][heating]
         else:
             keys = [*priced, "scop", "tariff"]
+            if prefix == "now":
+                keys.insert(-1, "scop_entity")
             variants = {"": [*keys, *sensor] if prefix == "now" else keys}
             title, description = t[prefix]["title"], t[prefix]["description"]
         for suffix, keys in variants.items():
@@ -979,7 +1011,13 @@ def wallbox_values_block(
     """Return the fields of the car's values forms."""
     keys = ["ev_consumption", "combustion_consumption", "fuel_price", "tariff"]
     if entity:
-        keys.append("fuel_price_entity")
+        keys.extend(
+            [
+                "fuel_price_entity",
+                "ev_consumption_entity",
+                "combustion_consumption_entity",
+            ]
+        )
     overrides = {"tariff": "wallbox_tariff"}
     if now:
         overrides["fuel_price_entity"] = "now_fuel_price_entity"

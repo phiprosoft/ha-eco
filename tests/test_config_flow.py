@@ -29,8 +29,14 @@ from custom_components.electricity_lens.config_flow import (
     meters_data,
     validate_meters,
     values_form_input,
+    validate_values,
 )
-from custom_components.electricity_lens.const import DOMAIN
+from custom_components.electricity_lens.const import (
+    CATEGORY_HEAT_PUMP,
+    DOMAIN,
+    HEATING_GAS,
+    VALUE_SCOP,
+)
 from custom_components.electricity_lens.sources import EnergyInterfaceError
 
 from .conftest import (

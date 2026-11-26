@@ -826,6 +826,25 @@ async def test_legacy_aggregate_totals_get_cutoff_when_resaved(
     assert historical["until"] > historical["since"]
 
 
+def test_historical_totals_reject_zero_fuel_price() -> None:
+    """A zero former-fuel price is not a valid historical comparison."""
+    assert (
+        historical_data_from_input(
+            "wallbox",
+            "",
+            {
+                "since": "2020-01-01",
+                "electricity_kwh": 1000,
+                "ev_consumption": 20,
+                "combustion_consumption": 7,
+                "electricity_price": 0.30,
+                "fuel_price": 0,
+            },
+        )
+        is None
+    )
+
+
 async def test_historical_future_date_is_rejected(hass: HomeAssistant) -> None:
     """Historical totals cannot start in the future."""
     entry = make_entry(("pv", {}))

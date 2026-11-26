@@ -290,6 +290,7 @@ class CategorySensor(ElectricityLensEntity, SensorEntity):  # pyright: ignore[re
         """Return since when the saving counts and the price it uses now."""
         if (result := self._result) is None:
             return None
+        historical_until = self.coordinator.configs[self._subentry_id].historical_until
         if self.entity_description.key != "saving":
             attributes_fn = self.entity_description.attributes_fn
             return attributes_fn(result) if attributes_fn else None
@@ -312,11 +313,10 @@ class CategorySensor(ElectricityLensEntity, SensorEntity):  # pyright: ignore[re
             "historical_until": (
                 dt_util.as_local(
                     dt_util.utc_from_timestamp(
-                        self.coordinator.configs[self._subentry_id].historical_until
+                        historical_until
                     )
                 ).isoformat()
-                if self.coordinator.configs[self._subentry_id].historical_until
-                is not None
+                if historical_until is not None
                 else None
             ),
             "historical_method": (
@@ -326,8 +326,7 @@ class CategorySensor(ElectricityLensEntity, SensorEntity):  # pyright: ignore[re
                     in self.coordinator.configs[self._subentry_id].historical_data
                     else (
                         "aggregate_energy_estimate_through_now"
-                        if self.coordinator.configs[self._subentry_id].historical_until
-                        is not None
+                        if historical_until is not None
                         else "aggregate_energy_estimate"
                     )
                 )

@@ -438,13 +438,17 @@
           "combustion_consumption": "Verbrauch Verbrenner",
           "fuel_price": "Spritpreis",
           "tariff": "Eigener Stromtarif (optional)",
-          "fuel_price_entity": "Spritpreis-Sensor (optional)"
+          "fuel_price_entity": "Spritpreis-Sensor (optional)",
+          "ev_consumption_entity": "E-Auto-Verbrauchssensor (optional)",
+          "combustion_consumption_entity": "Verbrenner-Verbrauchssensor (optional)"
         },
         "data_description": {
           "ev_consumption": "Ab Wallbox mit Ladeverlusten, meist 10–15 % über der Anzeige im Auto. Bei mehreren Autos der Durchschnitt.",
           "combustion_consumption": "Was ein vergleichbarer Verbrenner gebraucht hätte",
           "tariff": "Nur bei eigenem Autostromtarif, sonst gilt der Preis aus dem Energie-Dashboard",
-          "fuel_price_entity": "Ersetzt den Durchschnitt ab jetzt"
+          "fuel_price_entity": "Ersetzt den Durchschnitt ab jetzt",
+          "ev_consumption_entity": "Liefert den aktuellen Verbrauch in kWh/100 km ab dem Umstellungszeitpunkt",
+          "combustion_consumption_entity": "Liefert den aktuellen Vergleichsverbrauch in l/100 km ab dem Umstellungszeitpunkt"
         }
       },
       "wallbox_values_none": {
@@ -1355,13 +1359,17 @@
             "combustion_consumption": "Verbrauch Verbrenner",
             "fuel_price": "Spritpreis",
             "tariff": "Eigener Stromtarif (optional)",
-            "fuel_price_entity": "Spritpreis-Sensor (optional)"
+            "fuel_price_entity": "Spritpreis-Sensor (optional)",
+            "ev_consumption_entity": "E-Auto-Verbrauchssensor (optional)",
+            "combustion_consumption_entity": "Verbrenner-Verbrauchssensor (optional)"
           },
           "data_description": {
             "ev_consumption": "Ab Wallbox mit Ladeverlusten, meist 10–15 % über der Anzeige im Auto. Bei mehreren Autos der Durchschnitt.",
             "combustion_consumption": "Was ein vergleichbarer Verbrenner gebraucht hätte",
             "tariff": "Nur bei eigenem Autostromtarif, sonst gilt der Preis aus dem Energie-Dashboard",
-            "fuel_price_entity": "Ersetzt den Durchschnitt ab jetzt"
+            "fuel_price_entity": "Ersetzt den Durchschnitt ab jetzt",
+            "ev_consumption_entity": "Liefert den aktuellen Verbrauch in kWh/100 km ab dem Umstellungszeitpunkt",
+            "combustion_consumption_entity": "Liefert den aktuellen Vergleichsverbrauch in l/100 km ab dem Umstellungszeitpunkt"
           }
         },
         "wallbox_values_none": {
@@ -1402,13 +1410,17 @@
             "combustion_consumption": "Verbrauch Verbrenner",
             "fuel_price": "Spritpreis",
             "tariff": "Eigener Stromtarif (optional)",
-            "fuel_price_entity": "Spritpreis-Sensor (optional)"
+            "fuel_price_entity": "Spritpreis-Sensor (optional)",
+            "ev_consumption_entity": "E-Auto-Verbrauchssensor (optional)",
+            "combustion_consumption_entity": "Verbrenner-Verbrauchssensor (optional)"
           },
           "data_description": {
             "ev_consumption": "Ab Wallbox mit Ladeverlusten, meist 10–15 % über der Anzeige im Auto. Bei mehreren Autos der Durchschnitt.",
             "combustion_consumption": "Was ein vergleichbarer Verbrenner gebraucht hätte",
             "tariff": "Nur bei eigenem Autostromtarif, sonst gilt der Preis aus dem Energie-Dashboard",
-            "fuel_price_entity": "Ersetzt den Spritpreis"
+            "fuel_price_entity": "Ersetzt den Spritpreis",
+            "ev_consumption_entity": "Liefert den aktuellen Verbrauch in kWh/100 km ab dem Umstellungszeitpunkt",
+            "combustion_consumption_entity": "Liefert den aktuellen Vergleichsverbrauch in l/100 km ab dem Umstellungszeitpunkt"
           }
         },
         "before": {
@@ -1418,12 +1430,16 @@
             "ev_consumption": "Verbrauch E-Auto",
             "combustion_consumption": "Verbrauch Verbrenner",
             "fuel_price": "Spritpreis",
-            "tariff": "Eigener Stromtarif (optional)"
+            "tariff": "Eigener Stromtarif (optional)",
+            "ev_consumption_entity": "E-Auto-Verbrauchssensor (optional)",
+            "combustion_consumption_entity": "Verbrenner-Verbrauchssensor (optional)"
           },
           "data_description": {
             "ev_consumption": "Ab Wallbox mit Ladeverlusten, meist 10–15 % über der Anzeige im Auto. Bei mehreren Autos der Durchschnitt.",
             "combustion_consumption": "Was ein vergleichbarer Verbrenner gebraucht hätte",
-            "tariff": "Nur bei eigenem Autostromtarif, sonst gilt der Preis aus dem Energie-Dashboard"
+            "tariff": "Nur bei eigenem Autostromtarif, sonst gilt der Preis aus dem Energie-Dashboard",
+            "ev_consumption_entity": "Liefert den aktuellen Verbrauch in kWh/100 km ab dem Umstellungszeitpunkt",
+            "combustion_consumption_entity": "Liefert den aktuellen Vergleichsverbrauch in l/100 km ab dem Umstellungszeitpunkt"
           }
         }
       },

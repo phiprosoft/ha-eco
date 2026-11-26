@@ -28,8 +28,8 @@ from custom_components.electricity_lens.config_flow import (
     historical_schema,
     meters_data,
     validate_meters,
-    values_form_input,
     validate_values,
+    values_form_input,
 )
 from custom_components.electricity_lens.const import (
     CATEGORY_HEAT_PUMP,
@@ -1069,7 +1069,7 @@ async def test_reconfigure_now_accepts_scop_entity_without_manual_value(
     }
 
 
-def test_reconfigure_now_accepts_price_entity_without_manual_price(
+async def test_reconfigure_now_accepts_price_entity_without_manual_price(
     hass: HomeAssistant,
 ) -> None:
     """A price entity replaces the manual price for values from now on."""

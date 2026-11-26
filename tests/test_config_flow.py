@@ -260,6 +260,7 @@ def _heat_device(hass: HomeAssistant, *sensors: tuple[str, str, bool]) -> str:
         registry.async_get_or_create(
             "sensor",
             "test",
+            unique_id=object_id,
             config_entry=entry,
             suggested_object_id=object_id,
             device_id=device.id,

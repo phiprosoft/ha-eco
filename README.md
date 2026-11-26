@@ -19,6 +19,12 @@ It takes everything it can from the energy dashboard and computes your whole
 history, hour by hour, right after setup. There is no YAML, no helper, and no
 template sensor to write.
 
+## Origin and attribution
+
+HA Eco is an independently maintained derivative of [Electricity Lens](https://github.com/ignazhabibi/ha-electricity-lens), originally created by **ignazhabibi**.
+
+The original project and the portions derived from it are provided under the MIT License. The original copyright and license notice are retained in [LICENSE](LICENSE). HA Eco has since been renamed, modified, and extended; see the repository history for its changes.
+
 > [!IMPORTANT]
 > HA Eco is carefully reviewed and tested, but you use it at your own
 > risk. It is provided as is, without warranty (see the [license](LICENSE)).

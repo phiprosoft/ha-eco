@@ -91,7 +91,9 @@ from .const import (
     HISTORICAL_SOLAR,
     HISTORICAL_UNTIL,
     VALUE_COMBUSTION_CONSUMPTION,
+    VALUE_COMBUSTION_CONSUMPTION_ENTITY,
     VALUE_EV_CONSUMPTION,
+    VALUE_EV_CONSUMPTION_ENTITY,
     VALUE_PRICE,
     VALUE_PRICE_ENTITY,
     VALUE_SCOP,
@@ -485,6 +487,8 @@ def values_schema(
     scop: bool,
     price_entity: bool,
     allow_entity_scop: bool = False,
+    entity_sources: bool = False,
+    allow_entity_values: bool = False,
 ) -> probatio.Schema:
     """Return the form of the values: averages before, or values from now on.
 
@@ -495,12 +499,16 @@ def values_schema(
     prices = PRICE_FIELDS[category].get(heating)
     fields: dict[Any, Any] = {}
     if category == CATEGORY_WALLBOX and prices is not None:
-        fields[probatio.Required(VALUE_EV_CONSUMPTION)] = _number(
+        field = probatio.Optional if allow_entity_values else probatio.Required
+        fields[field(VALUE_EV_CONSUMPTION)] = _number(
             "kWh/100 km", maximum=100, step=0.1
         )
-        fields[probatio.Required(VALUE_COMBUSTION_CONSUMPTION)] = _number(
+        fields[field(VALUE_COMBUSTION_CONSUMPTION)] = _number(
             "l/100 km", maximum=50, step=0.1
         )
+        if entity_sources:
+            fields[probatio.Optional(VALUE_EV_CONSUMPTION_ENTITY)] = SCOP_ENTITY_SELECTOR
+            fields[probatio.Optional(VALUE_COMBUSTION_CONSUMPTION_ENTITY)] = SCOP_ENTITY_SELECTOR
     if prices is not None:
         unit = FUELS[heating].unit if category == CATEGORY_HEAT_PUMP else "l"
         # A price sensor can replace the manual value for the period from now
@@ -525,6 +533,7 @@ def validate_values(
     *,
     allow_entity_price: bool = False,
     allow_entity_scop: bool = False,
+    allow_entity_values: bool = False,
 ) -> dict[str, str]:
     """Validate positive values and require either a manual or entity price.
 
@@ -570,6 +579,10 @@ def validate_values(
         and not user_input.get(VALUE_SCOP_ENTITY)
     ):
         errors[VALUE_SCOP] = "value_required"
+    if allow_entity_values:
+        for key in (VALUE_EV_CONSUMPTION, VALUE_COMBUSTION_CONSUMPTION):
+            if not user_input.get(key) and not user_input.get(f"{key}_entity"):
+                errors[key] = "value_required"
     return errors
 
 
@@ -833,13 +846,18 @@ class ElectricityLensConfigFlow(ConfigFlow, domain=DOMAIN):
         ):
             values = values_data(category, heating, user_input)
             before = {
-                key: value for key, value in values.items() if key != VALUE_PRICE_ENTITY
+                key: value for key, value in values.items() if not key.endswith("_entity")
             }
             return await self._async_add(
                 category, {**self._data, CONF_BEFORE: before, CONF_CURRENT: values}
             )
         schema = values_schema(
-            self.hass, category, heating, scop=self._scop, price_entity=True
+            self.hass,
+            category,
+            heating,
+            scop=self._scop,
+            price_entity=True,
+            entity_sources=True,
         )
         if user_input is not None:
             schema = self.add_suggested_values_to_schema(schema, user_input)
@@ -1024,7 +1042,12 @@ class CategorySubentryFlow(ConfigSubentryFlow):
             subentry = self._get_reconfigure_subentry()
             return self._async_save({**subentry.data, **data}, "recomputing", {})
         schema = values_schema(
-            self.hass, category, heating, scop=self._scop, price_entity=True
+            self.hass,
+            category,
+            heating,
+            scop=self._scop,
+            price_entity=True,
+            entity_sources=True,
         )
         if user_input is not None:
             schema = self.add_suggested_values_to_schema(schema, user_input)
@@ -1263,6 +1286,7 @@ class CategorySubentryFlow(ConfigSubentryFlow):
                 user_input,
                 allow_entity_price=True,
                 allow_entity_scop=scop,
+                allow_entity_values=category == CATEGORY_WALLBOX,
             )
         ):
             current = values_data(category, heating, user_input)
@@ -1282,6 +1306,8 @@ class CategorySubentryFlow(ConfigSubentryFlow):
                 scop=scop,
                 price_entity=True,
                 allow_entity_scop=scop,
+                entity_sources=True,
+                allow_entity_values=category == CATEGORY_WALLBOX,
             ),
             user_input
             if user_input is not None

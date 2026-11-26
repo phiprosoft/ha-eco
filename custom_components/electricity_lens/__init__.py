@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
+from typing import Any, cast
 
 from homeassistant.components import frontend
 from homeassistant.components.http import (
@@ -172,7 +173,9 @@ async def async_migrate_entry(
         )
         cutoff = dt_util.utcnow().timestamp()
         for subentry in tuple(entry.subentries.values()):
-            historical = subentry.data.get(CONF_HISTORICAL_DATA)
+            historical = cast(
+                dict[str, Any] | None, subentry.data.get(CONF_HISTORICAL_DATA)
+            )
             if not isinstance(historical, dict) or HISTORICAL_UNTIL in historical:
                 continue
             since = historical.get(HISTORICAL_SINCE)
@@ -183,7 +186,7 @@ async def async_migrate_entry(
                 or not any(key in historical for key in energy_keys)
             ):
                 continue
-            data = {
+            data: dict[str, Any] = {
                 **subentry.data,
                 CONF_HISTORICAL_DATA: {
                     **historical,

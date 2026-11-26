@@ -527,7 +527,7 @@ async def test_add_heat_pump_without_former_heating(hass: HomeAssistant) -> None
         result["flow_id"], {"meters": ["sensor.heat_pump"], "heating": "none"}
     )
     assert result["step_id"] == "heat_pump_values_none_scop"
-    assert _fields(result) == ["scop", "tariff"]
+    assert _fields(result) == ["scop", "scop_entity", "tariff"]
     result = await hass.config_entries.subentries.async_configure(
         result["flow_id"], {"scop": 4.2}
     )

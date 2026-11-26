@@ -507,8 +507,12 @@ def values_schema(
             "l/100 km", maximum=50, step=0.1
         )
         if entity_sources:
-            fields[probatio.Optional(VALUE_EV_CONSUMPTION_ENTITY)] = SCOP_ENTITY_SELECTOR
-            fields[probatio.Optional(VALUE_COMBUSTION_CONSUMPTION_ENTITY)] = SCOP_ENTITY_SELECTOR
+            fields[
+                probatio.Optional(VALUE_EV_CONSUMPTION_ENTITY)
+            ] = SCOP_ENTITY_SELECTOR
+            fields[
+                probatio.Optional(VALUE_COMBUSTION_CONSUMPTION_ENTITY)
+            ] = SCOP_ENTITY_SELECTOR
     if prices is not None:
         unit = FUELS[heating].unit if category == CATEGORY_HEAT_PUMP else "l"
         # A price sensor can replace the manual value for the period from now
@@ -846,7 +850,9 @@ class ElectricityLensConfigFlow(ConfigFlow, domain=DOMAIN):
         ):
             values = values_data(category, heating, user_input)
             before = {
-                key: value for key, value in values.items() if not key.endswith("_entity")
+                key: value
+                for key, value in values.items()
+                if not key.endswith("_entity")
             }
             return await self._async_add(
                 category, {**self._data, CONF_BEFORE: before, CONF_CURRENT: values}

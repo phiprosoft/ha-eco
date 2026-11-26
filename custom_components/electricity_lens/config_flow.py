@@ -583,7 +583,7 @@ def validate_values(
         and not user_input.get(VALUE_SCOP_ENTITY)
     ):
         errors[VALUE_SCOP] = "value_required"
-    if allow_entity_values:
+    if allow_entity_values and category == CATEGORY_WALLBOX and prices is not None:
         for key in (VALUE_EV_CONSUMPTION, VALUE_COMBUSTION_CONSUMPTION):
             if not user_input.get(key) and not user_input.get(f"{key}_entity"):
                 errors[key] = "value_required"

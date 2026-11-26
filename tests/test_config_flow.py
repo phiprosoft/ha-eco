@@ -1013,7 +1013,31 @@ async def test_reconfigure_values_from_now_on(hass: HomeAssistant) -> None:
     assert data["before"] == HEAT_PUMP_DATA["before"]
 
 
-async def test_reconfigure_now_accepts_price_entity_without_manual_price(
+async def test_reconfigure_now_accepts_scop_entity_without_manual_scop() -> None:
+    """A live COP sensor can replace the manual COP for current values."""
+    errors = validate_values(
+        CATEGORY_HEAT_PUMP,
+        HEATING_GAS,
+        {"gas_price_entity": "sensor.gas_price", "scop_entity": "sensor.heat_pump_scop"},
+        allow_entity_price=True,
+        allow_entity_scop=True,
+    )
+    assert errors == {}
+
+
+def test_reconfigure_now_requires_manual_or_entity_scop() -> None:
+    """Current COP cannot be left blank without a selected entity."""
+    errors = validate_values(
+        CATEGORY_HEAT_PUMP,
+        HEATING_GAS,
+        {"gas_price": 0.12},
+        allow_entity_price=True,
+        allow_entity_scop=True,
+    )
+    assert errors[VALUE_SCOP] == "value_required"
+
+
+def test_reconfigure_now_accepts_price_entity_without_manual_price(
     hass: HomeAssistant,
 ) -> None:
     """A price entity replaces the manual price for values from now on."""

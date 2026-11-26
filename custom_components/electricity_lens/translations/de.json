@@ -676,8 +676,7 @@
             "heat_kwh": "Erzeugte Wärme",
             "scop": "Saisonaler COP",
             "electricity_price": "Durchschnittlicher Strompreis",
-            "fuel_price": "Durchschnittlicher Spritpreis",
-            "scop_entity": "COP-Sensor (optional)"
+            "fuel_price": "Durchschnittlicher Spritpreis"
           },
           "data_description": {
             "historical_enabled": "Kann jederzeit deaktiviert werden; die Eingaben bleiben gespeichert.",
@@ -686,8 +685,7 @@
             "heat_kwh": "Gemessene Wärmemenge im selben Zeitraum. Hat Vorrang vor dem COP.",
             "scop": "Schätzt die Wärme aus dem Stromverbrauch, wenn keine gemessene Wärmemenge eingetragen ist.",
             "electricity_price": "Durchschnittlicher Preis je kWh für den gesamten Zeitraum vom Startdatum bis zum Speichern. Bei dynamischen Tarifen möglichst den verbrauchsgewichteten Durchschnitt verwenden.",
-            "fuel_price": "Verbrauchsgewichteter durchschnittlicher Preis der früheren Heizung bzw. des Kraftstoffs im selben Zeitraum.",
-            "scop_entity": "Liefert den aktuellen COP; ersetzt den manuellen Wert ab jetzt"
+            "fuel_price": "Verbrauchsgewichteter durchschnittlicher Preis der früheren Heizung bzw. des Kraftstoffs im selben Zeitraum."
           }
         },
         "heat_pump_values_gas": {
@@ -1156,14 +1154,12 @@
           "data": {
             "gas_price": "Gaspreis",
             "scop": "COP",
-            "tariff": "Eigener Stromtarif (optional)",
-            "scop_entity": "COP-Sensor (optional)"
+            "tariff": "Eigener Stromtarif (optional)"
           },
           "data_description": {
             "gas_price": "Arbeitspreis laut Gasrechnung",
             "scop": "Schätzt die Wärme, wo keine gemessen wurde",
-            "tariff": "Nur bei eigenem Wärmepumpentarif, sonst gilt der Preis aus dem Energie-Dashboard",
-            "scop_entity": "Liefert den aktuellen COP; ersetzt den manuellen Wert ab jetzt"
+            "tariff": "Nur bei eigenem Wärmepumpentarif, sonst gilt der Preis aus dem Energie-Dashboard"
           }
         },
         "before_oil": {
@@ -1172,14 +1168,12 @@
           "data": {
             "oil_price": "Heizölpreis",
             "scop": "COP",
-            "tariff": "Eigener Stromtarif (optional)",
-            "scop_entity": "COP-Sensor (optional)"
+            "tariff": "Eigener Stromtarif (optional)"
           },
           "data_description": {
             "oil_price": "Durchschnittlicher Literpreis",
             "scop": "Schätzt die Wärme, wo keine gemessen wurde",
-            "tariff": "Nur bei eigenem Wärmepumpentarif, sonst gilt der Preis aus dem Energie-Dashboard",
-            "scop_entity": "Liefert den aktuellen COP; ersetzt den manuellen Wert ab jetzt"
+            "tariff": "Nur bei eigenem Wärmepumpentarif, sonst gilt der Preis aus dem Energie-Dashboard"
           }
         },
         "before_lpg": {
@@ -1188,14 +1182,12 @@
           "data": {
             "lpg_price": "Flüssiggaspreis",
             "scop": "COP",
-            "tariff": "Eigener Stromtarif (optional)",
-            "scop_entity": "COP-Sensor (optional)"
+            "tariff": "Eigener Stromtarif (optional)"
           },
           "data_description": {
             "lpg_price": "Durchschnittlicher Literpreis",
             "scop": "Schätzt die Wärme, wo keine gemessen wurde",
-            "tariff": "Nur bei eigenem Wärmepumpentarif, sonst gilt der Preis aus dem Energie-Dashboard",
-            "scop_entity": "Liefert den aktuellen COP; ersetzt den manuellen Wert ab jetzt"
+            "tariff": "Nur bei eigenem Wärmepumpentarif, sonst gilt der Preis aus dem Energie-Dashboard"
           }
         },
         "before_pellets": {
@@ -1204,14 +1196,12 @@
           "data": {
             "pellets_price": "Pelletpreis",
             "scop": "COP",
-            "tariff": "Eigener Stromtarif (optional)",
-            "scop_entity": "COP-Sensor (optional)"
+            "tariff": "Eigener Stromtarif (optional)"
           },
           "data_description": {
             "pellets_price": "Durchschnittlicher Preis pro Kilogramm",
             "scop": "Schätzt die Wärme, wo keine gemessen wurde",
-            "tariff": "Nur bei eigenem Wärmepumpentarif, sonst gilt der Preis aus dem Energie-Dashboard",
-            "scop_entity": "Liefert den aktuellen COP; ersetzt den manuellen Wert ab jetzt"
+            "tariff": "Nur bei eigenem Wärmepumpentarif, sonst gilt der Preis aus dem Energie-Dashboard"
           }
         },
         "before_district_heating": {
@@ -1220,14 +1210,12 @@
           "data": {
             "district_heating_price": "Fernwärmepreis",
             "scop": "COP",
-            "tariff": "Eigener Stromtarif (optional)",
-            "scop_entity": "COP-Sensor (optional)"
+            "tariff": "Eigener Stromtarif (optional)"
           },
           "data_description": {
             "district_heating_price": "Arbeitspreis pro kWh laut Wärmeabrechnung",
             "scop": "Schätzt die Wärme, wo keine gemessen wurde",
-            "tariff": "Nur bei eigenem Wärmepumpentarif, sonst gilt der Preis aus dem Energie-Dashboard",
-            "scop_entity": "Liefert den aktuellen COP; ersetzt den manuellen Wert ab jetzt"
+            "tariff": "Nur bei eigenem Wärmepumpentarif, sonst gilt der Preis aus dem Energie-Dashboard"
           }
         },
         "before_electric": {
@@ -1236,14 +1224,12 @@
           "data": {
             "electric_price": "Heizstrompreis",
             "scop": "COP",
-            "tariff": "Eigener Stromtarif (optional)",
-            "scop_entity": "COP-Sensor (optional)"
+            "tariff": "Eigener Stromtarif (optional)"
           },
           "data_description": {
             "electric_price": "Arbeitspreis pro kWh des früheren Heizstromtarifs",
             "scop": "Schätzt die Wärme, wo keine gemessen wurde",
-            "tariff": "Nur bei eigenem Wärmepumpentarif, sonst gilt der Preis aus dem Energie-Dashboard",
-            "scop_entity": "Liefert den aktuellen COP; ersetzt den manuellen Wert ab jetzt"
+            "tariff": "Nur bei eigenem Wärmepumpentarif, sonst gilt der Preis aus dem Energie-Dashboard"
           }
         },
         "before_none": {
@@ -1251,13 +1237,11 @@
           "description": "Durchschnittswerte für den {since} bis {until}. Änderst du sie, wird dieser Zeitraum neu berechnet.",
           "data": {
             "scop": "COP",
-            "tariff": "Eigener Stromtarif (optional)",
-            "scop_entity": "COP-Sensor (optional)"
+            "tariff": "Eigener Stromtarif (optional)"
           },
           "data_description": {
             "scop": "Schätzt die Wärme, wo keine gemessen wurde",
-            "tariff": "Nur bei eigenem Wärmepumpentarif, sonst gilt der Preis aus dem Energie-Dashboard",
-            "scop_entity": "Liefert den aktuellen COP; ersetzt den manuellen Wert ab jetzt"
+            "tariff": "Nur bei eigenem Wärmepumpentarif, sonst gilt der Preis aus dem Energie-Dashboard"
           }
         }
       },
@@ -1430,16 +1414,12 @@
             "ev_consumption": "Verbrauch E-Auto",
             "combustion_consumption": "Verbrauch Verbrenner",
             "fuel_price": "Spritpreis",
-            "tariff": "Eigener Stromtarif (optional)",
-            "ev_consumption_entity": "E-Auto-Verbrauchssensor (optional)",
-            "combustion_consumption_entity": "Verbrenner-Verbrauchssensor (optional)"
+            "tariff": "Eigener Stromtarif (optional)"
           },
           "data_description": {
             "ev_consumption": "Ab Wallbox mit Ladeverlusten, meist 10–15 % über der Anzeige im Auto. Bei mehreren Autos der Durchschnitt.",
             "combustion_consumption": "Was ein vergleichbarer Verbrenner gebraucht hätte",
-            "tariff": "Nur bei eigenem Autostromtarif, sonst gilt der Preis aus dem Energie-Dashboard",
-            "ev_consumption_entity": "Liefert den aktuellen Verbrauch in kWh/100 km ab dem Umstellungszeitpunkt",
-            "combustion_consumption_entity": "Liefert den aktuellen Vergleichsverbrauch in l/100 km ab dem Umstellungszeitpunkt"
+            "tariff": "Nur bei eigenem Autostromtarif, sonst gilt der Preis aus dem Energie-Dashboard"
           }
         }
       },

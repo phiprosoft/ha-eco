@@ -73,6 +73,7 @@ from .const import (
     VALUE_PRICE,
     VALUE_PRICE_ENTITY,
     VALUE_SCOP,
+    VALUE_SCOP_ENTITY,
     VALUE_TARIFF,
 )
 from .models import (
@@ -700,7 +701,7 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
             fuel_price = self._fuel_price(config, state, entity_values, hour)
             saving = 0.0
             if config.category == CATEGORY_HEAT_PUMP:
-                heat = self._heat(config, state, changes, electricity, hour)
+                heat = self._heat(config, state, changes, entity_values, electricity, hour)
                 add("heat", hour, heat)
                 if not config.is_compared:
                     continue
@@ -864,6 +865,7 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
         config: CategoryConfig,
         state: CategoryState,
         changes: dict[str, dict[float, float]],
+        entity_values: dict[str, dict[float, float]],
         electricity: float,
         hour: float,
     ) -> float:
@@ -883,9 +885,16 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
             return heat
         if electricity:
             state.estimated = True
+        scop_entity = state.entity_timeline(VALUE_SCOP_ENTITY).value_at(hour)
+        entity_scop = (
+            entity_values.get(scop_entity, {}).get(hour)
+            if isinstance(scop_entity, str)
+            else None
+        )
+        entered_scop = entity_scop if entity_scop is not None and 1 <= entity_scop <= 10 else value_at(config, state, VALUE_SCOP, hour)
         return estimated_heat(
             electricity,
-            entered_scop=value_at(config, state, VALUE_SCOP, hour),
+            entered_scop=entered_scop,
             measured_heat=state.measured_heat,
             measured_electricity=state.measured_electricity,
             measuring=state.heat_start is not None,

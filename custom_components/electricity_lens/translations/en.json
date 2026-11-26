@@ -439,7 +439,7 @@
       "scop_range": "Enter a COP between 1 and 10.",
       "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty.",
       "historical_values_required": "Enter all required historical energy totals, average prices, and a start date.",
-      "historical_overlaps_recorder": "The historical period must start before Home Assistant recording begins. Periods already recorded by Home Assistant must not be counted twice."
+      "historical_future_date": "The start date cannot be in the future."
     },
     "abort": {
       "no_energy_dashboard": "First set up the grid import with an electricity price in the [energy dashboard](/config/energy). Then you can add HA Eco.",

@@ -560,7 +560,11 @@ def validate_values(
         and user_input[VALUE_SCOP] < 1
     ):
         errors[VALUE_SCOP] = "scop_range"
-    if allow_entity_scop and not user_input.get(VALUE_SCOP) and not user_input.get(VALUE_SCOP_ENTITY):
+    if (
+        allow_entity_scop
+        and not user_input.get(VALUE_SCOP)
+        and not user_input.get(VALUE_SCOP_ENTITY)
+    ):
         errors[VALUE_SCOP] = "value_required"
     return errors
 

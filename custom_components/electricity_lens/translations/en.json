@@ -438,13 +438,17 @@
           "combustion_consumption": "Combustion car consumption",
           "fuel_price": "Fuel price",
           "tariff": "Own electricity tariff (optional)",
-          "fuel_price_entity": "Fuel price sensor (optional)"
+          "fuel_price_entity": "Fuel price sensor (optional)",
+          "ev_consumption_entity": "EV consumption sensor (optional)",
+          "combustion_consumption_entity": "Combustion car consumption sensor (optional)"
         },
         "data_description": {
           "ev_consumption": "At the wallbox with charging losses, usually 10–15 % above the car's display. With several cars, their average.",
           "combustion_consumption": "What a comparable combustion car would have used",
           "tariff": "Only with a separate tariff for the car; otherwise the energy dashboard's price counts",
-          "fuel_price_entity": "Replaces the average from now on"
+          "fuel_price_entity": "Replaces the average from now on",
+          "ev_consumption_entity": "Provides the current consumption in kWh/100 km from the changeover time",
+          "combustion_consumption_entity": "Provides the current comparison consumption in l/100 km from the changeover time"
         }
       },
       "wallbox_values_none": {
@@ -1355,13 +1359,17 @@
             "combustion_consumption": "Combustion car consumption",
             "fuel_price": "Fuel price",
             "tariff": "Own electricity tariff (optional)",
-            "fuel_price_entity": "Fuel price sensor (optional)"
+            "fuel_price_entity": "Fuel price sensor (optional)",
+            "ev_consumption_entity": "EV consumption sensor (optional)",
+            "combustion_consumption_entity": "Combustion car consumption sensor (optional)"
           },
           "data_description": {
             "ev_consumption": "At the wallbox with charging losses, usually 10–15 % above the car's display. With several cars, their average.",
             "combustion_consumption": "What a comparable combustion car would have used",
             "tariff": "Only with a separate tariff for the car; otherwise the energy dashboard's price counts",
-            "fuel_price_entity": "Replaces the average from now on"
+            "fuel_price_entity": "Replaces the average from now on",
+            "ev_consumption_entity": "Provides the current consumption in kWh/100 km from the changeover time",
+            "combustion_consumption_entity": "Provides the current comparison consumption in l/100 km from the changeover time"
           }
         },
         "wallbox_values_none": {
@@ -1402,13 +1410,17 @@
             "combustion_consumption": "Combustion car consumption",
             "fuel_price": "Fuel price",
             "tariff": "Own electricity tariff (optional)",
-            "fuel_price_entity": "Fuel price sensor (optional)"
+            "fuel_price_entity": "Fuel price sensor (optional)",
+            "ev_consumption_entity": "EV consumption sensor (optional)",
+            "combustion_consumption_entity": "Combustion car consumption sensor (optional)"
           },
           "data_description": {
             "ev_consumption": "At the wallbox with charging losses, usually 10–15 % above the car's display. With several cars, their average.",
             "combustion_consumption": "What a comparable combustion car would have used",
             "tariff": "Only with a separate tariff for the car; otherwise the energy dashboard's price counts",
-            "fuel_price_entity": "Replaces the fuel price"
+            "fuel_price_entity": "Replaces the fuel price",
+            "ev_consumption_entity": "Provides the current consumption in kWh/100 km from the changeover time",
+            "combustion_consumption_entity": "Provides the current comparison consumption in l/100 km from the changeover time"
           }
         },
         "before": {
@@ -1418,12 +1430,16 @@
             "ev_consumption": "Electric car consumption",
             "combustion_consumption": "Combustion car consumption",
             "fuel_price": "Fuel price",
-            "tariff": "Own electricity tariff (optional)"
+            "tariff": "Own electricity tariff (optional)",
+            "ev_consumption_entity": "EV consumption sensor (optional)",
+            "combustion_consumption_entity": "Combustion car consumption sensor (optional)"
           },
           "data_description": {
             "ev_consumption": "At the wallbox with charging losses, usually 10–15 % above the car's display. With several cars, their average.",
             "combustion_consumption": "What a comparable combustion car would have used",
-            "tariff": "Only with a separate tariff for the car; otherwise the energy dashboard's price counts"
+            "tariff": "Only with a separate tariff for the car; otherwise the energy dashboard's price counts",
+            "ev_consumption_entity": "Provides the current consumption in kWh/100 km from the changeover time",
+            "combustion_consumption_entity": "Provides the current comparison consumption in l/100 km from the changeover time"
           }
         }
       },

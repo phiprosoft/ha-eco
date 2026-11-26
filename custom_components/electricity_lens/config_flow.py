@@ -1254,7 +1254,11 @@ class CategorySubentryFlow(ConfigSubentryFlow):
         errors: dict[str, str] = {}
         if user_input is not None and not (
             errors := validate_values(
-                category, heating, user_input, allow_entity_price=True, allow_entity_scop=scop
+                category,
+                heating,
+                user_input,
+                allow_entity_price=True,
+                allow_entity_scop=scop,
             )
         ):
             current = values_data(category, heating, user_input)

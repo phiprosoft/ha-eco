@@ -252,7 +252,7 @@ def _heat_meter_figures(
 
 
 def _price_entity_at(state: CategoryState, hour: float) -> str | None:
-    entity = state.timeline(VALUE_PRICE_ENTITY).value_at(hour)
+    entity = state.entity_timeline(VALUE_PRICE_ENTITY).value_at(hour)
     return entity if isinstance(entity, str) else None
 
 
@@ -329,7 +329,9 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
             for key in config.values:
                 state.timeline(key).set(config.current.get(key), valid_from)
             if config.category != CATEGORY_PV:
-                state.timeline(VALUE_PRICE_ENTITY).set(config.price_entity, valid_from)
+                state.entity_timeline(VALUE_PRICE_ENTITY).set(
+                    config.entity_sources.get(VALUE_PRICE_ENTITY), valid_from
+                )
             self.configs[subentry_id] = config
             self.states[subentry_id] = state
         # A removed category can no longer clear its own issues.
@@ -603,7 +605,8 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
             # Price sensors count only after the setup.
             values |= {
                 entity
-                for _, entity in state.timeline(VALUE_PRICE_ENTITY).points
+                for key in config.entity_sources
+                for _, entity in state.entity_timeline(key).points
                 if isinstance(entity, str)
             }
         return sums, values

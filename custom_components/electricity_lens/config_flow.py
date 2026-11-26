@@ -1034,7 +1034,7 @@ class CategorySubentryFlow(ConfigSubentryFlow):
         ):
             values = values_data(category, heating, user_input)
             before = {
-                key: value for key, value in values.items() if key != VALUE_PRICE_ENTITY
+                key: value for key, value in values.items() if not key.endswith("_entity")
             }
             data = {**self._data, CONF_BEFORE: before, CONF_CURRENT: values}
             if not reconfigure:

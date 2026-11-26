@@ -36,6 +36,7 @@ from .conftest import (
     statistic_sums,
 )
 
+
 def test_historical_cutoff_excludes_the_covered_recorder_period() -> None:
     """Recorder calculation resumes at the first full hour after the aggregate cutoff."""
     assert _category_data_start(10_000, None) == 10_000

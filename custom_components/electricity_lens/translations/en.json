@@ -676,8 +676,7 @@
             "heat_kwh": "Useful heat produced",
             "scop": "Seasonal COP",
             "electricity_price": "Average electricity price",
-            "fuel_price": "Average fuel price",
-            "scop_entity": "COP sensor (optional)"
+            "fuel_price": "Average fuel price"
           },
           "data_description": {
             "historical_enabled": "Can be disabled at any time; entered values are preserved.",
@@ -686,8 +685,7 @@
             "heat_kwh": "Measured heat over the same period. Takes precedence over COP.",
             "scop": "Estimates heat from electricity when no measured heat total is entered.",
             "electricity_price": "Average price per kWh for the entire period from the start date through saving. For dynamic tariffs, use a consumption-weighted average where possible.",
-            "fuel_price": "Consumption-weighted average price of the former heating fuel or petrol over the same period.",
-            "scop_entity": "Provides the current COP; replaces the manual value from now on"
+            "fuel_price": "Consumption-weighted average price of the former heating fuel or petrol over the same period."
           }
         },
         "heat_pump_values_gas": {
@@ -1156,14 +1154,12 @@
           "data": {
             "gas_price": "Gas price",
             "scop": "COP",
-            "tariff": "Own electricity tariff (optional)",
-            "scop_entity": "COP sensor (optional)"
+            "tariff": "Own electricity tariff (optional)"
           },
           "data_description": {
             "gas_price": "Unit price on the gas bill",
             "scop": "Estimates the heat where none was measured",
-            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "scop_entity": "Provides the current COP; replaces the manual value from now on"
+            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
           }
         },
         "before_oil": {
@@ -1172,14 +1168,12 @@
           "data": {
             "oil_price": "Heating oil price",
             "scop": "COP",
-            "tariff": "Own electricity tariff (optional)",
-            "scop_entity": "COP sensor (optional)"
+            "tariff": "Own electricity tariff (optional)"
           },
           "data_description": {
             "oil_price": "Average price per litre",
             "scop": "Estimates the heat where none was measured",
-            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "scop_entity": "Provides the current COP; replaces the manual value from now on"
+            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
           }
         },
         "before_lpg": {
@@ -1188,14 +1182,12 @@
           "data": {
             "lpg_price": "LPG price",
             "scop": "COP",
-            "tariff": "Own electricity tariff (optional)",
-            "scop_entity": "COP sensor (optional)"
+            "tariff": "Own electricity tariff (optional)"
           },
           "data_description": {
             "lpg_price": "Average price per litre",
             "scop": "Estimates the heat where none was measured",
-            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "scop_entity": "Provides the current COP; replaces the manual value from now on"
+            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
           }
         },
         "before_pellets": {
@@ -1204,14 +1196,12 @@
           "data": {
             "pellets_price": "Pellet price",
             "scop": "COP",
-            "tariff": "Own electricity tariff (optional)",
-            "scop_entity": "COP sensor (optional)"
+            "tariff": "Own electricity tariff (optional)"
           },
           "data_description": {
             "pellets_price": "Average price per kilogram",
             "scop": "Estimates the heat where none was measured",
-            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "scop_entity": "Provides the current COP; replaces the manual value from now on"
+            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
           }
         },
         "before_district_heating": {
@@ -1220,14 +1210,12 @@
           "data": {
             "district_heating_price": "District heating price",
             "scop": "COP",
-            "tariff": "Own electricity tariff (optional)",
-            "scop_entity": "COP sensor (optional)"
+            "tariff": "Own electricity tariff (optional)"
           },
           "data_description": {
             "district_heating_price": "Unit price per kWh on the heating bill",
             "scop": "Estimates the heat where none was measured",
-            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "scop_entity": "Provides the current COP; replaces the manual value from now on"
+            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
           }
         },
         "before_electric": {
@@ -1236,14 +1224,12 @@
           "data": {
             "electric_price": "Heating electricity price",
             "scop": "COP",
-            "tariff": "Own electricity tariff (optional)",
-            "scop_entity": "COP sensor (optional)"
+            "tariff": "Own electricity tariff (optional)"
           },
           "data_description": {
             "electric_price": "Unit price per kWh of the former heating tariff",
             "scop": "Estimates the heat where none was measured",
-            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "scop_entity": "Provides the current COP; replaces the manual value from now on"
+            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
           }
         },
         "before_none": {
@@ -1251,13 +1237,11 @@
           "description": "Averages for {since} to {until}. If you change them, this period is computed again.",
           "data": {
             "scop": "COP",
-            "tariff": "Own electricity tariff (optional)",
-            "scop_entity": "COP sensor (optional)"
+            "tariff": "Own electricity tariff (optional)"
           },
           "data_description": {
             "scop": "Estimates the heat where none was measured",
-            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "scop_entity": "Provides the current COP; replaces the manual value from now on"
+            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
           }
         }
       },
@@ -1430,16 +1414,12 @@
             "ev_consumption": "Electric car consumption",
             "combustion_consumption": "Combustion car consumption",
             "fuel_price": "Fuel price",
-            "tariff": "Own electricity tariff (optional)",
-            "ev_consumption_entity": "EV consumption sensor (optional)",
-            "combustion_consumption_entity": "Combustion car consumption sensor (optional)"
+            "tariff": "Own electricity tariff (optional)"
           },
           "data_description": {
             "ev_consumption": "At the wallbox with charging losses, usually 10–15 % above the car's display. With several cars, their average.",
             "combustion_consumption": "What a comparable combustion car would have used",
-            "tariff": "Only with a separate tariff for the car; otherwise the energy dashboard's price counts",
-            "ev_consumption_entity": "Provides the current consumption in kWh/100 km from the changeover time",
-            "combustion_consumption_entity": "Provides the current comparison consumption in l/100 km from the changeover time"
+            "tariff": "Only with a separate tariff for the car; otherwise the energy dashboard's price counts"
           }
         }
       },

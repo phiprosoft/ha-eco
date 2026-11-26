@@ -186,7 +186,10 @@ TEXTS: dict[str, dict[str, Any]] = {
                 "Electricity consumption",
                 "Total meter, or heating and hot water separately",
             ),
-            "heat_device": ("Heat meter device (optional)", "Takes over the device's heat meter; with several, choose them below"),
+            "heat_device": (
+                "Heat meter device (optional)",
+                "Takes over the device's heat meter; with several, choose them below",
+            ),
             "heat_meters": (
                 "Produced heat (optional)",
                 "Select heat meters in the same order as their matching electricity meters; COP is needed until all have data",
@@ -591,7 +594,10 @@ TEXTS: dict[str, dict[str, Any]] = {
                 "Stromverbrauch",
                 "Gesamtzähler, oder Heizung und Warmwasser einzeln",
             ),
-            "heat_device": ("Gerät des Wärmemengenzählers (optional)", "Übernimmt dessen Wärmemengenzähler; bei mehreren wähle sie unten"),
+            "heat_device": (
+                "Gerät des Wärmemengenzählers (optional)",
+                "Übernimmt dessen Wärmemengenzähler; bei mehreren wähle sie unten",
+            ),
             "heat_meters": (
                 "Erzeugte Wärme (optional)",
                 "Wähle Wärmemengenzähler in derselben Reihenfolge wie die zugehörigen Stromzähler; bis alle Daten liefern, wird der COP benötigt",

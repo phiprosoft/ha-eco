@@ -264,9 +264,7 @@ def _heat_device(hass: HomeAssistant, *sensors: tuple[str, str, bool]) -> str:
             config_entry=entry,
             device_id=device.id,
             original_device_class=device_class,
-            disabled_by=(
-                er.RegistryEntryDisabler.USER if disabled else None
-            ),
+            disabled_by=(er.RegistryEntryDisabler.USER if disabled else None),
         )
     return device.id
 

@@ -538,10 +538,12 @@ def validate_values(
         price_key, entity_key = prices
         manual_price = user_input.get(price_key)
         entity_price = user_input.get(entity_key)
-        if manual_price is not None and not manual_price > 0:
-            errors[price_key] = "value_required"
-        elif manual_price is None and not (
-            allow_entity_price and entity_price
+        if (
+            (manual_price is not None and not manual_price > 0)
+            or (
+                manual_price is None
+                and not (allow_entity_price and entity_price)
+            )
         ):
             errors[price_key] = "value_required"
     if (

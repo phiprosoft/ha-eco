@@ -104,7 +104,11 @@ class CategoryConfig:
             setup_at=float(data.get(CONF_SETUP_AT, 0.0)),
             before=_numbers(data.get(CONF_BEFORE)),
             current=_numbers(current),
-            price_entity=current.get(VALUE_PRICE_ENTITY) or None,
+            entity_sources={
+                key: value
+                for key, value in current.items()
+                if key.endswith("_entity") and isinstance(value, str) and value
+            },
             recompute=float(recompute) if recompute is not None else None,
             historical_enabled=data.get(CONF_HISTORICAL_ENABLED, False) is True,
             historical_data=(
@@ -113,6 +117,11 @@ class CategoryConfig:
                 else {}
             ),
         )
+
+    @property
+    def price_entity(self) -> str | None:
+        """Return the fuel-price entity for older calculation paths."""
+        return self.entity_sources.get(VALUE_PRICE_ENTITY)
 
     @property
     def historical_values(self) -> tuple[float, float, bool]:
@@ -287,7 +296,11 @@ class CategoryState:
         return _computing_past(self.next_hour, self.past_until)
 
     def timeline(self, key: str) -> Timeline:
-        """Return the timeline of a value, creating it if needed."""
+        """Return the timeline of a numeric value, creating it if needed."""
+        return self.timelines.setdefault(key, Timeline())
+
+    def entity_timeline(self, key: str) -> Timeline:
+        """Return the timeline of an entity source, creating it if needed."""
         return self.timelines.setdefault(key, Timeline())
 
     def as_dict(self) -> dict[str, Any]:

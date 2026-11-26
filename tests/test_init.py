@@ -272,6 +272,36 @@ async def test_car_without_comparison(
     assert float(balance.state) == pytest.approx(COUNTED * PV_PER_HOUR - 10000)
 
 
+def test_category_config_keeps_entity_sources_separate_from_numbers() -> None:
+    """All configured entity selectors are exposed independently of numeric values."""
+    config = CategoryConfig.from_data(
+        "heat_pump",
+        {
+            **HEAT_PUMP_DATA,
+            "current": {
+                "price": 0.12,
+                "scop": 4.0,
+                "price_entity": "sensor.gas_price",
+                "scop_entity": "sensor.heat_pump_scop",
+            },
+        },
+    )
+    assert config.current == {"price": 0.12, "scop": 4.0}
+    assert config.entity_sources == {
+        "price_entity": "sensor.gas_price",
+        "scop_entity": "sensor.heat_pump_scop",
+    }
+    assert config.price_entity == "sensor.gas_price"
+
+
+def test_category_state_persists_entity_timelines() -> None:
+    """Entity source timelines share the existing backwards-compatible storage."""
+    state = CategoryState()
+    state.entity_timeline("scop_entity").set("sensor.scop", 100.0)
+    restored = CategoryState.from_dict(state.as_dict())
+    assert restored.entity_timeline("scop_entity").value_at(100.0) == "sensor.scop"
+
+
 def test_historical_baseline_is_opt_in_and_preserved() -> None:
     """Old entries default off; opting out does not erase entered baseline data."""
     data = dict(PV_DATA)

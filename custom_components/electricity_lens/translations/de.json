@@ -535,10 +535,10 @@
         },
         "historical": {
           "title": "Historische Energiedaten",
-          "description": "Optionale Gesamtwerte für die Zeit vor den Home-Assistant-Statistiken. Trage die gesamten kWh und die durchschnittlichen Preise für diesen Zeitraum ein. HA Eco berechnet daraus eine geschätzte Gesamtersparnis. Es werden keine Stunden- oder Monatsverläufe erfunden.",
+          "description": "Trage Gesamtwerte vom Startdatum bis zum Speichern ein (heute). Diese Werte ersetzen alle Home-Assistant-Aufzeichnungen in diesem Zeitraum; ab der nächsten vollen Stunde rechnet HA Eco wieder mit den Zählern. Es werden keine Teilzeiträume oder künstlichen Stunden-/Monatsverläufe berechnet.",
           "data": {
             "historical_enabled": "Historische Energiedaten berücksichtigen",
-            "since": "Beginn des Zeitraums",
+            "since": "Beginn des Gesamtzeitraums",
             "solar_kwh": "PV-Erzeugung",
             "export_kwh": "Netzeinspeisung",
             "electricity_price": "Durchschnittlicher Strompreis",
@@ -548,13 +548,13 @@
           },
           "data_description": {
             "historical_enabled": "Kann jederzeit deaktiviert werden; die Eingaben bleiben gespeichert.",
-            "since": "Muss vor dem ersten aufgezeichneten Energiedatum von Home Assistant liegen.",
-            "solar_kwh": "Gesamte PV-Erzeugung in kWh im historischen Zeitraum.",
-            "export_kwh": "Gesamte Einspeisung in kWh. Leer lassen oder 0 eintragen, wenn es keine gab.",
-            "electricity_price": "Durchschnittliche Kosten pro kWh im historischen Zeitraum.",
-            "feed_in_price": "Durchschnittliche Vergütung pro eingespeister kWh.",
-            "battery_charge_kwh": "Gesamte in die Batterie geladene Energie in kWh.",
-            "battery_discharge_kwh": "Gesamte aus der Batterie entnommene Energie in kWh."
+            "since": "Beginn des Zeitraums, für den du die untenstehenden Gesamtwerte bis zum Speichern ermittelt hast. Das Datum darf vor oder nach dem Beginn der HA-Aufzeichnung liegen.",
+            "solar_kwh": "Gesamte PV-Erzeugung in kWh vom Startdatum bis zum Speichern.",
+            "export_kwh": "Gesamte Netzeinspeisung in kWh im selben Zeitraum.",
+            "electricity_price": "Durchschnittlicher Preis je kWh für den gesamten Zeitraum vom Startdatum bis zum Speichern. Bei dynamischen Tarifen möglichst den verbrauchsgewichteten Durchschnitt verwenden.",
+            "feed_in_price": "Durchschnittliche Vergütung pro eingespeister kWh im selben Zeitraum.",
+            "battery_charge_kwh": "Gesamte in die Batterie geladene Energie im selben Zeitraum.",
+            "battery_discharge_kwh": "Gesamte aus der Batterie entnommene Energie im selben Zeitraum."
           }
         }
       },
@@ -636,10 +636,10 @@
         },
         "historical": {
           "title": "Historische Energiedaten",
-          "description": "Optionale Gesamtwerte für die Zeit vor den Home-Assistant-Statistiken. Trage die gesamten kWh und die durchschnittlichen Preise für diesen Zeitraum ein. HA Eco berechnet daraus eine geschätzte Gesamtersparnis. Es werden keine Stunden- oder Monatsverläufe erfunden.",
+          "description": "Trage Gesamtwerte vom Startdatum bis zum Speichern ein (heute). Diese Werte ersetzen alle Home-Assistant-Aufzeichnungen in diesem Zeitraum; ab der nächsten vollen Stunde rechnet HA Eco wieder mit den Zählern. Es werden keine Teilzeiträume oder künstlichen Stunden-/Monatsverläufe berechnet.",
           "data": {
             "historical_enabled": "Historische Energiedaten berücksichtigen",
-            "since": "Beginn des Zeitraums",
+            "since": "Beginn des Gesamtzeitraums",
             "electricity_kwh": "Historische Strommenge",
             "heat_kwh": "Erzeugte Wärme",
             "scop": "Saisonaler COP",
@@ -648,12 +648,12 @@
           },
           "data_description": {
             "historical_enabled": "Kann jederzeit deaktiviert werden; die Eingaben bleiben gespeichert.",
-            "since": "Muss vor dem ersten aufgezeichneten Energiedatum von Home Assistant liegen.",
-            "electricity_kwh": "Gesamter Stromverbrauch der Wärmepumpe oder geladene Energie des E-Autos in kWh.",
-            "heat_kwh": "Gemessene Wärmemenge in kWh. Falls nicht vorhanden, unten einen saisonalen COP eintragen.",
-            "scop": "Schätzt die Wärme aus dem Stromverbrauch, wenn kein Wärmemengenzähler vorhanden ist.",
-            "electricity_price": "Durchschnittliche Kosten pro kWh im historischen Zeitraum.",
-            "fuel_price": "Durchschnittlicher Preis pro Einheit der früheren Heizung bzw. pro Liter Kraftstoff."
+            "since": "Beginn des Zeitraums, für den du die untenstehenden Gesamtwerte bis zum Speichern ermittelt hast. Das Datum darf vor oder nach dem Beginn der HA-Aufzeichnung liegen.",
+            "electricity_kwh": "Gesamter Stromverbrauch der Wärmepumpe vom Startdatum bis zum Speichern.",
+            "heat_kwh": "Gemessene Wärmemenge im selben Zeitraum. Hat Vorrang vor dem COP.",
+            "scop": "Schätzt die Wärme aus dem Stromverbrauch, wenn keine gemessene Wärmemenge eingetragen ist.",
+            "electricity_price": "Durchschnittlicher Preis je kWh für den gesamten Zeitraum vom Startdatum bis zum Speichern. Bei dynamischen Tarifen möglichst den verbrauchsgewichteten Durchschnitt verwenden.",
+            "fuel_price": "Verbrauchsgewichteter durchschnittlicher Preis der früheren Heizung im selben Zeitraum."
           }
         },
         "heat_pump_values_gas": {
@@ -1180,7 +1180,7 @@
         "scop_range": "Gib einen COP zwischen 1 und 10 an.",
         "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer.",
         "historical_values_required": "Trage alle erforderlichen historischen Energiemengen, Durchschnittspreise und ein Startdatum ein.",
-        "historical_overlaps_recorder": "Der Start des historischen Zeitraums muss vor dem Beginn der Home-Assistant-Aufzeichnung liegen. Bereits aufgezeichnete Zeiträume dürfen nicht doppelt gezählt werden."
+        "historical_future_date": "Das Startdatum darf nicht in der Zukunft liegen."
       },
       "abort": {
         "energy_interface": "Das Energie-Dashboard lässt sich nicht lesen. Diese Version von Home Assistant wird noch nicht unterstützt; bitte sieh nach, ob es ein Update von HA Eco gibt.",
@@ -1241,10 +1241,10 @@
         },
         "historical": {
           "title": "Historische Energiedaten",
-          "description": "Optionale Gesamtwerte für die Zeit vor den Home-Assistant-Statistiken. Trage die gesamten kWh und die durchschnittlichen Preise für diesen Zeitraum ein. HA Eco berechnet daraus eine geschätzte Gesamtersparnis. Es werden keine Stunden- oder Monatsverläufe erfunden.",
+          "description": "Trage Gesamtwerte vom Startdatum bis zum Speichern ein (heute). Diese Werte ersetzen alle Home-Assistant-Aufzeichnungen in diesem Zeitraum; ab der nächsten vollen Stunde rechnet HA Eco wieder mit den Zählern. Es werden keine Teilzeiträume oder künstlichen Stunden-/Monatsverläufe berechnet.",
           "data": {
             "historical_enabled": "Historische Energiedaten berücksichtigen",
-            "since": "Beginn des Zeitraums",
+            "since": "Beginn des Gesamtzeitraums",
             "electricity_kwh": "Historische Strommenge",
             "ev_consumption": "Verbrauch E-Auto",
             "combustion_consumption": "Verbrauch Verbrenner",
@@ -1253,12 +1253,12 @@
           },
           "data_description": {
             "historical_enabled": "Kann jederzeit deaktiviert werden; die Eingaben bleiben gespeichert.",
-            "since": "Muss vor dem ersten aufgezeichneten Energiedatum von Home Assistant liegen.",
-            "electricity_kwh": "Gesamter Stromverbrauch der Wärmepumpe oder geladene Energie des E-Autos in kWh.",
+            "since": "Beginn des Zeitraums, für den du die untenstehenden Gesamtwerte bis zum Speichern ermittelt hast. Das Datum darf vor oder nach dem Beginn der HA-Aufzeichnung liegen.",
+            "electricity_kwh": "Gesamte an der Wallbox geladene Energie vom Startdatum bis zum Speichern.",
             "ev_consumption": "Durchschnittliche kWh pro 100 km an der Wallbox einschließlich Ladeverlusten.",
-            "combustion_consumption": "Durchschnittlicher Kraftstoffverbrauch eines vergleichbaren Verbrenners in Litern pro 100 km.",
-            "electricity_price": "Durchschnittliche Kosten pro kWh im historischen Zeitraum.",
-            "fuel_price": "Durchschnittlicher Preis pro Einheit der früheren Heizung bzw. pro Liter Kraftstoff."
+            "combustion_consumption": "Durchschnittlicher Kraftstoffverbrauch eines vergleichbaren Verbrenners.",
+            "electricity_price": "Durchschnittlicher Preis je kWh für den gesamten Zeitraum vom Startdatum bis zum Speichern. Bei dynamischen Tarifen möglichst den verbrauchsgewichteten Durchschnitt verwenden.",
+            "fuel_price": "Verbrauchsgewichteter durchschnittlicher Kraftstoffpreis im selben Zeitraum."
           }
         },
         "wallbox_values": {
@@ -1428,6 +1428,9 @@
           },
           "historical_estimated": {
             "name": "Historische Wärme geschätzt"
+          },
+          "historical_until": {
+            "name": "Historische Daten bis"
           }
         }
       },

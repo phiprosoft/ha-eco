@@ -14,7 +14,10 @@ from pytest_homeassistant_custom_component.components.recorder.common import (
     async_wait_recording_done,
 )
 
-from custom_components.electricity_lens.coordinator import _standing_charge
+from custom_components.electricity_lens.coordinator import (
+    _category_data_start,
+    _standing_charge,
+)
 from custom_components.electricity_lens.models import HouseholdState
 
 from .conftest import (
@@ -32,6 +35,14 @@ from .conftest import (
     setup_entry,
     statistic_sums,
 )
+
+def test_historical_cutoff_excludes_the_covered_recorder_period() -> None:
+    """Recorder calculation resumes at the first full hour after the aggregate cutoff."""
+    assert _category_data_start(10_000, None) == 10_000
+    assert _category_data_start(10_000, 10_800) == 10_800
+    assert _category_data_start(10_000, 10_801) == 14_400
+    assert _category_data_start(20_000, 10_801) == 20_000
+
 
 COUNTED = HOURS - 1
 # Per hour with the test flows: 1 kWh import, 0.5 export, 2 solar, so the

@@ -88,6 +88,7 @@ from .const import (
     HISTORICAL_SAVING,
     HISTORICAL_SCOP,
     HISTORICAL_SINCE,
+    HISTORICAL_UNTIL,
     HISTORICAL_SOLAR,
     VALUE_COMBUSTION_CONSUMPTION,
     VALUE_EV_CONSUMPTION,
@@ -233,22 +234,22 @@ def historical_schema(
     }
     currency = hass.config.currency
     if category == CATEGORY_PV:
-        fields[probatio.Optional(HISTORICAL_SOLAR)] = _number("kWh", step=1)
-        fields[probatio.Optional(HISTORICAL_EXPORT)] = _number("kWh", step=1)
+        fields[probatio.Optional(HISTORICAL_SOLAR)] = _number("kWh", step=0.1)
+        fields[probatio.Optional(HISTORICAL_EXPORT)] = _number("kWh", step=0.1)
         fields[probatio.Optional(HISTORICAL_ELECTRICITY_PRICE)] = _number(
             f"{currency}/kWh"
         )
         fields[probatio.Optional(HISTORICAL_FEED_IN_PRICE)] = _number(f"{currency}/kWh")
         if has_battery:
             fields[probatio.Optional(HISTORICAL_BATTERY_CHARGE)] = _number(
-                "kWh", step=1
+                "kWh", step=0.1
             )
             fields[probatio.Optional(HISTORICAL_BATTERY_DISCHARGE)] = _number(
-                "kWh", step=1
+                "kWh", step=0.1
             )
     elif category == CATEGORY_HEAT_PUMP:
-        fields[probatio.Optional(HISTORICAL_ELECTRICITY)] = _number("kWh", step=1)
-        fields[probatio.Optional(HISTORICAL_HEAT)] = _number("kWh", step=1)
+        fields[probatio.Optional(HISTORICAL_ELECTRICITY)] = _number("kWh", step=0.1)
+        fields[probatio.Optional(HISTORICAL_HEAT)] = _number("kWh", step=0.1)
         fields[probatio.Optional(HISTORICAL_SCOP)] = _number(maximum=10, step=0.1)
         fields[probatio.Optional(HISTORICAL_ELECTRICITY_PRICE)] = _number(
             f"{currency}/kWh"
@@ -257,12 +258,12 @@ def historical_schema(
             f"{currency}/{FUELS.get(heating, FUELS[HEATING_GAS]).unit}"
         )
     else:
-        fields[probatio.Optional(HISTORICAL_ELECTRICITY)] = _number("kWh", step=1)
+        fields[probatio.Optional(HISTORICAL_ELECTRICITY)] = _number("kWh", step=0.1)
         fields[probatio.Optional(HISTORICAL_EV_CONSUMPTION)] = _number(
-            "kWh/100 km", step=0.1
+            "kWh/100 km", maximum=100, step=0.1
         )
         fields[probatio.Optional(HISTORICAL_COMBUSTION_CONSUMPTION)] = _number(
-            "l/100 km", step=0.1
+            "l/100 km", maximum=50, step=0.1
         )
         fields[probatio.Optional(HISTORICAL_ELECTRICITY_PRICE)] = _number(
             f"{currency}/kWh"
@@ -339,6 +340,8 @@ def historical_data_from_input(
             and values.get(HISTORICAL_ELECTRICITY_PRICE) is not None
             and values.get(HISTORICAL_FUEL_PRICE) is not None
         )
+    if HISTORICAL_FUEL_PRICE in values and values[HISTORICAL_FUEL_PRICE] <= 0:
+        valid = False
     if not valid:
         return None
     return {
@@ -1116,39 +1119,20 @@ class CategorySubentryFlow(ConfigSubentryFlow):
                     local_start = datetime.strptime(since, "%Y-%m-%d").replace(
                         tzinfo=dt_util.get_time_zone(self.hass.config.time_zone)
                     )
-                    timestamp = dt_util.as_utc(local_start).timestamp()
-                    if category == CATEGORY_PV:
-                        meters = [
-                            *self._setup.solar,
-                            *(
-                                stat
-                                for battery in self._setup.batteries
-                                for stat in (
-                                    battery.charge_stat,
-                                    battery.discharge_stat,
-                                )
-                            ),
-                            *(
-                                source.export_stat
-                                for source in self._setup.grids
-                                if source.export_stat is not None
-                            ),
-                        ]
-                    else:
-                        meters = [
-                            *subentry.data.get(CONF_METERS, []),
-                            *subentry.data.get(CONF_HEAT_METERS, []),
-                        ]
-                    recorder_start = await async_data_since(self.hass, meters)
-                    if timestamp >= recorder_start:
+                    if local_start.date() > dt_util.now().date():
                         return self.async_show_form(
                             step_id="historical",
                             data_schema=schema,
-                            errors={"base": "historical_overlaps_recorder"},
+                            errors={"base": "historical_future_date"},
                             description_placeholders={},
                         )
+                    timestamp = dt_util.as_utc(local_start).timestamp()
+                    # The entered totals cover the complete period from the
+                    # selected local date through this moment. Recorder data
+                    # in that interval is replaced, never added a second time.
                     historical = {
                         HISTORICAL_SINCE: timestamp,
+                        HISTORICAL_UNTIL: dt_util.utcnow().timestamp(),
                         **{
                             key: value
                             for key, value in values.items()

@@ -535,10 +535,10 @@
         },
         "historical": {
           "title": "Historical energy data",
-          "description": "Optional totals for the period before Home Assistant statistics. Enter the total kWh and average prices for that whole period. HA Eco calculates an estimated total saving from these values. No hourly or monthly history is invented.",
+          "description": "Enter totals from the start date through the moment you save (today). These values replace all Home Assistant recorder data in that interval; HA Eco resumes meter-based calculations at the next full hour. No partial periods or artificial hourly/monthly history are calculated.",
           "data": {
             "historical_enabled": "Include historical energy data",
-            "since": "Period start date",
+            "since": "Start of the total period",
             "solar_kwh": "Solar production",
             "export_kwh": "Energy fed into the grid",
             "electricity_price": "Average electricity price",
@@ -548,13 +548,13 @@
           },
           "data_description": {
             "historical_enabled": "Can be disabled at any time; entered values are preserved.",
-            "since": "Must be before the first recorded Home Assistant energy data.",
-            "solar_kwh": "Total PV production in kWh for the historical period.",
-            "export_kwh": "Total exported energy in kWh. Leave empty or enter 0 if none.",
-            "electricity_price": "Average cost per kWh over the historical period.",
-            "feed_in_price": "Average compensation per exported kWh.",
-            "battery_charge_kwh": "Total energy charged into the battery in kWh.",
-            "battery_discharge_kwh": "Total energy discharged from the battery in kWh."
+            "since": "Start of the period covered by the totals below through the time you save. It may be before or after Home Assistant recording began.",
+            "solar_kwh": "Total PV production in kWh from the start date through saving.",
+            "export_kwh": "Total energy exported to the grid in kWh over the same period.",
+            "electricity_price": "Average price per kWh for the entire period from the start date through saving. For dynamic tariffs, use a consumption-weighted average where possible.",
+            "feed_in_price": "Average compensation per exported kWh over the same period.",
+            "battery_charge_kwh": "Total energy charged into the battery over the same period.",
+            "battery_discharge_kwh": "Total energy discharged from the battery over the same period."
           }
         }
       },
@@ -636,10 +636,10 @@
         },
         "historical": {
           "title": "Historical energy data",
-          "description": "Optional totals for the period before Home Assistant statistics. Enter the total kWh and average prices for that whole period. HA Eco calculates an estimated total saving from these values. No hourly or monthly history is invented.",
+          "description": "Enter totals from the start date through the moment you save (today). These values replace all Home Assistant recorder data in that interval; HA Eco resumes meter-based calculations at the next full hour. No partial periods or artificial hourly/monthly history are calculated.",
           "data": {
             "historical_enabled": "Include historical energy data",
-            "since": "Period start date",
+            "since": "Start of the total period",
             "electricity_kwh": "Historical electricity total",
             "heat_kwh": "Useful heat produced",
             "scop": "Seasonal COP",
@@ -648,12 +648,12 @@
           },
           "data_description": {
             "historical_enabled": "Can be disabled at any time; entered values are preserved.",
-            "since": "Must be before the first recorded Home Assistant energy data.",
-            "electricity_kwh": "Total electricity consumed by the heat pump or charged into the car, in kWh.",
-            "heat_kwh": "Total measured heat in kWh. If unavailable, enter a seasonal COP below.",
-            "scop": "Estimates heat from electricity consumption when no heat meter is available.",
-            "electricity_price": "Average cost per kWh over the historical period.",
-            "fuel_price": "Average price per unit of the former heating fuel or petrol."
+            "since": "Start of the period covered by the totals below through the time you save. It may be before or after Home Assistant recording began.",
+            "electricity_kwh": "Total heat-pump electricity consumption from the start date through saving.",
+            "heat_kwh": "Measured heat over the same period. Takes precedence over COP.",
+            "scop": "Estimates heat from electricity when no measured heat total is entered.",
+            "electricity_price": "Average price per kWh for the entire period from the start date through saving. For dynamic tariffs, use a consumption-weighted average where possible.",
+            "fuel_price": "Consumption-weighted average price of the former heating fuel over the same period."
           }
         },
         "heat_pump_values_gas": {
@@ -1180,7 +1180,7 @@
         "scop_range": "Enter a COP between 1 and 10.",
         "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty.",
         "historical_values_required": "Enter all required historical energy totals, average prices, and a start date.",
-        "historical_overlaps_recorder": "The historical period must start before Home Assistant recording begins. Periods already recorded by Home Assistant must not be counted twice."
+        "historical_future_date": "The start date cannot be in the future."
       },
       "abort": {
         "energy_interface": "The energy dashboard cannot be read. This version of Home Assistant is not supported yet; please look for an update of HA Eco.",
@@ -1241,10 +1241,10 @@
         },
         "historical": {
           "title": "Historical energy data",
-          "description": "Optional totals for the period before Home Assistant statistics. Enter the total kWh and average prices for that whole period. HA Eco calculates an estimated total saving from these values. No hourly or monthly history is invented.",
+          "description": "Enter totals from the start date through the moment you save (today). These values replace all Home Assistant recorder data in that interval; HA Eco resumes meter-based calculations at the next full hour. No partial periods or artificial hourly/monthly history are calculated.",
           "data": {
             "historical_enabled": "Include historical energy data",
-            "since": "Period start date",
+            "since": "Start of the total period",
             "electricity_kwh": "Historical electricity total",
             "ev_consumption": "Electric car consumption",
             "combustion_consumption": "Combustion car consumption",
@@ -1253,12 +1253,12 @@
           },
           "data_description": {
             "historical_enabled": "Can be disabled at any time; entered values are preserved.",
-            "since": "Must be before the first recorded Home Assistant energy data.",
-            "electricity_kwh": "Total electricity consumed by the heat pump or charged into the car, in kWh.",
+            "since": "Start of the period covered by the totals below through the time you save. It may be before or after Home Assistant recording began.",
+            "electricity_kwh": "Total energy charged at the wallbox from the start date through saving.",
             "ev_consumption": "Average kWh per 100 km at the wallbox, including charging losses.",
-            "combustion_consumption": "Average fuel consumption of a comparable car in litres per 100 km.",
-            "electricity_price": "Average cost per kWh over the historical period.",
-            "fuel_price": "Average price per unit of the former heating fuel or petrol."
+            "combustion_consumption": "Average fuel consumption of a comparable combustion car.",
+            "electricity_price": "Average price per kWh for the entire period from the start date through saving. For dynamic tariffs, use a consumption-weighted average where possible.",
+            "fuel_price": "Consumption-weighted average fuel price over the same period."
           }
         },
         "wallbox_values": {
@@ -1428,6 +1428,9 @@
           },
           "historical_estimated": {
             "name": "Historical heat estimated"
+          },
+          "historical_until": {
+            "name": "Historical data through"
           }
         }
       },

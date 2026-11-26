@@ -217,6 +217,31 @@ def value_at(
     return float(value) if isinstance(value, int | float) else None
 
 
+def value_with_entity(
+    config: CategoryConfig,
+    state: CategoryState,
+    entity_values: dict[str, dict[float, float]],
+    key: str,
+    hour: float,
+    *,
+    minimum: float | None = None,
+    maximum: float | None = None,
+) -> float | None:
+    """Return a configured entity value, falling back to the manual value."""
+    entity_id = state.entity_timeline(f"{key}_entity").value_at(hour)
+    entity_value = (
+        entity_values.get(entity_id, {}).get(hour)
+        if isinstance(entity_id, str)
+        else None
+    )
+    if entity_value is not None and (
+        (minimum is None or entity_value >= minimum)
+        and (maximum is None or entity_value <= maximum)
+    ):
+        return entity_value
+    return value_at(config, state, key, hour)
+
+
 def _heat_meter_figures(
     config: CategoryConfig,
     meters: list[str],
@@ -743,9 +768,16 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
                         device_costs=device_costs,
                     ):
                         add(figure, hour, amount)
-            elif (ev := value(VALUE_EV_CONSUMPTION, hour)) and (
-                combustion := value(VALUE_COMBUSTION_CONSUMPTION, hour)
-            ) is not None:
+            elif (ev := value_with_entity(
+                config, state, entity_values, VALUE_EV_CONSUMPTION, hour, minimum=0.01
+            )) and (combustion := value_with_entity(
+                config,
+                state,
+                entity_values,
+                VALUE_COMBUSTION_CONSUMPTION,
+                hour,
+                minimum=0.01,
+            )) is not None:
                 saving = wallbox_saving(
                     electricity=electricity,
                     ev_consumption=ev,
@@ -893,16 +925,14 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
             return heat
         if electricity:
             state.estimated = True
-        scop_entity = state.entity_timeline(VALUE_SCOP_ENTITY).value_at(hour)
-        entity_scop = (
-            entity_values.get(scop_entity, {}).get(hour)
-            if isinstance(scop_entity, str)
-            else None
-        )
-        entered_scop = (
-            entity_scop
-            if entity_scop is not None and 1 <= entity_scop <= 10
-            else value_at(config, state, VALUE_SCOP, hour)
+        entered_scop = value_with_entity(
+            config,
+            state,
+            entity_values,
+            VALUE_SCOP,
+            hour,
+            minimum=1,
+            maximum=10,
         )
         return estimated_heat(
             electricity,

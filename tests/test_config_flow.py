@@ -1069,6 +1069,32 @@ async def test_reconfigure_now_accepts_scop_entity_without_manual_value(
     }
 
 
+async def test_reconfigure_wallbox_accepts_consumption_entities(
+    hass: HomeAssistant,
+) -> None:
+    """Live consumption sensors can replace both manual car averages."""
+    entry = make_entry(("wallbox", WALLBOX_DATA))
+    await setup_entry(hass, entry)
+    result = await _reconfigure(hass, entry, "wallbox", "now")
+    assert "ev_consumption_entity" in _fields(result)
+    assert "combustion_consumption_entity" in _fields(result)
+    result = await hass.config_entries.subentries.async_configure(
+        result["flow_id"],
+        {
+            "fuel_price_entity": "sensor.fuel_price",
+            "ev_consumption_entity": "sensor.ev_consumption",
+            "combustion_consumption_entity": "sensor.combustion_consumption",
+        },
+    )
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "values_from"
+    assert _data(entry, "wallbox")["current"] == {
+        "price_entity": "sensor.fuel_price",
+        "ev_consumption_entity": "sensor.ev_consumption",
+        "combustion_consumption_entity": "sensor.combustion_consumption",
+    }
+
+
 async def test_reconfigure_now_accepts_price_entity_without_manual_price(
     hass: HomeAssistant,
 ) -> None:

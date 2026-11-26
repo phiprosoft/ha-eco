@@ -32,8 +32,12 @@ from custom_components.electricity_lens.const import (
     DOMAIN,
     SIGNAL_ENERGY_PREFS_UPDATED,
     VALUE_SCOP_ENTITY,
+    VALUE_EV_CONSUMPTION,
 )
-from custom_components.electricity_lens.coordinator import ElectricityLensCoordinator
+from custom_components.electricity_lens.coordinator import (
+    ElectricityLensCoordinator,
+    value_with_entity,
+)
 from custom_components.electricity_lens.models import CategoryConfig, CategoryState
 from custom_components.electricity_lens.sources import EnergyInterfaceError
 
@@ -750,6 +754,26 @@ async def test_heat_measured_after_estimate(
     heat_pump = _state(hass, "sensor.heat_pump_saving")
     assert float(heat_pump.state) == pytest.approx(expected)
     assert heat_pump.attributes["heat_estimated"] is True
+
+
+def test_value_with_entity_uses_sensor_and_falls_back_to_manual() -> None:
+    """A numeric entity supplies a current value, with manual fallback."""
+    config = CategoryConfig.from_data(
+        "wallbox",
+        {
+            **WALLBOX_DATA,
+            "current": {"ev_consumption": 20.0},
+        },
+    )
+    state = CategoryState()
+    state.entity_timeline("ev_consumption_entity").set("sensor.ev_consumption", 0.0)
+    values = {"sensor.ev_consumption": {0.0: 18.5}}
+    assert value_with_entity(
+        config, state, values, VALUE_EV_CONSUMPTION, 0.0, minimum=0.01
+    ) == pytest.approx(18.5)
+    assert value_with_entity(
+        config, state, {}, VALUE_EV_CONSUMPTION, 0.0, minimum=0.01
+    ) == pytest.approx(20.0)
 
 
 def test_heat_gap_uses_measured_cop() -> None:

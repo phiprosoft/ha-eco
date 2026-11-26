@@ -31,8 +31,8 @@ from custom_components.electricity_lens.calculation import HOUR
 from custom_components.electricity_lens.const import (
     DOMAIN,
     SIGNAL_ENERGY_PREFS_UPDATED,
-    VALUE_SCOP_ENTITY,
     VALUE_EV_CONSUMPTION,
+    VALUE_SCOP_ENTITY,
 )
 from custom_components.electricity_lens.coordinator import (
     ElectricityLensCoordinator,

@@ -523,7 +523,9 @@ def values_schema(
         scop_field = probatio.Optional if allow_entity_scop else probatio.Required
         fields[scop_field(VALUE_SCOP)] = _number(maximum=10, step=0.1)
         if allow_entity_scop:
-            fields[probatio.Optional(VALUE_SCOP_ENTITY)] = SCOP_ENTITY_SELECTOR
+            fields[probatio.Optional(VALUE_SCOP_ENTITY)] = (
+                SCOP_ENTITY_SELECTOR
+            )
     fields[probatio.Optional(VALUE_TARIFF)] = _number(f"{currency}/kWh")
     if price_entity and prices is not None:
         fields[probatio.Optional(prices[1])] = PRICE_ENTITY_SELECTOR

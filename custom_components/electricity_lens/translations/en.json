@@ -653,7 +653,7 @@
             "heat_kwh": "Measured heat over the same period. Takes precedence over COP.",
             "scop": "Estimates heat from electricity when no measured heat total is entered.",
             "electricity_price": "Average price per kWh for the entire period from the start date through saving. For dynamic tariffs, use a consumption-weighted average where possible.",
-            "fuel_price": "Consumption-weighted average price of the former heating fuel over the same period."
+            "fuel_price": "Consumption-weighted average price of the former heating fuel or petrol over the same period."
           }
         },
         "heat_pump_values_gas": {
@@ -1256,9 +1256,9 @@
             "since": "Start of the period covered by the totals below through the time you save. It may be before or after Home Assistant recording began.",
             "electricity_kwh": "Total energy charged at the wallbox from the start date through saving.",
             "ev_consumption": "Average kWh per 100 km at the wallbox, including charging losses.",
-            "combustion_consumption": "Average fuel consumption of a comparable combustion car.",
+            "combustion_consumption": "Average fuel consumption of a comparable combustion car in litres per 100 km.",
             "electricity_price": "Average price per kWh for the entire period from the start date through saving. For dynamic tariffs, use a consumption-weighted average where possible.",
-            "fuel_price": "Consumption-weighted average fuel price over the same period."
+            "fuel_price": "Consumption-weighted average price of the former heating fuel or petrol over the same period."
           }
         },
         "wallbox_values": {

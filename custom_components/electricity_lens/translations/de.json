@@ -653,7 +653,7 @@
             "heat_kwh": "Gemessene Wärmemenge im selben Zeitraum. Hat Vorrang vor dem COP.",
             "scop": "Schätzt die Wärme aus dem Stromverbrauch, wenn keine gemessene Wärmemenge eingetragen ist.",
             "electricity_price": "Durchschnittlicher Preis je kWh für den gesamten Zeitraum vom Startdatum bis zum Speichern. Bei dynamischen Tarifen möglichst den verbrauchsgewichteten Durchschnitt verwenden.",
-            "fuel_price": "Verbrauchsgewichteter durchschnittlicher Preis der früheren Heizung im selben Zeitraum."
+            "fuel_price": "Verbrauchsgewichteter durchschnittlicher Preis der früheren Heizung bzw. des Kraftstoffs im selben Zeitraum."
           }
         },
         "heat_pump_values_gas": {
@@ -1256,9 +1256,9 @@
             "since": "Beginn des Zeitraums, für den du die untenstehenden Gesamtwerte bis zum Speichern ermittelt hast. Das Datum darf vor oder nach dem Beginn der HA-Aufzeichnung liegen.",
             "electricity_kwh": "Gesamte an der Wallbox geladene Energie vom Startdatum bis zum Speichern.",
             "ev_consumption": "Durchschnittliche kWh pro 100 km an der Wallbox einschließlich Ladeverlusten.",
-            "combustion_consumption": "Durchschnittlicher Kraftstoffverbrauch eines vergleichbaren Verbrenners.",
+            "combustion_consumption": "Durchschnittlicher Kraftstoffverbrauch eines vergleichbaren Verbrenners in Litern pro 100 km.",
             "electricity_price": "Durchschnittlicher Preis je kWh für den gesamten Zeitraum vom Startdatum bis zum Speichern. Bei dynamischen Tarifen möglichst den verbrauchsgewichteten Durchschnitt verwenden.",
-            "fuel_price": "Verbrauchsgewichteter durchschnittlicher Kraftstoffpreis im selben Zeitraum."
+            "fuel_price": "Verbrauchsgewichteter durchschnittlicher Preis der früheren Heizung bzw. des Kraftstoffs im selben Zeitraum."
           }
         },
         "wallbox_values": {

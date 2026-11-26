@@ -67,13 +67,15 @@
           "meters": "Electricity consumption",
           "heat_meters": "Produced heat (optional)",
           "heating": "Former heating",
-          "investment": "Extra cost (optional)"
+          "investment": "Extra cost (optional)",
+          "heat_device": "Heat meter device (optional)"
         },
         "data_description": {
           "meters": "Total meter, or heating and hot water separately",
           "heat_meters": "Select heat meters in the same order as their matching electricity meters; COP is needed until all have data",
           "heating": "None, as in a new build: no saving, but heat, COP, and heat price",
-          "investment": "Extra purchase cost over the former heating. For the payback."
+          "investment": "Extra purchase cost over the former heating. For the payback.",
+          "heat_device": "Takes over the device's heat meter; with several, choose them below"
         }
       },
       "heat_pump_values_gas": {
@@ -435,7 +437,9 @@
       "scop_range": "Enter a COP between 1 and 10.",
       "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty.",
       "historical_values_required": "Enter all required historical energy totals, average prices, and a start date.",
-      "historical_overlaps_recorder": "The historical period must start before Home Assistant recording begins. Periods already recorded by Home Assistant must not be counted twice."
+      "historical_overlaps_recorder": "The historical period must start before Home Assistant recording begins. Periods already recorded by Home Assistant must not be counted twice.",
+      "heat_device_none": "This device has no energy meter. Choose the heat meters below.",
+      "heat_device_ambiguous": "This device has several energy meters. Choose the heat meters below, in the order of the electricity meters."
     },
     "abort": {
       "no_energy_dashboard": "First set up the grid import with an electricity price in the [energy dashboard](/config/energy). Then you can add HA Eco.",
@@ -561,7 +565,9 @@
         "scop_range": "Enter a COP between 1 and 10.",
         "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty.",
         "historical_values_required": "Enter all required historical energy totals, average prices, and a start date.",
-        "historical_overlaps_recorder": "The historical period must start before Home Assistant recording begins. Periods already recorded by Home Assistant must not be counted twice."
+        "historical_overlaps_recorder": "The historical period must start before Home Assistant recording begins. Periods already recorded by Home Assistant must not be counted twice.",
+        "heat_device_none": "This device has no energy meter. Choose the heat meters below.",
+        "heat_device_ambiguous": "This device has several energy meters. Choose the heat meters below, in the order of the electricity meters."
       },
       "abort": {
         "energy_interface": "The energy dashboard cannot be read. This version of Home Assistant is not supported yet; please look for an update of HA Eco.",
@@ -585,13 +591,15 @@
             "meters": "Electricity consumption",
             "heat_meters": "Produced heat (optional)",
             "heating": "Former heating",
-            "investment": "Extra cost (optional)"
+            "investment": "Extra cost (optional)",
+            "heat_device": "Heat meter device (optional)"
           },
           "data_description": {
             "meters": "Total meter, or heating and hot water separately",
             "heat_meters": "Select heat meters in the same order as their matching electricity meters; COP is needed until all have data",
             "heating": "None, as in a new build: no saving, but heat, COP, and heat price",
-            "investment": "Extra purchase cost over the former heating. For the payback."
+            "investment": "Extra purchase cost over the former heating. For the payback.",
+            "heat_device": "Takes over the device's heat meter; with several, choose them below"
           }
         },
         "reconfigure": {
@@ -611,13 +619,15 @@
             "meters": "Electricity consumption",
             "heat_meters": "Produced heat (optional)",
             "heating": "Former heating",
-            "investment": "Extra cost (optional)"
+            "investment": "Extra cost (optional)",
+            "heat_device": "Heat meter device (optional)"
           },
           "data_description": {
             "meters": "Total meter, or heating and hot water separately",
             "heat_meters": "Select heat meters in the same order as their matching electricity meters; COP is needed until all have data",
             "heating": "None, as in a new build: no saving, but heat, COP, and heat price",
-            "investment": "Extra purchase cost over the former heating. For the payback."
+            "investment": "Extra purchase cost over the former heating. For the payback.",
+            "heat_device": "Takes over the device's heat meter; with several, choose them below"
           }
         },
         "recompute": {
@@ -1168,7 +1178,9 @@
         "scop_range": "Enter a COP between 1 and 10.",
         "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty.",
         "historical_values_required": "Enter all required historical energy totals, average prices, and a start date.",
-        "historical_overlaps_recorder": "The historical period must start before Home Assistant recording begins. Periods already recorded by Home Assistant must not be counted twice."
+        "historical_overlaps_recorder": "The historical period must start before Home Assistant recording begins. Periods already recorded by Home Assistant must not be counted twice.",
+        "heat_device_none": "This device has no energy meter. Choose the heat meters below.",
+        "heat_device_ambiguous": "This device has several energy meters. Choose the heat meters below, in the order of the electricity meters."
       },
       "abort": {
         "energy_interface": "The energy dashboard cannot be read. This version of Home Assistant is not supported yet; please look for an update of HA Eco.",
@@ -1336,7 +1348,9 @@
         "scop_range": "Enter a COP between 1 and 10.",
         "investment_without_comparison": "Without a comparison there is no saving to pay back an extra cost. Leave it empty.",
         "historical_values_required": "Enter all required historical energy totals, average prices, and a start date.",
-        "historical_overlaps_recorder": "The historical period must start before Home Assistant recording begins. Periods already recorded by Home Assistant must not be counted twice."
+        "historical_overlaps_recorder": "The historical period must start before Home Assistant recording begins. Periods already recorded by Home Assistant must not be counted twice.",
+        "heat_device_none": "This device has no energy meter. Choose the heat meters below.",
+        "heat_device_ambiguous": "This device has several energy meters. Choose the heat meters below, in the order of the electricity meters."
       },
       "abort": {
         "energy_interface": "The energy dashboard cannot be read. This version of Home Assistant is not supported yet; please look for an update of HA Eco.",

@@ -12,6 +12,7 @@ from unittest.mock import patch
 import pytest
 from homeassistant.config_entries import SOURCE_RECONFIGURE, SOURCE_USER
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import device_registry as dr, entity_registry as er
 from homeassistant.data_entry_flow import FlowResultType
 from homeassistant.setup import async_setup_component
 from pytest_homeassistant_custom_component.common import MockConfigEntry
@@ -21,9 +22,12 @@ from pytest_homeassistant_custom_component.components.recorder.common import (
 
 from custom_components.electricity_lens.config_flow import (
     async_scop_needed,
+    device_heat_meters,
     format_date,
     historical_data_from_input,
     historical_schema,
+    meters_data,
+    validate_meters,
     values_form_input,
 )
 from custom_components.electricity_lens.const import DOMAIN
@@ -243,6 +247,37 @@ async def test_scop_only_where_heat_data_is_missing(
     )
     assert result["step_id"] == "heat_pump_values_gas_scop_until"
     assert result["description_placeholders"]["heat_until"]  # pyright: ignore[reportOptionalSubscript]
+
+
+def _heat_device(hass: HomeAssistant, *sensors: tuple[str, str, bool]) -> str:
+    entry = MockConfigEntry(domain="test"); entry.add_to_hass(hass)
+    device = dr.async_get(hass).async_get_or_create(config_entry_id=entry.entry_id, identifiers={("test","heat")})
+    registry = er.async_get(hass)
+    for object_id, device_class, disabled in sensors:
+        registry.async_get_or_create("sensor","test",object_id,config_entry=entry,device_id=device.id,
+            original_device_class=device_class,disabled_by=er.RegistryEntryDisabler.USER if disabled else None)
+    return device.id
+
+
+async def test_device_heat_meter_ignores_disabled_and_non_energy(hass: HomeAssistant) -> None:
+    device = _heat_device(hass,("heat","energy",False),("power","power",False),("old","energy",True))
+    assert device_heat_meters(hass,device) == ["sensor.heat"]
+    data = {**HEAT_PUMP_METERS,"heat_device":device}
+    assert validate_meters(hass,"heat_pump",data) == {}
+    assert meters_data(hass,"heat_pump",data)["heat_meters"] == ["sensor.heat"]
+
+
+async def test_device_heat_meter_rejects_ambiguous_device(hass: HomeAssistant) -> None:
+    device = _heat_device(hass,("heat_a","energy",False),("heat_b","energy",False))
+    data = {**HEAT_PUMP_METERS,"heat_device":device}
+    assert validate_meters(hass,"heat_pump",data) == {"heat_device":"heat_device_ambiguous"}
+
+
+async def test_manual_heat_meters_override_device(hass: HomeAssistant) -> None:
+    device = _heat_device(hass,("heat_a","energy",False),("heat_b","energy",False))
+    data = {**HEAT_PUMP_METERS,"heat_device":device,"heat_meters":["sensor.manual"]}
+    assert validate_meters(hass,"heat_pump",data) == {}
+    assert meters_data(hass,"heat_pump",data)["heat_meters"] == ["sensor.manual"]
 
 
 async def test_scop_needed_until_all_heat_meters_have_data(

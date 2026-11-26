@@ -67,13 +67,15 @@
           "meters": "Stromverbrauch",
           "heat_meters": "Erzeugte Wärme (optional)",
           "heating": "Frühere Heizung",
-          "investment": "Mehrkosten (optional)"
+          "investment": "Mehrkosten (optional)",
+          "heat_device": "Gerät des Wärmemengenzählers (optional)"
         },
         "data_description": {
           "meters": "Gesamtzähler, oder Heizung und Warmwasser einzeln",
           "heat_meters": "Wähle Wärmemengenzähler in derselben Reihenfolge wie die zugehörigen Stromzähler; bis alle Daten liefern, wird der COP benötigt",
           "heating": "Keine, etwa im Neubau: keine Ersparnis, aber Wärme, COP und Wärmepreis",
-          "investment": "Mehrkosten der Anschaffung gegenüber der früheren Heizung. Für die Amortisation."
+          "investment": "Mehrkosten der Anschaffung gegenüber der früheren Heizung. Für die Amortisation.",
+          "heat_device": "Übernimmt dessen Wärmemengenzähler; bei mehreren wähle sie unten"
         }
       },
       "heat_pump_values_gas": {
@@ -435,7 +437,9 @@
       "scop_range": "Gib einen COP zwischen 1 und 10 an.",
       "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer.",
       "historical_values_required": "Trage alle erforderlichen historischen Energiemengen, Durchschnittspreise und ein Startdatum ein.",
-      "historical_overlaps_recorder": "Der Start des historischen Zeitraums muss vor dem Beginn der Home-Assistant-Aufzeichnung liegen. Bereits aufgezeichnete Zeiträume dürfen nicht doppelt gezählt werden."
+      "historical_overlaps_recorder": "Der Start des historischen Zeitraums muss vor dem Beginn der Home-Assistant-Aufzeichnung liegen. Bereits aufgezeichnete Zeiträume dürfen nicht doppelt gezählt werden.",
+      "heat_device_none": "Dieses Gerät hat keinen Energiezähler. Wähle die Wärmemengenzähler unten.",
+      "heat_device_ambiguous": "Dieses Gerät hat mehrere Energiezähler. Wähle die Wärmemengenzähler unten, in der Reihenfolge der Stromzähler."
     },
     "abort": {
       "no_energy_dashboard": "Richte zuerst im [Energie-Dashboard](/config/energy) den Netzbezug mit Strompreis ein. Danach kannst du HA Eco hinzufügen.",
@@ -561,7 +565,9 @@
         "scop_range": "Gib einen COP zwischen 1 und 10 an.",
         "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer.",
         "historical_values_required": "Trage alle erforderlichen historischen Energiemengen, Durchschnittspreise und ein Startdatum ein.",
-        "historical_overlaps_recorder": "Der Start des historischen Zeitraums muss vor dem Beginn der Home-Assistant-Aufzeichnung liegen. Bereits aufgezeichnete Zeiträume dürfen nicht doppelt gezählt werden."
+        "historical_overlaps_recorder": "Der Start des historischen Zeitraums muss vor dem Beginn der Home-Assistant-Aufzeichnung liegen. Bereits aufgezeichnete Zeiträume dürfen nicht doppelt gezählt werden.",
+        "heat_device_none": "Dieses Gerät hat keinen Energiezähler. Wähle die Wärmemengenzähler unten.",
+        "heat_device_ambiguous": "Dieses Gerät hat mehrere Energiezähler. Wähle die Wärmemengenzähler unten, in der Reihenfolge der Stromzähler."
       },
       "abort": {
         "energy_interface": "Das Energie-Dashboard lässt sich nicht lesen. Diese Version von Home Assistant wird noch nicht unterstützt; bitte sieh nach, ob es ein Update von HA Eco gibt.",
@@ -585,13 +591,15 @@
             "meters": "Stromverbrauch",
             "heat_meters": "Erzeugte Wärme (optional)",
             "heating": "Frühere Heizung",
-            "investment": "Mehrkosten (optional)"
+            "investment": "Mehrkosten (optional)",
+            "heat_device": "Gerät des Wärmemengenzählers (optional)"
           },
           "data_description": {
             "meters": "Gesamtzähler, oder Heizung und Warmwasser einzeln",
             "heat_meters": "Wähle Wärmemengenzähler in derselben Reihenfolge wie die zugehörigen Stromzähler; bis alle Daten liefern, wird der COP benötigt",
             "heating": "Keine, etwa im Neubau: keine Ersparnis, aber Wärme, COP und Wärmepreis",
-            "investment": "Mehrkosten der Anschaffung gegenüber der früheren Heizung. Für die Amortisation."
+            "investment": "Mehrkosten der Anschaffung gegenüber der früheren Heizung. Für die Amortisation.",
+            "heat_device": "Übernimmt dessen Wärmemengenzähler; bei mehreren wähle sie unten"
           }
         },
         "reconfigure": {
@@ -611,13 +619,15 @@
             "meters": "Stromverbrauch",
             "heat_meters": "Erzeugte Wärme (optional)",
             "heating": "Frühere Heizung",
-            "investment": "Mehrkosten (optional)"
+            "investment": "Mehrkosten (optional)",
+            "heat_device": "Gerät des Wärmemengenzählers (optional)"
           },
           "data_description": {
             "meters": "Gesamtzähler, oder Heizung und Warmwasser einzeln",
             "heat_meters": "Wähle Wärmemengenzähler in derselben Reihenfolge wie die zugehörigen Stromzähler; bis alle Daten liefern, wird der COP benötigt",
             "heating": "Keine, etwa im Neubau: keine Ersparnis, aber Wärme, COP und Wärmepreis",
-            "investment": "Mehrkosten der Anschaffung gegenüber der früheren Heizung. Für die Amortisation."
+            "investment": "Mehrkosten der Anschaffung gegenüber der früheren Heizung. Für die Amortisation.",
+            "heat_device": "Übernimmt dessen Wärmemengenzähler; bei mehreren wähle sie unten"
           }
         },
         "recompute": {
@@ -1168,7 +1178,9 @@
         "scop_range": "Gib einen COP zwischen 1 und 10 an.",
         "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer.",
         "historical_values_required": "Trage alle erforderlichen historischen Energiemengen, Durchschnittspreise und ein Startdatum ein.",
-        "historical_overlaps_recorder": "Der Start des historischen Zeitraums muss vor dem Beginn der Home-Assistant-Aufzeichnung liegen. Bereits aufgezeichnete Zeiträume dürfen nicht doppelt gezählt werden."
+        "historical_overlaps_recorder": "Der Start des historischen Zeitraums muss vor dem Beginn der Home-Assistant-Aufzeichnung liegen. Bereits aufgezeichnete Zeiträume dürfen nicht doppelt gezählt werden.",
+        "heat_device_none": "Dieses Gerät hat keinen Energiezähler. Wähle die Wärmemengenzähler unten.",
+        "heat_device_ambiguous": "Dieses Gerät hat mehrere Energiezähler. Wähle die Wärmemengenzähler unten, in der Reihenfolge der Stromzähler."
       },
       "abort": {
         "energy_interface": "Das Energie-Dashboard lässt sich nicht lesen. Diese Version von Home Assistant wird noch nicht unterstützt; bitte sieh nach, ob es ein Update von HA Eco gibt.",
@@ -1336,7 +1348,9 @@
         "scop_range": "Gib einen COP zwischen 1 und 10 an.",
         "investment_without_comparison": "Ohne Vergleich gibt es keine Ersparnis, die Mehrkosten zurückzahlt. Lass das Feld leer.",
         "historical_values_required": "Trage alle erforderlichen historischen Energiemengen, Durchschnittspreise und ein Startdatum ein.",
-        "historical_overlaps_recorder": "Der Start des historischen Zeitraums muss vor dem Beginn der Home-Assistant-Aufzeichnung liegen. Bereits aufgezeichnete Zeiträume dürfen nicht doppelt gezählt werden."
+        "historical_overlaps_recorder": "Der Start des historischen Zeitraums muss vor dem Beginn der Home-Assistant-Aufzeichnung liegen. Bereits aufgezeichnete Zeiträume dürfen nicht doppelt gezählt werden.",
+        "heat_device_none": "Dieses Gerät hat keinen Energiezähler. Wähle die Wärmemengenzähler unten.",
+        "heat_device_ambiguous": "Dieses Gerät hat mehrere Energiezähler. Wähle die Wärmemengenzähler unten, in der Reihenfolge der Stromzähler."
       },
       "abort": {
         "energy_interface": "Das Energie-Dashboard lässt sich nicht lesen. Diese Version von Home Assistant wird noch nicht unterstützt; bitte sieh nach, ob es ein Update von HA Eco gibt.",

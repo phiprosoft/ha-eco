@@ -79,7 +79,8 @@ class CategoryConfig:
     setup_at: float = 0.0
     before: Mapping[str, float] = field(default_factory=dict[str, float])
     current: Mapping[str, float] = field(default_factory=dict[str, float])
-    price_entity: str | None = None
+    entity_sources: Mapping[str, str] = field(default_factory=dict[str, str])
+    """Selected entities for live values, keyed by the value they provide."""
     recompute: float | None = None
     historical_enabled: bool = False
     """Whether the separate historical baseline contributes to lifetime results."""

@@ -1013,6 +1013,27 @@ async def test_reconfigure_values_from_now_on(hass: HomeAssistant) -> None:
     assert data["before"] == HEAT_PUMP_DATA["before"]
 
 
+async def test_reconfigure_now_accepts_price_entity_without_manual_price(
+    hass: HomeAssistant,
+) -> None:
+    """A price entity replaces the manual price for values from now on."""
+    entry = make_entry(("heat_pump", HEAT_PUMP_DATA))
+    await setup_entry(hass, entry)
+    result = await _reconfigure(hass, entry, "heat_pump", "now")
+    assert "gas_price" in _fields(result)
+    result = await hass.config_entries.subentries.async_configure(
+        result["flow_id"],
+        {"gas_price_entity": "sensor.gas", "scop": 4.0},
+    )
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "values_from"
+    assert _data(entry, "heat_pump")["current"] == {
+        "scop": 4.0,
+        "price_entity": "sensor.gas",
+    }
+    assert _data(entry, "heat_pump")["before"] == HEAT_PUMP_DATA["before"]
+
+
 async def test_reconfigure_now_keeps_cop_with_heat_meters(hass: HomeAssistant) -> None:
     """With heat meters the COP is not asked from now on, and kept."""
     entry = make_entry(

@@ -498,7 +498,10 @@ def values_schema(
         )
     if prices is not None:
         unit = FUELS[heating].unit if category == CATEGORY_HEAT_PUMP else "l"
-        fields[probatio.Required(prices[0])] = _number(f"{currency}/{unit}")
+        # A price sensor can replace the manual value for the period from now
+        # on. The initial setup still validates the average needed for the past.
+        field = probatio.Optional if price_entity else probatio.Required
+        fields[field(prices[0])] = _number(f"{currency}/{unit}")
     if scop:
         fields[probatio.Required(VALUE_SCOP)] = _number(maximum=10, step=0.1)
     fields[probatio.Optional(VALUE_TARIFF)] = _number(f"{currency}/kWh")
@@ -508,12 +511,19 @@ def values_schema(
 
 
 def validate_values(
-    category: str, heating: str, user_input: Mapping[str, Any]
+    category: str,
+    heating: str,
+    user_input: Mapping[str, Any],
+    *,
+    allow_entity_price: bool = False,
 ) -> dict[str, str]:
-    """Return the errors of a values form: everything entered must be above 0."""
+    """Validate positive values and require either a manual or entity price.
+
+    Entity prices can replace the manual value only for settings applying
+    from now on. Initial setup still needs the manual average for past data.
+    """
     prices = PRICE_FIELDS[category].get(heating)
     keys = (
-        *(prices[:1] if prices else ()),
         VALUE_SCOP,
         VALUE_TARIFF,
         VALUE_EV_CONSUMPTION,
@@ -524,6 +534,16 @@ def validate_values(
         for key in keys
         if key in user_input and not user_input[key] > 0
     }
+    if prices is not None:
+        price_key, entity_key = prices
+        manual_price = user_input.get(price_key)
+        entity_price = user_input.get(entity_key)
+        if manual_price is not None and not manual_price > 0:
+            errors[price_key] = "value_required"
+        elif manual_price is None and not (
+            allow_entity_price and entity_price
+        ):
+            errors[price_key] = "value_required"
     if (
         VALUE_SCOP in user_input
         and VALUE_SCOP not in errors
@@ -546,7 +566,8 @@ def values_data(
     if prices is None:
         return data
     price_key, entity_key = prices
-    data[VALUE_PRICE] = user_input[price_key]
+    if (price := user_input.get(price_key)) is not None:
+        data[VALUE_PRICE] = price
     if entity := user_input.get(entity_key):
         data[VALUE_PRICE_ENTITY] = entity
     return data
@@ -1216,7 +1237,9 @@ class CategorySubentryFlow(ConfigSubentryFlow):
         )
         errors: dict[str, str] = {}
         if user_input is not None and not (
-            errors := validate_values(category, heating, user_input)
+            errors := validate_values(
+                category, heating, user_input, allow_entity_price=True
+            )
         ):
             current = values_data(category, heating, user_input)
             if not scop and VALUE_SCOP in subentry.data.get(CONF_CURRENT, {}):

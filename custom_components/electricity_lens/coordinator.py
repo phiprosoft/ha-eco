@@ -328,10 +328,8 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
                 state.reset(fingerprint)
             for key in config.values:
                 state.timeline(key).set(config.current.get(key), valid_from)
-            if config.category != CATEGORY_PV:
-                state.entity_timeline(VALUE_PRICE_ENTITY).set(
-                    config.entity_sources.get(VALUE_PRICE_ENTITY), valid_from
-                )
+            for key, entity in config.entity_sources.items():
+                state.entity_timeline(key).set(entity, valid_from)
             self.configs[subentry_id] = config
             self.states[subentry_id] = state
         # A removed category can no longer clear its own issues.

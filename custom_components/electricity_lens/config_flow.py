@@ -95,6 +95,7 @@ from .const import (
     VALUE_PRICE,
     VALUE_PRICE_ENTITY,
     VALUE_SCOP,
+    VALUE_SCOP_ENTITY,
     VALUE_TARIFF,
 )
 from .coordinator import next_full_hour
@@ -120,6 +121,9 @@ PRICE_FIELDS: dict[str, dict[str, tuple[str, str]]] = {
 DEFAULT_DATE_FORMAT = "%Y-%m-%d"
 DATE_FORMATS = {"de": "%d.%m.%Y"}
 PRICE_ENTITY_SELECTOR = EntitySelector(  # pyright: ignore[reportUnknownVariableType]
+    EntitySelectorConfig(domain=["sensor", "input_number", "number"])
+)
+SCOP_ENTITY_SELECTOR = EntitySelector(  # pyright: ignore[reportUnknownVariableType]
     EntitySelectorConfig(domain=["sensor", "input_number", "number"])
 )
 
@@ -503,7 +507,10 @@ def values_schema(
         field = probatio.Optional if price_entity else probatio.Required
         fields[field(prices[0])] = _number(f"{currency}/{unit}")
     if scop:
-        fields[probatio.Required(VALUE_SCOP)] = _number(maximum=10, step=0.1)
+        scop_field = probatio.Optional if price_entity else probatio.Required
+        fields[scop_field(VALUE_SCOP)] = _number(maximum=10, step=0.1)
+        if price_entity:
+            fields[probatio.Optional(VALUE_SCOP_ENTITY)] = SCOP_ENTITY_SELECTOR
     fields[probatio.Optional(VALUE_TARIFF)] = _number(f"{currency}/kWh")
     if price_entity and prices is not None:
         fields[probatio.Optional(prices[1])] = PRICE_ENTITY_SELECTOR
@@ -516,6 +523,7 @@ def validate_values(
     user_input: Mapping[str, Any],
     *,
     allow_entity_price: bool = False,
+    allow_entity_scop: bool = False,
 ) -> dict[str, str]:
     """Validate positive values and require either a manual or entity price.
 
@@ -532,7 +540,7 @@ def validate_values(
     errors = {
         key: "value_required"
         for key in keys
-        if key in user_input and not user_input[key] > 0
+        if key in user_input and user_input[key] is not None and not user_input[key] > 0
     }
     if prices is not None:
         price_key, entity_key = prices
@@ -542,12 +550,18 @@ def validate_values(
             manual_price is None and not (allow_entity_price and entity_price)
         ):
             errors[price_key] = "value_required"
+    if VALUE_SCOP in user_input and user_input[VALUE_SCOP] is None:
+        if not (allow_entity_scop and user_input.get(VALUE_SCOP_ENTITY)):
+            errors[VALUE_SCOP] = "value_required"
     if (
         VALUE_SCOP in user_input
+        and user_input[VALUE_SCOP] is not None
         and VALUE_SCOP not in errors
         and user_input[VALUE_SCOP] < 1
     ):
         errors[VALUE_SCOP] = "scop_range"
+    if allow_entity_scop and not user_input.get(VALUE_SCOP) and not user_input.get(VALUE_SCOP_ENTITY):
+        errors[VALUE_SCOP] = "value_required"
     return errors
 
 
@@ -1236,7 +1250,7 @@ class CategorySubentryFlow(ConfigSubentryFlow):
         errors: dict[str, str] = {}
         if user_input is not None and not (
             errors := validate_values(
-                category, heating, user_input, allow_entity_price=True
+                category, heating, user_input, allow_entity_price=True, allow_entity_scop=scop
             )
         ):
             current = values_data(category, heating, user_input)

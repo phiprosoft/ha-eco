@@ -171,7 +171,7 @@ async def async_migrate_entry(
             HISTORICAL_COMBUSTION_CONSUMPTION,
         )
         cutoff = dt_util.utcnow().timestamp()
-        for subentry in entry.subentries.values():
+        for subentry in tuple(entry.subentries.values()):
             historical = subentry.data.get(CONF_HISTORICAL_DATA)
             if not isinstance(historical, dict) or HISTORICAL_UNTIL in historical:
                 continue

@@ -28,8 +28,16 @@ from pytest_homeassistant_custom_component.components.recorder.common import (
 
 from custom_components.electricity_lens import coordinator as coordinator_module
 from custom_components.electricity_lens.calculation import HOUR
-from custom_components.electricity_lens.const import DOMAIN, SIGNAL_ENERGY_PREFS_UPDATED
-from custom_components.electricity_lens.coordinator import ElectricityLensCoordinator
+from custom_components.electricity_lens.const import (
+    DOMAIN,
+    SIGNAL_ENERGY_PREFS_UPDATED,
+    VALUE_EV_CONSUMPTION,
+    VALUE_SCOP_ENTITY,
+)
+from custom_components.electricity_lens.coordinator import (
+    ElectricityLensCoordinator,
+    value_with_entity,
+)
 from custom_components.electricity_lens.models import CategoryConfig, CategoryState
 from custom_components.electricity_lens.sources import EnergyInterfaceError
 
@@ -270,6 +278,45 @@ async def test_car_without_comparison(
     assert hass.states.get("sensor.electric_car_saving") is None
     balance = _state(hass, "sensor.electricity_lens_balance")
     assert float(balance.state) == pytest.approx(COUNTED * PV_PER_HOUR - 10000)
+
+
+def test_scop_entity_is_loaded_as_a_category_source() -> None:
+    """The configured COP entity is part of the generic entity source set."""
+    config = CategoryConfig.from_data(
+        "heat_pump",
+        {"current": {"scop_entity": "sensor.heat_pump_scop"}},
+    )
+    assert config.entity_sources == {"scop_entity": "sensor.heat_pump_scop"}
+
+
+def test_category_config_keeps_entity_sources_separate_from_numbers() -> None:
+    """All configured entity selectors are exposed independently of numeric values."""
+    config = CategoryConfig.from_data(
+        "heat_pump",
+        {
+            **HEAT_PUMP_DATA,
+            "current": {
+                "price": 0.12,
+                "scop": 4.0,
+                "price_entity": "sensor.gas_price",
+                "scop_entity": "sensor.heat_pump_scop",
+            },
+        },
+    )
+    assert config.current == {"price": 0.12, "scop": 4.0}
+    assert config.entity_sources == {
+        "price_entity": "sensor.gas_price",
+        "scop_entity": "sensor.heat_pump_scop",
+    }
+    assert config.price_entity == "sensor.gas_price"
+
+
+def test_category_state_persists_entity_timelines() -> None:
+    """Entity source timelines share the existing backwards-compatible storage."""
+    state = CategoryState()
+    state.entity_timeline("scop_entity").set("sensor.scop", 100.0)
+    restored = CategoryState.from_dict(state.as_dict())
+    assert restored.entity_timeline("scop_entity").value_at(100.0) == "sensor.scop"
 
 
 def test_historical_baseline_is_opt_in_and_preserved() -> None:
@@ -709,6 +756,27 @@ async def test_heat_measured_after_estimate(
     assert heat_pump.attributes["heat_estimated"] is True
 
 
+def test_value_with_entity_uses_sensor_and_falls_back_to_manual() -> None:
+    """A numeric entity supplies a current value, with manual fallback."""
+    config = CategoryConfig.from_data(
+        "wallbox",
+        {
+            **WALLBOX_DATA,
+            "current": {"ev_consumption": 20.0},
+        },
+    )
+    state = CategoryState()
+    state.timeline(VALUE_EV_CONSUMPTION).set(20.0, 0.0)
+    state.entity_timeline("ev_consumption_entity").set("sensor.ev_consumption", 0.0)
+    values = {"sensor.ev_consumption": {0.0: 18.5}}
+    assert value_with_entity(
+        config, state, values, VALUE_EV_CONSUMPTION, 0.0, minimum=0.01
+    ) == pytest.approx(18.5)
+    assert value_with_entity(
+        config, state, {}, VALUE_EV_CONSUMPTION, 0.0, minimum=0.01
+    ) == pytest.approx(20.0)
+
+
 def test_heat_gap_uses_measured_cop() -> None:
     """A gap after the heat meter began uses the COP measured until then."""
     config = CategoryConfig.from_data(
@@ -718,10 +786,37 @@ def test_heat_gap_uses_measured_cop() -> None:
     state = CategoryState()
     changes = {"sensor.heat": {0.0: 4.0}}
     heat = ElectricityLensCoordinator._heat
-    assert heat(config, state, changes, 1.0, 0.0) == 4.0
+    assert heat(config, state, changes, 1.0, 0.0, entity_values={}) == 4.0
     assert state.heat_start == 0.0
-    assert heat(config, state, changes, 2.0, HOUR) == pytest.approx(8.0)
+    assert heat(config, state, changes, 2.0, HOUR, entity_values={}) == pytest.approx(
+        8.0
+    )
     assert state.estimated
+
+
+def test_heat_gap_uses_cop_entity_value() -> None:
+    """The selected COP entity takes precedence over the manual seasonal COP."""
+    config = CategoryConfig.from_data(
+        "heat_pump",
+        {
+            **HEAT_PUMP_DATA,
+            "current": {
+                **HEAT_PUMP_DATA["current"],
+                "scop_entity": "sensor.heat_pump_scop",
+            },
+        },
+    )
+    state = CategoryState()
+    state.entity_timeline(VALUE_SCOP_ENTITY).set("sensor.heat_pump_scop", 0.0)
+    heat = ElectricityLensCoordinator._heat(
+        config,
+        state,
+        {},
+        2.0,
+        0.0,
+        entity_values={"sensor.heat_pump_scop": {0.0: 4.5}},
+    )
+    assert heat == pytest.approx(9.0)
 
 
 @pytest.mark.usefixtures("energy")

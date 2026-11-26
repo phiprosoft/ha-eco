@@ -216,6 +216,31 @@ def value_at(
     return float(value) if isinstance(value, int | float) else None
 
 
+def value_with_entity(
+    config: CategoryConfig,
+    state: CategoryState,
+    entity_values: dict[str, dict[float, float]],
+    key: str,
+    hour: float,
+    *,
+    minimum: float | None = None,
+    maximum: float | None = None,
+) -> float | None:
+    """Return a configured entity value, falling back to the manual value."""
+    entity_id = state.entity_timeline(f"{key}_entity").value_at(hour)
+    entity_value = (
+        entity_values.get(entity_id, {}).get(hour)
+        if isinstance(entity_id, str)
+        else None
+    )
+    if entity_value is not None and (
+        (minimum is None or entity_value >= minimum)
+        and (maximum is None or entity_value <= maximum)
+    ):
+        return entity_value
+    return value_at(config, state, key, hour)
+
+
 def _heat_meter_figures(
     config: CategoryConfig,
     meters: list[str],
@@ -252,7 +277,7 @@ def _heat_meter_figures(
 
 
 def _price_entity_at(state: CategoryState, hour: float) -> str | None:
-    entity = state.timeline(VALUE_PRICE_ENTITY).value_at(hour)
+    entity = state.entity_timeline(VALUE_PRICE_ENTITY).value_at(hour)
     return entity if isinstance(entity, str) else None
 
 
@@ -328,8 +353,13 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
                 state.reset(fingerprint)
             for key in config.values:
                 state.timeline(key).set(config.current.get(key), valid_from)
-            if config.category != CATEGORY_PV:
-                state.timeline(VALUE_PRICE_ENTITY).set(config.price_entity, valid_from)
+            entity_keys = {
+                key for key in state.timelines if key.endswith("_entity")
+            } | set(config.entity_sources)
+            for key in entity_keys:
+                state.entity_timeline(key).set(
+                    config.entity_sources.get(key), valid_from
+                )
             self.configs[subentry_id] = config
             self.states[subentry_id] = state
         # A removed category can no longer clear its own issues.
@@ -603,7 +633,9 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
             # Price sensors count only after the setup.
             values |= {
                 entity
-                for _, entity in state.timeline(VALUE_PRICE_ENTITY).points
+                for key, timeline in state.timelines.items()
+                if key.endswith("_entity")
+                for _, entity in timeline.points
                 if isinstance(entity, str)
             }
         return sums, values
@@ -693,7 +725,14 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
             fuel_price = self._fuel_price(config, state, entity_values, hour)
             saving = 0.0
             if config.category == CATEGORY_HEAT_PUMP:
-                heat = self._heat(config, state, changes, electricity, hour)
+                heat = self._heat(
+                    config,
+                    state,
+                    changes,
+                    electricity,
+                    hour,
+                    entity_values=entity_values,
+                )
                 add("heat", hour, heat)
                 if not config.is_compared:
                     continue
@@ -728,8 +767,24 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
                         device_costs=device_costs,
                     ):
                         add(figure, hour, amount)
-            elif (ev := value(VALUE_EV_CONSUMPTION, hour)) and (
-                combustion := value(VALUE_COMBUSTION_CONSUMPTION, hour)
+            elif (
+                ev := value_with_entity(
+                    config,
+                    state,
+                    entity_values,
+                    VALUE_EV_CONSUMPTION,
+                    hour,
+                    minimum=0.01,
+                )
+            ) and (
+                combustion := value_with_entity(
+                    config,
+                    state,
+                    entity_values,
+                    VALUE_COMBUSTION_CONSUMPTION,
+                    hour,
+                    minimum=0.01,
+                )
             ) is not None:
                 saving = wallbox_saving(
                     electricity=electricity,
@@ -859,6 +914,8 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
         changes: dict[str, dict[float, float]],
         electricity: float,
         hour: float,
+        *,
+        entity_values: dict[str, dict[float, float]],
     ) -> float:
         """Return the heat of an hour, measured if possible, else estimated.
 
@@ -876,9 +933,18 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
             return heat
         if electricity:
             state.estimated = True
+        entered_scop = value_with_entity(
+            config,
+            state,
+            entity_values,
+            VALUE_SCOP,
+            hour,
+            minimum=1,
+            maximum=10,
+        )
         return estimated_heat(
             electricity,
-            entered_scop=value_at(config, state, VALUE_SCOP, hour),
+            entered_scop=entered_scop,
             measured_heat=state.measured_heat,
             measured_electricity=state.measured_electricity,
             measuring=state.heat_start is not None,

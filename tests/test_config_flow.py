@@ -28,9 +28,17 @@ from custom_components.electricity_lens.config_flow import (
     historical_schema,
     meters_data,
     validate_meters,
+    validate_values,
     values_form_input,
 )
-from custom_components.electricity_lens.const import DOMAIN
+from custom_components.electricity_lens.const import (
+    CATEGORY_HEAT_PUMP,
+    CATEGORY_WALLBOX,
+    COMPARISON_COMBUSTION,
+    DOMAIN,
+    HEATING_GAS,
+    VALUE_SCOP,
+)
 from custom_components.electricity_lens.sources import EnergyInterfaceError
 
 from .conftest import (
@@ -521,7 +529,7 @@ async def test_add_heat_pump_without_former_heating(hass: HomeAssistant) -> None
         result["flow_id"], {"meters": ["sensor.heat_pump"], "heating": "none"}
     )
     assert result["step_id"] == "heat_pump_values_none_scop"
-    assert _fields(result) == ["scop", "tariff"]
+    assert _fields(result) == ["scop", "scop_entity", "tariff"]
     result = await hass.config_entries.subentries.async_configure(
         result["flow_id"], {"scop": 4.2}
     )
@@ -586,7 +594,7 @@ async def test_reconfigure_without_former_heating(hass: HomeAssistant) -> None:
     await setup_entry(hass, entry)
     result = await _reconfigure(hass, entry, "heat_pump", "now")
     assert result["step_id"] == "now_none"
-    assert _fields(result) == ["scop", "tariff"]
+    assert _fields(result) == ["scop", "scop_entity", "tariff"]
     assert _suggested(result)["scop"] == 4.0
     await hass.config_entries.subentries.async_configure(
         result["flow_id"], {"scop": 3.5, "tariff": 0.24}
@@ -1011,6 +1019,109 @@ async def test_reconfigure_values_from_now_on(hass: HomeAssistant) -> None:
     data = _data(entry, "heat_pump")
     assert data["current"] == {"price": 0.13, "scop": 4.0, "price_entity": "sensor.gas"}
     assert data["before"] == HEAT_PUMP_DATA["before"]
+
+
+async def test_reconfigure_now_accepts_scop_entity_without_manual_scop() -> None:
+    """A live COP sensor can replace the manual COP for current values."""
+    errors = validate_values(
+        CATEGORY_HEAT_PUMP,
+        HEATING_GAS,
+        {
+            "gas_price_entity": "sensor.gas_price",
+            "scop_entity": "sensor.heat_pump_scop",
+        },
+        allow_entity_price=True,
+        allow_entity_scop=True,
+    )
+    assert errors == {}
+
+
+def test_reconfigure_now_rejects_empty_manual_scop_without_entity() -> None:
+    """An explicitly empty COP needs a live sensor."""
+    errors = validate_values(
+        CATEGORY_HEAT_PUMP,
+        HEATING_GAS,
+        {"gas_price_entity": "sensor.gas_price", "scop": None},
+        allow_entity_price=True,
+        allow_entity_scop=True,
+    )
+    assert errors[VALUE_SCOP] == "value_required"
+
+
+def test_reconfigure_wallbox_requires_each_manual_or_entity_consumption() -> None:
+    """Each car consumption average needs either a number or a sensor."""
+    errors = validate_values(
+        CATEGORY_WALLBOX,
+        COMPARISON_COMBUSTION,
+        {
+            "fuel_price_entity": "sensor.fuel_price",
+            "ev_consumption_entity": "sensor.ev_consumption",
+        },
+        allow_entity_price=True,
+        allow_entity_values=True,
+    )
+    assert errors["combustion_consumption"] == "value_required"
+
+
+def test_reconfigure_now_requires_manual_or_entity_scop() -> None:
+    """Current COP cannot be left blank without a selected entity."""
+    errors = validate_values(
+        CATEGORY_HEAT_PUMP,
+        HEATING_GAS,
+        {"gas_price": 0.12},
+        allow_entity_price=True,
+        allow_entity_scop=True,
+    )
+    assert errors[VALUE_SCOP] == "value_required"
+
+
+async def test_reconfigure_now_accepts_scop_entity_without_manual_value(
+    hass: HomeAssistant,
+) -> None:
+    """A COP sensor replaces the manual value in the current period."""
+    entry = make_entry(("heat_pump", HEAT_PUMP_DATA))
+    await setup_entry(hass, entry)
+    result = await _reconfigure(hass, entry, "heat_pump", "now")
+    assert "scop_entity" in _fields(result)
+    result = await hass.config_entries.subentries.async_configure(
+        result["flow_id"],
+        {
+            "gas_price_entity": "sensor.gas",
+            "scop_entity": "sensor.heat_pump_scop",
+        },
+    )
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "values_from"
+    assert _data(entry, "heat_pump")["current"] == {
+        "price_entity": "sensor.gas",
+        "scop_entity": "sensor.heat_pump_scop",
+    }
+
+
+async def test_reconfigure_wallbox_accepts_consumption_entities(
+    hass: HomeAssistant,
+) -> None:
+    """Live consumption sensors can replace both manual car averages."""
+    entry = make_entry(("wallbox", WALLBOX_DATA))
+    await setup_entry(hass, entry)
+    result = await _reconfigure(hass, entry, "wallbox", "now")
+    assert "ev_consumption_entity" in _fields(result)
+    assert "combustion_consumption_entity" in _fields(result)
+    result = await hass.config_entries.subentries.async_configure(
+        result["flow_id"],
+        {
+            "fuel_price_entity": "sensor.fuel_price",
+            "ev_consumption_entity": "sensor.ev_consumption",
+            "combustion_consumption_entity": "sensor.combustion_consumption",
+        },
+    )
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "values_from"
+    assert _data(entry, "wallbox")["current"] == {
+        "price_entity": "sensor.fuel_price",
+        "ev_consumption_entity": "sensor.ev_consumption",
+        "combustion_consumption_entity": "sensor.combustion_consumption",
+    }
 
 
 async def test_reconfigure_now_accepts_price_entity_without_manual_price(

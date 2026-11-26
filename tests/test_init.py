@@ -28,7 +28,11 @@ from pytest_homeassistant_custom_component.components.recorder.common import (
 
 from custom_components.electricity_lens import coordinator as coordinator_module
 from custom_components.electricity_lens.calculation import HOUR
-from custom_components.electricity_lens.const import DOMAIN, SIGNAL_ENERGY_PREFS_UPDATED
+from custom_components.electricity_lens.const import (
+    DOMAIN,
+    SIGNAL_ENERGY_PREFS_UPDATED,
+    VALUE_SCOP_ENTITY,
+)
 from custom_components.electricity_lens.coordinator import ElectricityLensCoordinator
 from custom_components.electricity_lens.models import CategoryConfig, CategoryState
 from custom_components.electricity_lens.sources import EnergyInterfaceError
@@ -761,6 +765,31 @@ def test_heat_gap_uses_measured_cop() -> None:
     assert state.heat_start == 0.0
     assert heat(config, state, changes, 2.0, HOUR, entity_values={}) == pytest.approx(8.0)
     assert state.estimated
+
+
+def test_heat_gap_uses_cop_entity_value() -> None:
+    """The selected COP entity takes precedence over the manual seasonal COP."""
+    config = CategoryConfig.from_data(
+        "heat_pump",
+        {
+            **HEAT_PUMP_DATA,
+            "current": {
+                **HEAT_PUMP_DATA["current"],
+                "scop_entity": "sensor.heat_pump_scop",
+            },
+        },
+    )
+    state = CategoryState()
+    state.entity_timeline(VALUE_SCOP_ENTITY).set("sensor.heat_pump_scop", 0.0)
+    heat = ElectricityLensCoordinator._heat(
+        config,
+        state,
+        {},
+        2.0,
+        0.0,
+        entity_values={"sensor.heat_pump_scop": {0.0: 4.5}},
+    )
+    assert heat == pytest.approx(9.0)
 
 
 @pytest.mark.usefixtures("energy")

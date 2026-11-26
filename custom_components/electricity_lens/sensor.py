@@ -312,9 +312,7 @@ class CategorySensor(ElectricityLensEntity, SensorEntity):  # pyright: ignore[re
             else None,
             "historical_until": (
                 dt_util.as_local(
-                    dt_util.utc_from_timestamp(
-                        historical_until
-                    )
+                    dt_util.utc_from_timestamp(historical_until)
                 ).isoformat()
                 if historical_until is not None
                 else None

@@ -550,9 +550,12 @@ def validate_values(
             manual_price is None and not (allow_entity_price and entity_price)
         ):
             errors[price_key] = "value_required"
-    if VALUE_SCOP in user_input and user_input[VALUE_SCOP] is None:
-        if not (allow_entity_scop and user_input.get(VALUE_SCOP_ENTITY)):
-            errors[VALUE_SCOP] = "value_required"
+    if (
+        VALUE_SCOP in user_input
+        and user_input[VALUE_SCOP] is None
+        and not (allow_entity_scop and user_input.get(VALUE_SCOP_ENTITY))
+    ):
+        errors[VALUE_SCOP] = "value_required"
     if (
         VALUE_SCOP in user_input
         and user_input[VALUE_SCOP] is not None

@@ -1041,7 +1041,7 @@ def test_reconfigure_now_rejects_empty_manual_scop_without_entity() -> None:
     errors = validate_values(
         CATEGORY_HEAT_PUMP,
         HEATING_GAS,
-        {"scop": None},
+        {"gas_price_entity": "sensor.gas_price", "scop": None},
         allow_entity_price=True,
         allow_entity_scop=True,
     )

@@ -328,8 +328,13 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
                 state.reset(fingerprint)
             for key in config.values:
                 state.timeline(key).set(config.current.get(key), valid_from)
-            for key, entity in config.entity_sources.items():
-                state.entity_timeline(key).set(entity, valid_from)
+            entity_keys = {
+                key for key in state.timelines if key.endswith("_entity")
+            } | set(config.entity_sources)
+            for key in entity_keys:
+                state.entity_timeline(key).set(
+                    config.entity_sources.get(key), valid_from
+                )
             self.configs[subentry_id] = config
             self.states[subentry_id] = state
         # A removed category can no longer clear its own issues.
@@ -603,8 +608,9 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
             # Price sensors count only after the setup.
             values |= {
                 entity
-                for key in config.entity_sources
-                for _, entity in state.entity_timeline(key).points
+                for key, timeline in state.timelines.items()
+                if key.endswith("_entity")
+                for _, entity in timeline.points
                 if isinstance(entity, str)
             }
         return sums, values

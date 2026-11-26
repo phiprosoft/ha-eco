@@ -12,8 +12,8 @@ from unittest.mock import patch
 import pytest
 from homeassistant.config_entries import SOURCE_RECONFIGURE, SOURCE_USER
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers import device_registry as dr, entity_registry as er
 from homeassistant.data_entry_flow import FlowResultType
+from homeassistant.helpers import device_registry as dr, entity_registry as er
 from homeassistant.setup import async_setup_component
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from pytest_homeassistant_custom_component.components.recorder.common import (
@@ -250,12 +250,24 @@ async def test_scop_only_where_heat_data_is_missing(
 
 
 def _heat_device(hass: HomeAssistant, *sensors: tuple[str, str, bool]) -> str:
-    entry = MockConfigEntry(domain="test"); entry.add_to_hass(hass)
-    device = dr.async_get(hass).async_get_or_create(config_entry_id=entry.entry_id, identifiers={("test","heat")})
+    entry = MockConfigEntry(domain="test")
+    entry.add_to_hass(hass)
+    device = dr.async_get(hass).async_get_or_create(
+        config_entry_id=entry.entry_id, identifiers={("test", "heat")}
+    )
     registry = er.async_get(hass)
     for object_id, device_class, disabled in sensors:
-        registry.async_get_or_create("sensor","test",object_id,config_entry=entry,device_id=device.id,
-            original_device_class=device_class,disabled_by=er.RegistryEntryDisabler.USER if disabled else None)
+        registry.async_get_or_create(
+            "sensor",
+            "test",
+            object_id,
+            config_entry=entry,
+            device_id=device.id,
+            original_device_class=device_class,
+            disabled_by=(
+                er.RegistryEntryDisabler.USER if disabled else None
+            ),
+        )
     return device.id
 
 

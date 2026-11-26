@@ -380,7 +380,11 @@ def meters_schema(
     }
     if category == CATEGORY_HEAT_PUMP:
         fields[probatio.Optional(CONF_HEAT_DEVICE)] = DeviceSelector(
-            DeviceSelectorConfig(entity=EntityFilterSelectorConfig(domain="sensor", device_class="energy"))
+            DeviceSelectorConfig(
+                entity=EntityFilterSelectorConfig(
+                    domain="sensor", device_class="energy"
+                )
+            )
         )
         fields[probatio.Optional(CONF_HEAT_METERS)] = EntitySelector(
             EntitySelectorConfig(domain="sensor", device_class="energy", multiple=True)
@@ -410,23 +414,35 @@ def meters_schema(
 def device_heat_meters(hass: HomeAssistant, device_id: str) -> list[str]:
     """Return enabled energy meters of a device, sorted."""
     registry = er.async_get(hass)
-    return sorted(entry.entity_id for entry in er.async_entries_for_device(registry, device_id)
-        if entry.domain == "sensor" and entry.disabled_by is None
-        and (entry.device_class or entry.original_device_class) == "energy")
+    entries = er.async_entries_for_device(registry, device_id)
+    return sorted(
+        entry.entity_id
+        for entry in entries
+        if entry.domain == "sensor"
+        and entry.disabled_by is None
+        and (entry.device_class or entry.original_device_class) == "energy"
+    )
 
 
-def validate_meters(hass: HomeAssistant, category: str, user_input: Mapping[str, Any]) -> dict[str, str]:
+def validate_meters(
+    hass: HomeAssistant, category: str, user_input: Mapping[str, Any]
+) -> dict[str, str]:
     """Return the errors of the first step."""
     errors: dict[str, str] = {}
     if not user_input.get(CONF_METERS):
         errors[CONF_METERS] = "meters_required"
     if category == CATEGORY_HEAT_PUMP and not user_input.get(CONF_HEATING):
         errors[CONF_HEATING] = "heating_required"
-    if (category == CATEGORY_HEAT_PUMP and not user_input.get(CONF_HEAT_METERS)
-            and (device_id := user_input.get(CONF_HEAT_DEVICE))):
+    if (
+        category == CATEGORY_HEAT_PUMP
+        and not user_input.get(CONF_HEAT_METERS)
+        and (device_id := user_input.get(CONF_HEAT_DEVICE))
+    ):
         found = device_heat_meters(hass, device_id)
         if len(found) != 1:
-            errors[CONF_HEAT_DEVICE] = "heat_device_ambiguous" if found else "heat_device_none"
+            errors[CONF_HEAT_DEVICE] = (
+                "heat_device_ambiguous" if found else "heat_device_none"
+            )
     if (
         alternative(category, user_input) == COMPARISON_NONE
         and user_input.get(CONF_INVESTMENT) is not None
@@ -436,7 +452,9 @@ def validate_meters(hass: HomeAssistant, category: str, user_input: Mapping[str,
     return errors
 
 
-def meters_data(hass: HomeAssistant, category: str, user_input: Mapping[str, Any]) -> dict[str, Any]:
+def meters_data(
+    hass: HomeAssistant, category: str, user_input: Mapping[str, Any]
+) -> dict[str, Any]:
     """Return subentry data; manually selected heat meters take precedence."""
     data: dict[str, Any] = {CONF_METERS: list(user_input[CONF_METERS])}
     if category == CATEGORY_HEAT_PUMP:

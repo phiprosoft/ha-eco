@@ -527,7 +527,7 @@ async def test_add_heat_pump_without_former_heating(hass: HomeAssistant) -> None
         result["flow_id"], {"meters": ["sensor.heat_pump"], "heating": "none"}
     )
     assert result["step_id"] == "heat_pump_values_none_scop"
-    assert _fields(result) == ["scop", "scop_entity", "tariff"]
+    assert _fields(result) == ["scop", "tariff"]
     result = await hass.config_entries.subentries.async_configure(
         result["flow_id"], {"scop": 4.2}
     )
@@ -592,7 +592,7 @@ async def test_reconfigure_without_former_heating(hass: HomeAssistant) -> None:
     await setup_entry(hass, entry)
     result = await _reconfigure(hass, entry, "heat_pump", "now")
     assert result["step_id"] == "now_none"
-    assert _fields(result) == ["scop", "tariff"]
+    assert _fields(result) == ["scop", "scop_entity", "tariff"]
     assert _suggested(result)["scop"] == 4.0
     await hass.config_entries.subentries.async_configure(
         result["flow_id"], {"scop": 3.5, "tariff": 0.24}

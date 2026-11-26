@@ -1130,9 +1130,29 @@ class CategorySubentryFlow(ConfigSubentryFlow):
                     # The entered totals cover the complete period from the
                     # selected local date through this moment. Recorder data
                     # in that interval is replaced, never added a second time.
+                    same_totals = (
+                        historical.get(HISTORICAL_SINCE) == timestamp
+                        and all(
+                            historical.get(key) == value
+                            for key, value in values.items()
+                            if key != HISTORICAL_SINCE
+                        )
+                        and all(
+                            key in values
+                            or key in (HISTORICAL_SINCE, HISTORICAL_UNTIL)
+                            for key in historical
+                        )
+                    )
+                    cutoff = historical.get(HISTORICAL_UNTIL)
                     historical = {
                         HISTORICAL_SINCE: timestamp,
-                        HISTORICAL_UNTIL: dt_util.utcnow().timestamp(),
+                        **(
+                            {HISTORICAL_UNTIL: cutoff}
+                            if same_totals and cutoff is not None
+                            else {}
+                            if same_totals
+                            else {HISTORICAL_UNTIL: dt_util.utcnow().timestamp()}
+                        ),
                         **{
                             key: value
                             for key, value in values.items()

@@ -848,6 +848,23 @@ async def test_historical_energy_totals_can_be_enabled_and_disabled(
     assert data["historical_data"]["solar_kwh"] == 10000
     assert data["historical_data"]["export_kwh"] == 4000
     assert data["historical_data"]["since"] > 0
+    cutoff = data["historical_data"]["until"]
+
+    # Reopening and saving unchanged values must not move the cutoff forward:
+    # that would claim the same totals cover new recorder data.
+    result = await _reconfigure(hass, entry, "pv", "historical")
+    result = await hass.config_entries.subentries.async_configure(
+        result["flow_id"],
+        {
+            "historical_enabled": True,
+            "since": "2020-01-01",
+            "solar_kwh": 10000,
+            "export_kwh": 4000,
+            "electricity_price": 0.30,
+            "feed_in_price": 0.08,
+        },
+    )
+    assert _data(entry, "pv")["historical_data"]["until"] == cutoff
 
     result = await _reconfigure(hass, entry, "pv", "historical")
     result = await hass.config_entries.subentries.async_configure(

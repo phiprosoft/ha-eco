@@ -67,7 +67,7 @@ jobs:
           VERSION=$(jq -r .version custom_components/electricity_lens/manifest.json)
           TAG="v$VERSION"
         elif [ "$EVENT_NAME" = "issues" ]; then
-          if [[ "$ISSUE_TITLE" =~ ^Release\\ v([0-9]+\\.[0-9]+\\.[0-9]+)$ ]]; then
+          if [[ "$ISSUE_TITLE" =~ ^Release[[:space:]]v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
             TAG="v${BASH_REMATCH[1]}"
           else
             echo "::error::Issue title must match 'Release vX.Y.Z'"

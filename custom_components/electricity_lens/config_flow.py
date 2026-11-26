@@ -1143,9 +1143,11 @@ class CategorySubentryFlow(ConfigSubentryFlow):
                         )
                     )
                     cutoff = historical.get(HISTORICAL_UNTIL) if same_totals else None
+                    if cutoff is None:
+                        cutoff = dt_util.utcnow().timestamp()
                     historical = {
                         HISTORICAL_SINCE: timestamp,
-                        HISTORICAL_UNTIL: cutoff or dt_util.utcnow().timestamp(),
+                        HISTORICAL_UNTIL: cutoff,
                         **{
                             key: value
                             for key, value in values.items()

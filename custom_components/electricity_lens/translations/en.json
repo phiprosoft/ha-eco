@@ -99,13 +99,15 @@
           "gas_price": "Gas price",
           "scop": "COP",
           "tariff": "Own electricity tariff (optional)",
-          "gas_price_entity": "Gas price sensor (optional)"
+          "gas_price_entity": "Gas price sensor (optional)",
+          "scop_entity": "COP sensor (optional)"
         },
         "data_description": {
           "gas_price": "Unit price on the gas bill",
           "scop": "Estimates the heat from the electricity consumption",
           "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-          "gas_price_entity": "Replaces the average from now on"
+          "gas_price_entity": "Replaces the average from now on",
+          "scop_entity": "Provides the current COP; replaces the manual value from now on"
         }
       },
       "heat_pump_values_gas_scop_until": {
@@ -115,13 +117,15 @@
           "gas_price": "Gas price",
           "scop": "COP",
           "tariff": "Own electricity tariff (optional)",
-          "gas_price_entity": "Gas price sensor (optional)"
+          "gas_price_entity": "Gas price sensor (optional)",
+          "scop_entity": "COP sensor (optional)"
         },
         "data_description": {
           "gas_price": "Unit price on the gas bill",
           "scop": "Estimates the heat until {heat_until}; there are no readings before",
           "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-          "gas_price_entity": "Replaces the average from now on"
+          "gas_price_entity": "Replaces the average from now on",
+          "scop_entity": "Provides the current COP; replaces the manual value from now on"
         }
       },
       "heat_pump_values_oil": {
@@ -145,13 +149,15 @@
           "oil_price": "Heating oil price",
           "scop": "COP",
           "tariff": "Own electricity tariff (optional)",
-          "oil_price_entity": "Heating oil price sensor (optional)"
+          "oil_price_entity": "Heating oil price sensor (optional)",
+          "scop_entity": "COP sensor (optional)"
         },
         "data_description": {
           "oil_price": "Average price per litre",
           "scop": "Estimates the heat from the electricity consumption",
           "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-          "oil_price_entity": "Replaces the average from now on"
+          "oil_price_entity": "Replaces the average from now on",
+          "scop_entity": "Provides the current COP; replaces the manual value from now on"
         }
       },
       "heat_pump_values_oil_scop_until": {
@@ -161,13 +167,15 @@
           "oil_price": "Heating oil price",
           "scop": "COP",
           "tariff": "Own electricity tariff (optional)",
-          "oil_price_entity": "Heating oil price sensor (optional)"
+          "oil_price_entity": "Heating oil price sensor (optional)",
+          "scop_entity": "COP sensor (optional)"
         },
         "data_description": {
           "oil_price": "Average price per litre",
           "scop": "Estimates the heat until {heat_until}; there are no readings before",
           "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-          "oil_price_entity": "Replaces the average from now on"
+          "oil_price_entity": "Replaces the average from now on",
+          "scop_entity": "Provides the current COP; replaces the manual value from now on"
         }
       },
       "heat_pump_values_lpg": {
@@ -191,13 +199,15 @@
           "lpg_price": "LPG price",
           "scop": "COP",
           "tariff": "Own electricity tariff (optional)",
-          "lpg_price_entity": "LPG price sensor (optional)"
+          "lpg_price_entity": "LPG price sensor (optional)",
+          "scop_entity": "COP sensor (optional)"
         },
         "data_description": {
           "lpg_price": "Average price per litre",
           "scop": "Estimates the heat from the electricity consumption",
           "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-          "lpg_price_entity": "Replaces the average from now on"
+          "lpg_price_entity": "Replaces the average from now on",
+          "scop_entity": "Provides the current COP; replaces the manual value from now on"
         }
       },
       "heat_pump_values_lpg_scop_until": {
@@ -207,13 +217,15 @@
           "lpg_price": "LPG price",
           "scop": "COP",
           "tariff": "Own electricity tariff (optional)",
-          "lpg_price_entity": "LPG price sensor (optional)"
+          "lpg_price_entity": "LPG price sensor (optional)",
+          "scop_entity": "COP sensor (optional)"
         },
         "data_description": {
           "lpg_price": "Average price per litre",
           "scop": "Estimates the heat until {heat_until}; there are no readings before",
           "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-          "lpg_price_entity": "Replaces the average from now on"
+          "lpg_price_entity": "Replaces the average from now on",
+          "scop_entity": "Provides the current COP; replaces the manual value from now on"
         }
       },
       "heat_pump_values_pellets": {
@@ -237,13 +249,15 @@
           "pellets_price": "Pellet price",
           "scop": "COP",
           "tariff": "Own electricity tariff (optional)",
-          "pellets_price_entity": "Pellet price sensor (optional)"
+          "pellets_price_entity": "Pellet price sensor (optional)",
+          "scop_entity": "COP sensor (optional)"
         },
         "data_description": {
           "pellets_price": "Average price per kilogram",
           "scop": "Estimates the heat from the electricity consumption",
           "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-          "pellets_price_entity": "Replaces the average from now on"
+          "pellets_price_entity": "Replaces the average from now on",
+          "scop_entity": "Provides the current COP; replaces the manual value from now on"
         }
       },
       "heat_pump_values_pellets_scop_until": {
@@ -253,13 +267,15 @@
           "pellets_price": "Pellet price",
           "scop": "COP",
           "tariff": "Own electricity tariff (optional)",
-          "pellets_price_entity": "Pellet price sensor (optional)"
+          "pellets_price_entity": "Pellet price sensor (optional)",
+          "scop_entity": "COP sensor (optional)"
         },
         "data_description": {
           "pellets_price": "Average price per kilogram",
           "scop": "Estimates the heat until {heat_until}; there are no readings before",
           "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-          "pellets_price_entity": "Replaces the average from now on"
+          "pellets_price_entity": "Replaces the average from now on",
+          "scop_entity": "Provides the current COP; replaces the manual value from now on"
         }
       },
       "heat_pump_values_district_heating": {
@@ -283,13 +299,15 @@
           "district_heating_price": "District heating price",
           "scop": "COP",
           "tariff": "Own electricity tariff (optional)",
-          "district_heating_price_entity": "District heating price sensor (optional)"
+          "district_heating_price_entity": "District heating price sensor (optional)",
+          "scop_entity": "COP sensor (optional)"
         },
         "data_description": {
           "district_heating_price": "Unit price per kWh on the heating bill",
           "scop": "Estimates the heat from the electricity consumption",
           "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-          "district_heating_price_entity": "Replaces the average from now on"
+          "district_heating_price_entity": "Replaces the average from now on",
+          "scop_entity": "Provides the current COP; replaces the manual value from now on"
         }
       },
       "heat_pump_values_district_heating_scop_until": {
@@ -299,13 +317,15 @@
           "district_heating_price": "District heating price",
           "scop": "COP",
           "tariff": "Own electricity tariff (optional)",
-          "district_heating_price_entity": "District heating price sensor (optional)"
+          "district_heating_price_entity": "District heating price sensor (optional)",
+          "scop_entity": "COP sensor (optional)"
         },
         "data_description": {
           "district_heating_price": "Unit price per kWh on the heating bill",
           "scop": "Estimates the heat until {heat_until}; there are no readings before",
           "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-          "district_heating_price_entity": "Replaces the average from now on"
+          "district_heating_price_entity": "Replaces the average from now on",
+          "scop_entity": "Provides the current COP; replaces the manual value from now on"
         }
       },
       "heat_pump_values_electric": {
@@ -329,13 +349,15 @@
           "electric_price": "Heating electricity price",
           "scop": "COP",
           "tariff": "Own electricity tariff (optional)",
-          "electric_price_entity": "Heating electricity price sensor (optional)"
+          "electric_price_entity": "Heating electricity price sensor (optional)",
+          "scop_entity": "COP sensor (optional)"
         },
         "data_description": {
           "electric_price": "Unit price per kWh of the former heating tariff",
           "scop": "Estimates the heat from the electricity consumption",
           "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-          "electric_price_entity": "Replaces the average from now on"
+          "electric_price_entity": "Replaces the average from now on",
+          "scop_entity": "Provides the current COP; replaces the manual value from now on"
         }
       },
       "heat_pump_values_electric_scop_until": {
@@ -345,13 +367,15 @@
           "electric_price": "Heating electricity price",
           "scop": "COP",
           "tariff": "Own electricity tariff (optional)",
-          "electric_price_entity": "Heating electricity price sensor (optional)"
+          "electric_price_entity": "Heating electricity price sensor (optional)",
+          "scop_entity": "COP sensor (optional)"
         },
         "data_description": {
           "electric_price": "Unit price per kWh of the former heating tariff",
           "scop": "Estimates the heat until {heat_until}; there are no readings before",
           "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-          "electric_price_entity": "Replaces the average from now on"
+          "electric_price_entity": "Replaces the average from now on",
+          "scop_entity": "Provides the current COP; replaces the manual value from now on"
         }
       },
       "heat_pump_values_none": {
@@ -369,11 +393,13 @@
         "description": "Without a former heating there is nothing to compare with, so there is no saving. HA Eco shows the heat pump's heat, COP, and heat price. The values apply since {since} and from now on, until you change them.",
         "data": {
           "scop": "COP",
-          "tariff": "Own electricity tariff (optional)"
+          "tariff": "Own electricity tariff (optional)",
+          "scop_entity": "COP sensor (optional)"
         },
         "data_description": {
           "scop": "Estimates the heat from the electricity consumption",
-          "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
+          "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
+          "scop_entity": "Provides the current COP; replaces the manual value from now on"
         }
       },
       "heat_pump_values_none_scop_until": {
@@ -381,11 +407,13 @@
         "description": "Without a former heating there is nothing to compare with, so there is no saving. HA Eco shows the heat pump's heat, COP, and heat price. The values apply since {since} and from now on, until you change them.",
         "data": {
           "scop": "COP",
-          "tariff": "Own electricity tariff (optional)"
+          "tariff": "Own electricity tariff (optional)",
+          "scop_entity": "COP sensor (optional)"
         },
         "data_description": {
           "scop": "Estimates the heat until {heat_until}; there are no readings before",
-          "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
+          "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
+          "scop_entity": "Provides the current COP; replaces the manual value from now on"
         }
       },
       "wallbox": {
@@ -644,7 +672,8 @@
             "heat_kwh": "Useful heat produced",
             "scop": "Seasonal COP",
             "electricity_price": "Average electricity price",
-            "fuel_price": "Average fuel price"
+            "fuel_price": "Average fuel price",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "historical_enabled": "Can be disabled at any time; entered values are preserved.",
@@ -653,7 +682,8 @@
             "heat_kwh": "Measured heat over the same period. Takes precedence over COP.",
             "scop": "Estimates heat from electricity when no measured heat total is entered.",
             "electricity_price": "Average price per kWh for the entire period from the start date through saving. For dynamic tariffs, use a consumption-weighted average where possible.",
-            "fuel_price": "Consumption-weighted average price of the former heating fuel or petrol over the same period."
+            "fuel_price": "Consumption-weighted average price of the former heating fuel or petrol over the same period.",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "heat_pump_values_gas": {
@@ -677,13 +707,15 @@
             "gas_price": "Gas price",
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)",
-            "gas_price_entity": "Gas price sensor (optional)"
+            "gas_price_entity": "Gas price sensor (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "gas_price": "Unit price on the gas bill",
             "scop": "Estimates the heat from the electricity consumption",
             "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "gas_price_entity": "Replaces the average from now on"
+            "gas_price_entity": "Replaces the average from now on",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "heat_pump_values_gas_scop_until": {
@@ -693,13 +725,15 @@
             "gas_price": "Gas price",
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)",
-            "gas_price_entity": "Gas price sensor (optional)"
+            "gas_price_entity": "Gas price sensor (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "gas_price": "Unit price on the gas bill",
             "scop": "Estimates the heat until {heat_until}; there are no readings before",
             "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "gas_price_entity": "Replaces the average from now on"
+            "gas_price_entity": "Replaces the average from now on",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "heat_pump_values_oil": {
@@ -723,13 +757,15 @@
             "oil_price": "Heating oil price",
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)",
-            "oil_price_entity": "Heating oil price sensor (optional)"
+            "oil_price_entity": "Heating oil price sensor (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "oil_price": "Average price per litre",
             "scop": "Estimates the heat from the electricity consumption",
             "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "oil_price_entity": "Replaces the average from now on"
+            "oil_price_entity": "Replaces the average from now on",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "heat_pump_values_oil_scop_until": {
@@ -739,13 +775,15 @@
             "oil_price": "Heating oil price",
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)",
-            "oil_price_entity": "Heating oil price sensor (optional)"
+            "oil_price_entity": "Heating oil price sensor (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "oil_price": "Average price per litre",
             "scop": "Estimates the heat until {heat_until}; there are no readings before",
             "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "oil_price_entity": "Replaces the average from now on"
+            "oil_price_entity": "Replaces the average from now on",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "heat_pump_values_lpg": {
@@ -769,13 +807,15 @@
             "lpg_price": "LPG price",
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)",
-            "lpg_price_entity": "LPG price sensor (optional)"
+            "lpg_price_entity": "LPG price sensor (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "lpg_price": "Average price per litre",
             "scop": "Estimates the heat from the electricity consumption",
             "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "lpg_price_entity": "Replaces the average from now on"
+            "lpg_price_entity": "Replaces the average from now on",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "heat_pump_values_lpg_scop_until": {
@@ -785,13 +825,15 @@
             "lpg_price": "LPG price",
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)",
-            "lpg_price_entity": "LPG price sensor (optional)"
+            "lpg_price_entity": "LPG price sensor (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "lpg_price": "Average price per litre",
             "scop": "Estimates the heat until {heat_until}; there are no readings before",
             "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "lpg_price_entity": "Replaces the average from now on"
+            "lpg_price_entity": "Replaces the average from now on",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "heat_pump_values_pellets": {
@@ -815,13 +857,15 @@
             "pellets_price": "Pellet price",
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)",
-            "pellets_price_entity": "Pellet price sensor (optional)"
+            "pellets_price_entity": "Pellet price sensor (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "pellets_price": "Average price per kilogram",
             "scop": "Estimates the heat from the electricity consumption",
             "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "pellets_price_entity": "Replaces the average from now on"
+            "pellets_price_entity": "Replaces the average from now on",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "heat_pump_values_pellets_scop_until": {
@@ -831,13 +875,15 @@
             "pellets_price": "Pellet price",
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)",
-            "pellets_price_entity": "Pellet price sensor (optional)"
+            "pellets_price_entity": "Pellet price sensor (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "pellets_price": "Average price per kilogram",
             "scop": "Estimates the heat until {heat_until}; there are no readings before",
             "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "pellets_price_entity": "Replaces the average from now on"
+            "pellets_price_entity": "Replaces the average from now on",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "heat_pump_values_district_heating": {
@@ -861,13 +907,15 @@
             "district_heating_price": "District heating price",
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)",
-            "district_heating_price_entity": "District heating price sensor (optional)"
+            "district_heating_price_entity": "District heating price sensor (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "district_heating_price": "Unit price per kWh on the heating bill",
             "scop": "Estimates the heat from the electricity consumption",
             "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "district_heating_price_entity": "Replaces the average from now on"
+            "district_heating_price_entity": "Replaces the average from now on",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "heat_pump_values_district_heating_scop_until": {
@@ -877,13 +925,15 @@
             "district_heating_price": "District heating price",
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)",
-            "district_heating_price_entity": "District heating price sensor (optional)"
+            "district_heating_price_entity": "District heating price sensor (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "district_heating_price": "Unit price per kWh on the heating bill",
             "scop": "Estimates the heat until {heat_until}; there are no readings before",
             "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "district_heating_price_entity": "Replaces the average from now on"
+            "district_heating_price_entity": "Replaces the average from now on",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "heat_pump_values_electric": {
@@ -907,13 +957,15 @@
             "electric_price": "Heating electricity price",
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)",
-            "electric_price_entity": "Heating electricity price sensor (optional)"
+            "electric_price_entity": "Heating electricity price sensor (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "electric_price": "Unit price per kWh of the former heating tariff",
             "scop": "Estimates the heat from the electricity consumption",
             "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "electric_price_entity": "Replaces the average from now on"
+            "electric_price_entity": "Replaces the average from now on",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "heat_pump_values_electric_scop_until": {
@@ -923,13 +975,15 @@
             "electric_price": "Heating electricity price",
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)",
-            "electric_price_entity": "Heating electricity price sensor (optional)"
+            "electric_price_entity": "Heating electricity price sensor (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "electric_price": "Unit price per kWh of the former heating tariff",
             "scop": "Estimates the heat until {heat_until}; there are no readings before",
             "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "electric_price_entity": "Replaces the average from now on"
+            "electric_price_entity": "Replaces the average from now on",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "heat_pump_values_none": {
@@ -947,11 +1001,13 @@
           "description": "Without a former heating there is nothing to compare with, so there is no saving. HA Eco shows the heat pump's heat, COP, and heat price. The values apply since {since} and from now on, until you change them.",
           "data": {
             "scop": "COP",
-            "tariff": "Own electricity tariff (optional)"
+            "tariff": "Own electricity tariff (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "scop": "Estimates the heat from the electricity consumption",
-            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
+            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "heat_pump_values_none_scop_until": {
@@ -959,11 +1015,13 @@
           "description": "Without a former heating there is nothing to compare with, so there is no saving. HA Eco shows the heat pump's heat, COP, and heat price. The values apply since {since} and from now on, until you change them.",
           "data": {
             "scop": "COP",
-            "tariff": "Own electricity tariff (optional)"
+            "tariff": "Own electricity tariff (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "scop": "Estimates the heat until {heat_until}; there are no readings before",
-            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
+            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "now_gas": {
@@ -973,13 +1031,15 @@
             "gas_price": "Gas price",
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)",
-            "gas_price_entity": "Gas price sensor (optional)"
+            "gas_price_entity": "Gas price sensor (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "gas_price": "Unit price on the gas bill",
             "scop": "Estimates the heat from the electricity consumption",
             "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "gas_price_entity": "Replaces the gas price"
+            "gas_price_entity": "Replaces the gas price",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "now_oil": {
@@ -989,13 +1049,15 @@
             "oil_price": "Heating oil price",
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)",
-            "oil_price_entity": "Heating oil price sensor (optional)"
+            "oil_price_entity": "Heating oil price sensor (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "oil_price": "Average price per litre",
             "scop": "Estimates the heat from the electricity consumption",
             "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "oil_price_entity": "Replaces the heating oil price"
+            "oil_price_entity": "Replaces the heating oil price",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "now_lpg": {
@@ -1005,13 +1067,15 @@
             "lpg_price": "LPG price",
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)",
-            "lpg_price_entity": "LPG price sensor (optional)"
+            "lpg_price_entity": "LPG price sensor (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "lpg_price": "Average price per litre",
             "scop": "Estimates the heat from the electricity consumption",
             "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "lpg_price_entity": "Replaces the LPG price"
+            "lpg_price_entity": "Replaces the LPG price",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "now_pellets": {
@@ -1021,13 +1085,15 @@
             "pellets_price": "Pellet price",
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)",
-            "pellets_price_entity": "Pellet price sensor (optional)"
+            "pellets_price_entity": "Pellet price sensor (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "pellets_price": "Average price per kilogram",
             "scop": "Estimates the heat from the electricity consumption",
             "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "pellets_price_entity": "Replaces the pellet price"
+            "pellets_price_entity": "Replaces the pellet price",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "now_district_heating": {
@@ -1037,13 +1103,15 @@
             "district_heating_price": "District heating price",
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)",
-            "district_heating_price_entity": "District heating price sensor (optional)"
+            "district_heating_price_entity": "District heating price sensor (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "district_heating_price": "Unit price per kWh on the heating bill",
             "scop": "Estimates the heat from the electricity consumption",
             "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "district_heating_price_entity": "Replaces the district heating price"
+            "district_heating_price_entity": "Replaces the district heating price",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "now_electric": {
@@ -1053,13 +1121,15 @@
             "electric_price": "Heating electricity price",
             "scop": "COP",
             "tariff": "Own electricity tariff (optional)",
-            "electric_price_entity": "Heating electricity price sensor (optional)"
+            "electric_price_entity": "Heating electricity price sensor (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "electric_price": "Unit price per kWh of the former heating tariff",
             "scop": "Estimates the heat from the electricity consumption",
             "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
-            "electric_price_entity": "Replaces the heating electricity price"
+            "electric_price_entity": "Replaces the heating electricity price",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "now_none": {
@@ -1067,11 +1137,13 @@
           "description": "New values apply from the next full hour. What was computed stays.",
           "data": {
             "scop": "COP",
-            "tariff": "Own electricity tariff (optional)"
+            "tariff": "Own electricity tariff (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "scop": "Estimates the heat from the electricity consumption",
-            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
+            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "before_gas": {
@@ -1080,12 +1152,14 @@
           "data": {
             "gas_price": "Gas price",
             "scop": "COP",
-            "tariff": "Own electricity tariff (optional)"
+            "tariff": "Own electricity tariff (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "gas_price": "Unit price on the gas bill",
             "scop": "Estimates the heat where none was measured",
-            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
+            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "before_oil": {
@@ -1094,12 +1168,14 @@
           "data": {
             "oil_price": "Heating oil price",
             "scop": "COP",
-            "tariff": "Own electricity tariff (optional)"
+            "tariff": "Own electricity tariff (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "oil_price": "Average price per litre",
             "scop": "Estimates the heat where none was measured",
-            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
+            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "before_lpg": {
@@ -1108,12 +1184,14 @@
           "data": {
             "lpg_price": "LPG price",
             "scop": "COP",
-            "tariff": "Own electricity tariff (optional)"
+            "tariff": "Own electricity tariff (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "lpg_price": "Average price per litre",
             "scop": "Estimates the heat where none was measured",
-            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
+            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "before_pellets": {
@@ -1122,12 +1200,14 @@
           "data": {
             "pellets_price": "Pellet price",
             "scop": "COP",
-            "tariff": "Own electricity tariff (optional)"
+            "tariff": "Own electricity tariff (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "pellets_price": "Average price per kilogram",
             "scop": "Estimates the heat where none was measured",
-            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
+            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "before_district_heating": {
@@ -1136,12 +1216,14 @@
           "data": {
             "district_heating_price": "District heating price",
             "scop": "COP",
-            "tariff": "Own electricity tariff (optional)"
+            "tariff": "Own electricity tariff (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "district_heating_price": "Unit price per kWh on the heating bill",
             "scop": "Estimates the heat where none was measured",
-            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
+            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "before_electric": {
@@ -1150,12 +1232,14 @@
           "data": {
             "electric_price": "Heating electricity price",
             "scop": "COP",
-            "tariff": "Own electricity tariff (optional)"
+            "tariff": "Own electricity tariff (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "electric_price": "Unit price per kWh of the former heating tariff",
             "scop": "Estimates the heat where none was measured",
-            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
+            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         },
         "before_none": {
@@ -1163,11 +1247,13 @@
           "description": "Averages for {since} to {until}. If you change them, this period is computed again.",
           "data": {
             "scop": "COP",
-            "tariff": "Own electricity tariff (optional)"
+            "tariff": "Own electricity tariff (optional)",
+            "scop_entity": "COP sensor (optional)"
           },
           "data_description": {
             "scop": "Estimates the heat where none was measured",
-            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts"
+            "tariff": "Only with a separate heat pump tariff; otherwise the energy dashboard's price counts",
+            "scop_entity": "Provides the current COP; replaces the manual value from now on"
           }
         }
       },

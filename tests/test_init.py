@@ -1332,7 +1332,10 @@ async def test_entries_of_1_3_migrate_historical_energy_cutoff(
     assert historical["until"] > since
     saving = _state(hass, "sensor.solar_saving")
     assert float(saving.state) == pytest.approx(6000 * 0.30 + 4000 * 0.08)
-    assert saving.attributes["historical_method"] == "aggregate_energy_estimate_through_now"
+    assert (
+        saving.attributes["historical_method"]
+        == "aggregate_energy_estimate_through_now"
+    )
     assert await statistic_sums(hass, "electricity_lens:pv_saving", data_start) == []
 
 

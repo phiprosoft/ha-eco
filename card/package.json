@@ -1,6 +1,6 @@
 {
   "name": "electricity-lens-card",
-  "version": "0.35.5",
+  "version": "0.35.6",
   "private": true,
   "description": "Dashboard cards and strategy of the Electricity Lens integration for Home Assistant.",
   "license": "MIT",

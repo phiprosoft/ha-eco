@@ -1293,14 +1293,14 @@ class CategorySubentryFlow(ConfigSubentryFlow):
         category = self._category
         errors: dict[str, str] = {}
         if user_input is not None and not (
-            errors := validate_meters(category, user_input)
+            errors := validate_meters(self.hass, category, user_input)
         ):
             data = {
                 key: value
                 for key, value in subentry.data.items()
                 if key != CONF_INVESTMENT
             }
-            data.update(meters_data(category, user_input))
+            data.update(meters_data(self.hass, category, user_input))
             await self._async_take_meters(data)
             # Another former heating or comparison asks for its values.
             compared_changed = alternative(category, data) != alternative(

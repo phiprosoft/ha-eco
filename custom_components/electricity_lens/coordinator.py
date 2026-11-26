@@ -701,7 +701,14 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
             fuel_price = self._fuel_price(config, state, entity_values, hour)
             saving = 0.0
             if config.category == CATEGORY_HEAT_PUMP:
-                heat = self._heat(config, state, changes, entity_values, electricity, hour)
+                heat = self._heat(
+                    config,
+                    state,
+                    changes,
+                    electricity,
+                    hour,
+                    entity_values=entity_values,
+                )
                 add("heat", hour, heat)
                 if not config.is_compared:
                     continue
@@ -865,9 +872,10 @@ class ElectricityLensCoordinator(DataUpdateCoordinator[PaybackData]):
         config: CategoryConfig,
         state: CategoryState,
         changes: dict[str, dict[float, float]],
-        entity_values: dict[str, dict[float, float]],
         electricity: float,
         hour: float,
+        *,
+        entity_values: dict[str, dict[float, float]],
     ) -> float:
         """Return the heat of an hour, measured if possible, else estimated.
 
